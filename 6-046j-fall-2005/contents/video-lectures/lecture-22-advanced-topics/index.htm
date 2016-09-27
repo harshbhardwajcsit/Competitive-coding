@@ -1,0 +1,1023 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="format-detection" content="telephone=no">
+<title>Lecture 22: Advanced Topics | Video Lectures | Introduction to Algorithms (SMA 5503) | Electrical Engineering and Computer Science | MIT OpenCourseWare</title>
+<!-- Begin Automatic Metadata Insertion --><meta content="6-046j-introduction-to-algorithms-sma-5503-fall-2005" name="WT.cg_n">
+<meta content="Lecture 22: Advanced Topics" name="WT.cg_s">
+<meta content="" name="Description">
+<meta content="Leiserson, Charles" name="Author">
+<meta content="Demaine, Erik" name="Author">
+<meta content="algorithms,efficient algorithms,sorting,search trees,heaps,hashing,divide-and-conquer,dynamic programming,amortized analysis,graph algorithms,shortest paths,network flow,computational geometry,number-theoretic algorithms,polynomial and matrix calculations,caching,parallel computing,Algorithms and Data Structures" name="keywords">
+<meta content="6.046J Introduction to Algorithms (SMA 5503) | Lecture 22: Advanced Topics" name="Search_Display">
+<meta content="Algorithms and Data Structures" itemprop="about">
+<!-- End Automatic Metadata Insertion --><link title="default" rel="stylesheet" type="text/css" href="../../../common/styles/grid.css">
+<link title="default" rel="stylesheet" type="text/css" href="../../../common/styles/base.css">
+<link title="default" rel="stylesheet" type="text/css" href="../../../common/styles/menu.css">
+<link title="default" rel="stylesheet" type="text/css" href="../../../common/styles/jquery.bubblepopup.css">
+<link title="default" rel="stylesheet" type="text/css" href="../../../common/styles/courses.css">
+<link title="default" rel="stylesheet" type="text/css" href="../../../common/styles/courses_new.css">
+<link title="default" rel="stylesheet" type="text/css" href="../../../common/styles/jquery.jscrollpane.css">
+<link title="default" rel="stylesheet" type="text/css" href="../../../common/styles/media_tabs.css">
+<link href="http://ocw.mit.edu/xml/ocwcc.rdf" type="application/rdf+xml" rel="metadata">
+<link rel="canonical" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-introduction-to-algorithms-sma-5503-fall-2005/video-lectures/lecture-22-advanced-topics">
+<link rel="apple-touch-icon" href="../../../common/images/apple-touch-icon.png">
+<script type="text/javascript" src="../../../common/scripts/jquery.js"></script><script type="text/javascript" src="../../../common/scripts/ocw-media-utils-offline.js"></script><script type="text/javascript" src="../../../common/scripts/ocw-offline.js"></script><script type="text/javascript" src="../../../common/scripts/jquery.bubblepopup.min.js"></script><script type="text/javascript" src="../../../common/scripts/jquery-ui.min.js"></script><script type="text/javascript" src="../../../common/scripts/jquery.jscrollpane.min.js"></script><script type="text/javascript" src="../../../common/scripts/bubble-popup-offline.js"></script><script type="text/javascript">
+      $(document).ready(function() {
+        $("#tabs").tabs();
+        IpadScroller();
+      });
+    </script>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage">
+        
+	
+
+        <div id="top">
+			<div id="grid">
+				
+				
+					
+<div id="portletwrapper-6f63772e746f70706f72746c65746d616e616765720a636f6e746578740a2f506c6f6e650a736974652d686561646572" class="portletWrapper kssattr-portlethash-6f63772e746f70706f72746c65746d616e616765720a636f6e746578740a2f506c6f6e650a736974652d686561646572">
+<div class="portletStaticText portlet-static-site-header">
+<!--googleoff: index-->
+<div class="grid_6 alpha" role="banner" id="banner"><a href="http://ocw.mit.edu/"><img class="logo" alt="MIT OpenCourseWare, Massachusetts Institute of Technology" src="../../../common/images/ocw_mast.png"></a></div>
+<div class="grid_6 omega" role="form toolbar" id="subscribe">
+<div class="module">
+<table class="social"><tbody><tr>
+<td class="socialbutton"><a href="http://ocw.mit.edu/subscribe/index.htm?utm_source=header"><img src="../../../common/images/trans.gif" alt="An icon depicting an envelope.">Subscribe to the OCW Newsletter</a></td>
+            <td>
+<a href="https://plus.google.com/104567381989352550847/posts"><img alt="Click to visit our Google+ page." src="../../../common/images/icon_gp.png"></a><a href="https://www.pinterest.com/mitocw/pins/"><img alt="Click to visit our Pinterest page." src="../../../common/images/icon_pin.png"></a><a href="http://facebook.com/mitocw"><img alt="Click to visit our Facebook page." src="../../../common/images/icon_fb.png"></a><a href="http://twitter.com/mitocw"><img alt="Click to visit our Twitter feed." src="../../../common/images/icon_tw.png"></a>
+</td>
+        </tr></tbody></table>
+</div>
+<p class="helplinks"><a href="http://ocw.mit.edu/help">Help</a>   |   <a href="../../../common/jsp/feedback.htm">Contact Us</a></p>
+</div>
+<div class="clear"> </div>
+<!--googleon: index-->
+</div>
+
+</div>
+
+
+
+
+
+<!--googleoff: index-->
+<div id="mega" role="navigation" class="grid_8 alpha">        
+	<ul id="menu">
+<li id="menu_home">
+            <a href="http://ocw.mit.edu/"><img src="../../../common/images/top-nav_home.png" class="home_icon" alt="Click for site home page."></a><!-- Begin Home Item -->
+        </li>
+<!-- End Home Item -->        
+        <li class="selected">
+            <a href="#" class="drop">Find Courses</a><!-- Begin 5 columns Item -->
+            <div class="dropdown_5columns-a mega-courses">                    
+                <div class="col_1a">
+                    <div class="row_1a">
+                        <div class="quart">
+                            <h2 class="nav">Find courses by:</h2>
+                            <ul class="nav-bullet find_by">
+<li><a href="http://ocw.mit.edu/courses/find-by-topic/">Topic</a></li>
+                                <li><a href="http://ocw.mit.edu/courses/find-by-number/">MIT Course Number</a></li>
+                                <li><a href="http://ocw.mit.edu/courses/find-by-department/">Department</a></li>
+                            </ul>
+<ul style="margin-top: 88px;" class="nav-bullet find_by">
+<li style="font-weight: normal; font-size: 1em;"><a href="http://ocw.mit.edu/courses/">View All Courses</a></li>
+							</ul>
+</div>
+                        <div class="quart">
+                            <h2 class="nav">Collections</h2>
+                            <ul class="nav-bullet">
+<li><a href="http://ocw.mit.edu/courses/audio-video-courses/">Audio/Video Lectures</a></li>
+                                <li><a href="http://ocw.mit.edu/courses/online-textbooks/">Online Textbooks</a></li>
+                                <li><a href="http://ocw.mit.edu/courses/new-courses/">New Courses</a></li>
+                                <li><a href="http://ocw.mit.edu/courses/most-visited-courses/">Most Visited Courses</a></li>
+                                <li><a href="http://ocw.mit.edu/courses/ocw-scholar/">OCW Scholar Courses</a></li>
+                                <li><a href="http://ocw.mit.edu/courses/this-course-at-mit/">This Course at MIT</a></li>
+                                <li><a href="http://ocw.mit.edu/resources/">Supplemental Resources</a></li>
+                            </ul>
+</div>
+                        <div class="clear"> </div>
+                    </div>
+                    <div class="row_1b">
+                        <h2 class="nav">Cross-Disciplinary Topic Lists</h2>
+                        <div class="quart">
+                        <ul class="nav-bullet">
+<li><a href="http://ocw.mit.edu/courses/energy-courses">Energy</a></li>
+                            <li><a href="http://ocw.mit.edu/courses/entrepreneurship">Entrepreneurship</a></li>
+                            <li><a href="http://ocw.mit.edu/courses/environment-courses">Environment</a></li>
+                        </ul>
+</div>    
+                        <div class="quart">
+                        <ul class="nav-bullet">
+<li><a href="http://ocw.mit.edu/courses/intro-programming">Introductory Programming</a></li>
+                            <li><a href="http://ocw.mit.edu/courses/life-sciences">Life Sciences</a></li>
+                            <li><a href="http://ocw.mit.edu/courses/transportation-courses">Transportation</a></li>
+                        </ul>
+</div>
+                        <div class="clear"> </div>
+                    </div>
+                    <div class="clear"> </div>
+                </div>
+                <div class="col_1b">
+                    <h2 class="nav">Translated Courses</h2>
+                    <ul class="nav-bullet">
+<li><a href="http://ocw.mit.edu/courses/translated-courses/traditional-chinese">繁體字 / Traditional Chinese</a></li>
+                        <li><a href="http://ocw.mit.edu/courses/translated-courses/spanish">Español / Spanish</a></li>
+                        <li><a href="http://ocw.mit.edu/courses/translated-courses/portuguese">Português / Portuguese</a></li>
+                        <li><a href="http://ocw.mit.edu/courses/translated-courses/persian">فارسی / Persian</a></li>
+                        <li><a href="http://ocw.mit.edu/courses/translated-courses/turkish">Türkçe / Turkish</a></li>
+                        <li><a href="http://ocw.mit.edu/courses/translated-courses/korean">(비디오)한국 / Korean</a></li>
+                        <li><a href="http://ocw.mit.edu/courses/translated-courses">More...</a></li>
+                    </ul>
+</div>
+            </div>
+        </li>
+        <li>
+            <a href="" class="drop">About</a>
+            <div class="dropdown_1column-a">
+                <div class="col_1">
+                    <ul class="nav-bullet mega-div-bottom">
+<li><a href="http://ocw.mit.edu/about/">About MIT OpenCourseWare</a></li>
+                    </ul>
+<ul class="nav-bullet mega-div-bottom">
+<li><a href="http://ocw.mit.edu/about/site-statistics/">Site Stats</a></li>
+                        <li><a href="http://ocw.mit.edu/about/ocw-stories/">OCW Stories</a></li>                        
+                    </ul>
+<ul class="nav-bullet">
+<li><a href="http://ocw.mit.edu/about/media-coverage/">Media Coverage</a></li>
+                        <li><a href="http://ocw.mit.edu/about/newsletter/">Newsletter</a></li>                        
+                    </ul>
+</div>
+            </div>  
+        </li>    
+        <li>
+            <a href="" class="drop">Donate</a>        
+            <div class="dropdown_1column-a">
+                    <div class="col_1">
+                        <ul class="nav-bullet mega-div-bottom">
+<li><a href="http://ocw.mit.edu/donate/">Make a Donation</a></li>
+                            <li><a href="http://ocw.mit.edu/donate/why-donate/">Why Donate?</a></li>
+                            <li><a href="http://ocw.mit.edu/donate/our-supporters/">Our Supporters</a></li>
+                            <li><a href="http://ocw.mit.edu/donate/other-ways-to-contribute/">Other Ways to Contribute</a></li>
+                            <li><a href="http://ocw.mit.edu/donate/shop-ocw">Shop OCW</a></li>
+                        </ul>
+<ul class="nav-bullet">
+<li><a href="http://ocw.mit.edu/support/">Become a Corporate Sponsor</a></li>
+                        </ul>
+</div>
+            </div>            
+        </li>        
+        <li>
+            <a href="" class="drop">Featured Sites</a>        
+            <div class="dropdown_1column-a">
+                <div class="col_1">
+                    <ul class="nav-bullet mega-div-bottom">
+<li><a href="http://ocw.mit.edu/high-school/">Highlights for High School</a></li>
+                        <li><a href="http://ocw.mit.edu/educator/">OCW Educator</a></li>
+                        <li><a href="http://ocw.mit.edu/courses/crosslinks/">MIT Crosslinks and OCW</a></li>                        
+                    </ul>
+<ul class="nav-bullet mega-div-top">
+<li><a href="http://ocw.mit.edu/ans7870/featured/mitx-courses-on-edx.htm">MITx Courses on edX</a></li>
+                        <li><a href="http://teachingexcellence.mit.edu/">Teaching Excellence at MIT</a></li>
+						<li><a href="http://www.oeconsortium.org/">Open Education Consortium</a></li>
+                    </ul>
+</div>
+            </div>            
+        </li>
+    </ul>
+</div>
+<div id="search" role="search" class="grid_4 omega">
+    
+    <form method="get" action="../../../common/search/AdvancedSearch.htm">
+     	 <table class="search"><tbody><tr>
+<td class="black"><input type="text" onblur="fillSearchBox()" onfocus="clearSearchBox()" maxlength="255" value="Search" name="q" class="greytext searchField" id="terms"></td> 			 
+                    <td class="black"><input type="image" src="../../../common/images/button_search.png" name="btnG" class="sub_button"></td>			 
+                    <td class="text2"><a href="../../../common/search/AdvancedSearch.htm">Advanced<br>Search</a></td>
+                </tr></tbody></table>
+</form>
+</div>
+<div class="clear"></div>
+<!--googleon: index-->
+<!-- *end header* -->  
+
+				
+				
+			</div>
+<!-- top grid end -->
+		</div>
+<!-- top end -->
+			
+		<div id="center_media">
+      	<div id="grid">
+      		<div id="left">
+        		<div id="breadcrumb_media">
+                	<p>
+
+    <a href="http://ocw.mit.edu/">Home</a>
+    
+        »
+        
+    
+    
+        
+            <a href="http://ocw.mit.edu/courses">Courses</a>
+            
+                »
+                
+            
+            
+         
+    
+    
+        
+            <a href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science">Electrical Engineering and Computer Science</a>
+            
+                »
+                
+            
+            
+         
+    
+    
+        
+            <a href="../../../contents/index.htm">Introduction to Algorithms (SMA 5503)</a>
+            
+                »
+                
+            
+            
+         
+    
+    
+        
+            <a href="../../../contents/video-lectures/index.htm">Video Lectures</a>
+            
+                »
+                
+            
+            
+         
+    
+    
+        
+            
+            
+            Lecture 22: Advanced Topics
+         
+    
+</p>
+
+            	</div>
+            	<div class="clear"></div>
+        		<div id="media_title">
+        		<h1 class="title" itemprop="name" property="dct:title">
+        <span class="" id="parent-fieldname-title">
+            Lecture 22: Advanced Topics
+        </span>
+    </h1>
+        		</div>
+           		<div class="clear"></div>
+           		<div id="course_wrapper_media">
+           			<div id="course_nav">
+           				<script language="javascript" type="text/javascript">
+function toggleMenu(objID) {
+  if (!document.getElementById) return;
+  var ob = document.getElementById(objID);
+  ob.className = (ob.className == 'selected')?'': 'selected';
+}
+function toggleClass(id)
+{
+  var divtoggleClass= document.getElementById(id);
+  divtoggleClass.className = (divtoggleClass.className == 'mO')?'mC': 'mO';
+  return false;
+}
+function changeAlt(id)
+{
+  id.alt = (id.alt == 'Expand Menu')?'Collapse Menu' : 'Expand Menu';
+  id.title = (id.title == 'Expand Menu')?'Collapse Menu' : 'Expand Menu';
+}
+</script><!--Left Nav Starts --><ul>
+<li class="">
+			   			<a href="../../../contents/index.htm">
+		                  Course Home  			                
+	                    </a>
+		        </li>
+		    
+         	
+	
+	
+	    	
+	    	    <li class="">
+			   			<a href="../../../contents/syllabus/index.htm">
+		                  Syllabus  			                
+	                    </a>
+		        </li>
+		    
+         	
+	
+	
+	    	
+	    	    <li class="">
+			   			<a href="../../../contents/calendar/index.htm">
+		                  Calendar  			                
+	                    </a>
+		        </li>
+		    
+         	
+	
+	
+	    	
+	    	    <li class="">
+			   			<a href="../../../contents/readings/index.htm">
+		                  Readings  			                
+	                    </a>
+		        </li>
+		    
+         	
+	
+	
+	    	
+	    	    <li class="">
+			   			<a href="../../../contents/assignments/index.htm">
+		                  Assignments  			                
+	                    </a>
+		        </li>
+		    
+         	
+	
+	
+	    	
+	    	    <li class="">
+			   			<a href="../../../contents/exams/index.htm">
+		                  Exams  			                
+	                    </a>
+		        </li>
+		    
+         	
+	
+	
+	    	
+	    	    <li class="selected">
+			   			<a href="../../../contents/video-lectures/index.htm">
+		                  Video Lectures  			                
+	                    </a>
+		        </li>
+		    
+         	
+	
+	
+	    	
+	    	    
+		    
+         	
+	<!--second tal block close-->  
+	
+</ul>
+<!--Left Nav Ends -->
+</div>
+           			<div id="course_inner_media">
+      					 
+        <div class="" id="parent-fieldname-text">
+            
+            
+        </div>
+    
+      					 
+
+<script type="text/javascript">var caption_embed_1 ={'English - US': '/courses/electrical-engineering-and-computer-science/6-046j-introduction-to-algorithms-sma-5503-fall-2005/video-lectures/lecture-22-advanced-topics/PYvJmLKhM-Y.srt'}</script><div id="media-embed">
+         <div class="attention_message" id="embed_1">
+<p>Flash and JavaScript are required for this feature.</p>
+<p>Download the video from <a href="https://itunes.apple.com/us/itunes-u/id341597754">iTunes U</a> or the <a href="http://www.archive.org/download/MIT6.046JF05MPEG4/ocw-6.046-05dec2005-220k.mp4">Internet Archive</a>.</p>
+</div>
+     </div>
+    
+     <script type="text/javascript">ocw_embed_chapter_media('embed_1', 'http://www.youtube.com/v/PYvJmLKhM-Y', 'youtube', '/courses/electrical-engineering-and-computer-science/6-046j-introduction-to-algorithms-sma-5503-fall-2005/video-lectures/lecture-22-advanced-topics', 'http://img.youtube.com/vi/PYvJmLKhM-Y/0.jpg',0,0, 'http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-introduction-to-algorithms-sma-5503-fall-2005/video-lectures/lecture-22-advanced-topics/PYvJmLKhM-Y.srt')</script><div id="transcript1"></div>
+				 <script type="text/javascript">setThreePlayTranscriptPlugin(2, 703410)</script><script type="text/javascript" src="http://p3.3playmedia.com/p3.js"></script><div id="media_resource_next_prev_nav" style="margin-top: 1em;">
+        <p>
+        
+            <a href="../../../contents/video-lectures/lecture-19-shortest-paths-iii-all-pairs-shortest-paths-matrix-multiplication-floyd-warshall-johnson/index.htm">
+                <img src="../../../common/images/btn_previous_resource.png" style="margin: 0 30px 0 50px;" alt="Previous track" title="Previous track"></a>
+     	
+     	
+        
+            <a href="../../../contents/video-lectures/lecture-23-advanced-topics-cont./index.htm"> 
+                <img src="../../../common/images/btn_next_resource.png" alt="Next track" title="Next track"></a>
+       
+       </p>
+     </div>
+ 
+
+
+<script type="text/javascript">
+		window.onload=function(){
+		init();
+		
+		}
+		var tabLinks = new Array();
+		var contentDivs = new Array();
+		function init() {
+		  // Grab the tab links and content divs from the page
+		  var tabListItems = document.getElementById('tabs').childNodes;
+		  for ( var i = 0; i < tabListItems.length; i++ ) {
+			if ( tabListItems[i].nodeName == "LI" ) {
+			  var tabLink = getFirstChildWithTagName( tabListItems[i], 'A' );
+			  var id = getHash( tabLink.getAttribute('href') );
+			  tabLinks[id] = tabLink;
+			  contentDivs[id] = document.getElementById( id );
+			}
+		  }
+		  // Assign onclick events to the tab links, and
+		  // highlight the first tab
+		  var i = 0;
+		  for ( var id in tabLinks ) {
+			tabLinks[id].onclick = showTab;
+			tabLinks[id].onfocus = function() { this.blur() };
+			if ( i == 0 ) tabLinks[id].className = 'selected';
+			i++;
+		  }
+		  // Hide all content divs except the first
+		  var i = 0;
+		  for ( var id in contentDivs ) {
+			if ( i != 0 ) contentDivs[id].className = 'tabContent hide';
+			i++;
+		  }
+		}
+		function showTab() {
+		  var selectedId = getHash( this.getAttribute('href') );
+		  // Highlight the selected tab, and dim all others.
+		  // Also show the selected content div, and hide all others.
+		  for ( var id in contentDivs ) {
+			if ( id == selectedId ) {
+			  tabLinks[id].className = 'selected';
+			  contentDivs[id].className = 'tabContent';
+			} else {
+			  tabLinks[id].className = '';
+			  contentDivs[id].className = 'tabContent hide';
+			}
+		  }
+		  // Stop the browser following the link
+		  return false;
+		}
+		function getFirstChildWithTagName( element, tagName ) {
+		  for ( var i = 0; i < element.childNodes.length; i++ ) {
+			if ( element.childNodes[i].nodeName == tagName ) return element.childNodes[i];
+		  }
+		}
+		function getHash( url ) {
+		  var hashPos = url.lastIndexOf ( '#' );
+		  return url.substring( hashPos + 1 );
+		}
+ </script><div id="media_tabs">
+     
+        <ul id="tabs">
+<li class="first">
+                <a href="#vid_about" class="selected">About this Video</a>
+            </li>
+            <li class="">
+                <a href="#vid_index" class="">Playlist</a>
+            </li>
+            <li class="">
+                <a href="#vid_playlist" class="">Related Resources</a>
+            </li>
+            <li class="">
+                <a href="#vid_related" class="">Transcript</a>
+            </li>
+            <li class="">
+                <a href="#vid_transcript" class="">Download this Video</a>
+            </li>
+        </ul>
+<div id="vid_about" itemprop="description" class="tabContent">
+<p><strong>Topics covered: </strong>Advanced Topics</p> <p><strong>Instructors: </strong>Prof. Erik Demaine, Prof. Charles Leiserson</p>
+</div>
+        <div id="vid_index" itemprop="description" class="tabContent hide">
+<div class="related-media-thumbnail">
+<a href="../../../contents/video-lectures/lecture-1-administrivia-introduction-analysis-of-algorithms-insertion-sort-mergesort/index.htm">
+<img src="../../../contents/video-lectures/lecture-1-administrivia-introduction-analysis-of-algorithms-insertion-sort-mergesort/6_046J_lec01_th.jpg" title="Lecture 1: Administrivia; Introduction; Analysis of Algorithms, Insertion Sort, Mergesort" alt="Lecture 1: Administrivia; Introduction; Analysis of Algorithms, Insertion Sort, Mergesort"><p>Lecture 1: Administrivia; I...</p></a>
+</div>
+<div class="related-media-thumbnail">
+<a href="../../../contents/video-lectures/lecture-2-asymptotic-notation-recurrences-substitution-master-method/index.htm">
+<img src="../../../contents/video-lectures/lecture-2-asymptotic-notation-recurrences-substitution-master-method/6_046J_lec02_th.jpg" title="Lecture 2: Asymptotic Notation; Recurrences; Substitution, Master Method" alt="Lecture 2: Asymptotic Notation; Recurrences; Substitution, Master Method"><p>Lecture 2: Asymptotic Notat...</p></a>
+</div>
+<div class="related-media-thumbnail">
+<a href="../../../contents/video-lectures/lecture-3-divide-and-conquer-strassen-fibonacci-polynomial-multiplication/index.htm">
+<img src="../../../contents/video-lectures/lecture-3-divide-and-conquer-strassen-fibonacci-polynomial-multiplication/6_046J_lec03_th.jpg" title="Lecture 3: Divide-and-Conquer: Strassen, Fibonacci, Polynomial Multiplication" alt="Lecture 3: Divide-and-Conquer: Strassen, Fibonacci, Polynomial Multiplication"><p>Lecture 3: Divide-and-Conqu...</p></a>
+</div>
+<div class="related-media-thumbnail">
+<a href="../../../contents/video-lectures/lecture-4-quicksort-randomized-algorithms/index.htm">
+<img src="../../../contents/video-lectures/lecture-4-quicksort-randomized-algorithms/6_046J_lec04_th.jpg" title="Lecture 4: Quicksort, Randomized Algorithms" alt="Lecture 4: Quicksort, Randomized Algorithms"><p>Lecture 4: Quicksort, Rando...</p></a>
+</div>
+<div class="related-media-thumbnail">
+<a href="../../../contents/video-lectures/lecture-5-linear-time-sorting-lower-bounds-counting-sort-radix-sort/index.htm">
+<img src="../../../contents/video-lectures/lecture-5-linear-time-sorting-lower-bounds-counting-sort-radix-sort/6_046J_lec05_th.jpg" title="Lecture 5: Linear-time Sorting: Lower Bounds, Counting Sort, Radix Sort" alt="Lecture 5: Linear-time Sorting: Lower Bounds, Counting Sort, Radix Sort"><p>Lecture 5: Linear-time Sort...</p></a>
+</div>
+<div class="related-media-thumbnail">
+<a href="../../../contents/video-lectures/lecture-6-order-statistics-median/index.htm">
+<img src="../../../contents/video-lectures/lecture-6-order-statistics-median/6_046J_lec06_th.jpg" title="Lecture 6: Order Statistics, Median" alt="Lecture 6: Order Statistics, Median"><p>Lecture 6: Order Statistics...</p></a>
+</div>
+<div class="related-media-thumbnail">
+<a href="../../../contents/video-lectures/lecture-7-hashing-hash-functions/index.htm">
+<img src="../../../contents/video-lectures/lecture-7-hashing-hash-functions/6_046J_lec07_th.jpg" title="Lecture 7: Hashing, Hash Functions" alt="Lecture 7: Hashing, Hash Functions"><p>Lecture 7: Hashing, Hash Fu...</p></a>
+</div>
+<div class="related-media-thumbnail">
+<a href="../../../contents/video-lectures/lecture-8-universal-hashing-perfect-hashing/index.htm">
+<img src="../../../contents/video-lectures/lecture-8-universal-hashing-perfect-hashing/6_046J_lec08_th.jpg" title="Lecture 8: Universal Hashing, Perfect Hashing" alt="Lecture 8: Universal Hashing, Perfect Hashing"><p>Lecture 8: Universal Hashin...</p></a>
+</div>
+<div class="related-media-thumbnail">
+<a href="../../../contents/video-lectures/lecture-9-relation-of-bsts-to-quicksort-analysis-of-random-bst/index.htm">
+<img src="../../../contents/video-lectures/lecture-9-relation-of-bsts-to-quicksort-analysis-of-random-bst/6_046J_lec09_th.jpg" title="Lecture 9: Relation of BSTs to Quicksort - Analysis of Random BST" alt="Lecture 9: Relation of BSTs to Quicksort - Analysis of Random BST"><p>Lecture 9: Relation of BSTs...</p></a>
+</div>
+<div class="related-media-thumbnail">
+<a href="../../../contents/video-lectures/lecture-10-red-black-trees-rotations-insertions-deletions/index.htm">
+<img src="../../../contents/video-lectures/lecture-10-red-black-trees-rotations-insertions-deletions/6_046J_lec10_th.jpg" title="Lecture 10: Red-black Trees, Rotations, Insertions, Deletions" alt="Lecture 10: Red-black Trees, Rotations, Insertions, Deletions"><p>Lecture 10: Red-black Trees...</p></a>
+</div>
+<div class="related-media-thumbnail">
+<a href="../../../contents/video-lectures/lecture-11-augmenting-data-structures-dynamic-order-statistics-interval-trees/index.htm">
+<img src="../../../contents/video-lectures/lecture-11-augmenting-data-structures-dynamic-order-statistics-interval-trees/6_046J_lec11_th.jpg" title="Lecture 11: Augmenting Data Structures, Dynamic Order Statistics, Interval Trees" alt="Lecture 11: Augmenting Data Structures, Dynamic Order Statistics, Interval Trees"><p>Lecture 11: Augmenting Data...</p></a>
+</div>
+<div class="related-media-thumbnail">
+<a href="../../../contents/video-lectures/lecture-12-skip-lists/index.htm">
+<img src="../../../contents/video-lectures/lecture-12-skip-lists/6_046J_lec12_th.jpg" title="Lecture 12: Skip Lists" alt="Lecture 12: Skip Lists"><p>Lecture 12: Skip Lists</p></a>
+</div>
+<div class="related-media-thumbnail">
+<a href="../../../contents/video-lectures/lecture-13-amortized-algorithms-table-doubling-potential-method/index.htm">
+<img src="../../../contents/video-lectures/lecture-13-amortized-algorithms-table-doubling-potential-method/6_046J_lec13_th.jpg" title="Lecture 13: Amortized Algorithms, Table Doubling, Potential Method" alt="Lecture 13: Amortized Algorithms, Table Doubling, Potential Method"><p>Lecture 13: Amortized Algor...</p></a>
+</div>
+<div class="related-media-thumbnail">
+<a href="../../../contents/video-lectures/lecture-14-competitive-analysis-self-organizing-lists/index.htm">
+<img src="../../../contents/video-lectures/lecture-14-competitive-analysis-self-organizing-lists/6_046J_lec14_th.jpg" title="Lecture 14: Competitive Analysis: Self-organizing Lists" alt="Lecture 14: Competitive Analysis: Self-organizing Lists"><p>Lecture 14: Competitive Ana...</p></a>
+</div>
+<div class="related-media-thumbnail">
+<a href="../../../contents/video-lectures/lecture-15-dynamic-programming-longest-common-subsequence/index.htm">
+<img src="../../../contents/video-lectures/lecture-15-dynamic-programming-longest-common-subsequence/6_046J_lec15_th.jpg" title="Lecture 15: Dynamic Programming, Longest Common Subsequence" alt="Lecture 15: Dynamic Programming, Longest Common Subsequence"><p>Lecture 15: Dynamic Program...</p></a>
+</div>
+<div class="related-media-thumbnail">
+<a href="../../../contents/video-lectures/lecture-16-greedy-algorithms-minimum-spanning-trees/index.htm">
+<img src="../../../contents/video-lectures/lecture-16-greedy-algorithms-minimum-spanning-trees/6_046J_lec16_th.jpg" title="Lecture 16: Greedy Algorithms, Minimum Spanning Trees" alt="Lecture 16: Greedy Algorithms, Minimum Spanning Trees"><p>Lecture 16: Greedy Algorith...</p></a>
+</div>
+<div class="related-media-thumbnail">
+<a href="../../../contents/video-lectures/lecture-17-shortest-paths-i-properties-dijkstras-algorithm-breadth-first-search/index.htm">
+<img src="../../../contents/video-lectures/lecture-17-shortest-paths-i-properties-dijkstras-algorithm-breadth-first-search/6_046J_lec17_th.jpg" title="Lecture 17: Shortest Paths I: Properties, Dijkstra's Algorithm, Breadth-first Search" alt="Lecture 17: Shortest Paths I: Properties, Dijkstra's Algorithm, Breadth-first Search"><p>Lecture 17: Shortest Paths ...</p></a>
+</div>
+<div class="related-media-thumbnail">
+<a href="../../../contents/video-lectures/lecture-18-shortest-paths-ii-bellman-ford-linear-programming-difference-constraints/index.htm">
+<img src="../../../contents/video-lectures/lecture-18-shortest-paths-ii-bellman-ford-linear-programming-difference-constraints/6_046J_lec18_th.jpg" title="Lecture 18: Shortest Paths II: Bellman-Ford, Linear Programming, Difference Constraints" alt="Lecture 18: Shortest Paths II: Bellman-Ford, Linear Programming, Difference Constraints"><p>Lecture 18: Shortest Paths ...</p></a>
+</div>
+<div class="related-media-thumbnail">
+<a href="../../../contents/video-lectures/lecture-19-shortest-paths-iii-all-pairs-shortest-paths-matrix-multiplication-floyd-warshall-johnson/index.htm">
+<img src="../../../contents/video-lectures/lecture-19-shortest-paths-iii-all-pairs-shortest-paths-matrix-multiplication-floyd-warshall-johnson/6_046J_lec19_th.jpg" title="Lecture 19: Shortest Paths III: All-pairs Shortest Paths, Matrix Multiplication, Floyd-Warshall, Johnson" alt="Lecture 19: Shortest Paths III: All-pairs Shortest Paths, Matrix Multiplication, Floyd-Warshall, Johnson"><p>Lecture 19: Shortest Paths ...</p></a>
+</div>
+<div class="related-media-thumbnail-nolink">
+<div class="now-playing-resource">Now Playing</div>
+<img src="../../../contents/video-lectures/lecture-22-advanced-topics/6_046J_lec22_th.jpg" title="Lecture 22: Advanced Topics" alt="Lecture 22: Advanced Topics"><p>Lecture 22: Advanced Topics</p>
+</div>
+<div class="related-media-thumbnail">
+<a href="../../../contents/video-lectures/lecture-23-advanced-topics-cont./index.htm">
+<img src="../../../contents/video-lectures/lecture-23-advanced-topics-cont./6_046J_lec23_th.jpg" title="Lecture 23: Advanced Topics (cont.)" alt="Lecture 23: Advanced Topics (cont.)"><p>Lecture 23: Advanced Topics...</p></a>
+</div>
+<div class="related-media-thumbnail">
+<a href="../../../contents/video-lectures/lecture-24-advanced-topics-cont./index.htm">
+<img src="../../../contents/video-lectures/lecture-24-advanced-topics-cont./6_046J_lec24_th.jpg" title="Lecture 24: Advanced Topics (cont.)" alt="Lecture 24: Advanced Topics (cont.)"><p>Lecture 24: Advanced Topics...</p></a>
+</div>
+<div class="related-media-thumbnail">
+<a href="../../../contents/video-lectures/lecture-25-advanced-topics-cont.-discussion-of-follow-on-classes/index.htm">
+<img src="../../../contents/video-lectures/lecture-25-advanced-topics-cont.-discussion-of-follow-on-classes/6_046J_lec25_th.jpg" title="Lecture 25: Advanced Topics (cont.) - Discussion of Follow-on Classes" alt="Lecture 25: Advanced Topics (cont.) - Discussion of Follow-on Classes"><p>Lecture 25: Advanced Topics...</p></a>
+</div>
+</div>
+        <div id="vid_playlist" itemprop="description" class="tabContent hide">
+<h2 class="subhead">Related Resources</h2>
+<p><a target="_blank" href="../../../contents/assignments/index.htm">Assignments</a><br><a target="_blank" href="../../../contents/exams/index.htm">Exams</a></p>
+</div>
+        <div id="vid_related" itemprop="description" class="tabContent hide">
+<ul><li><a class="transcript-link" title="Open in a new window." alt="Open in a new window." style="text-decoration: none; font-size: 1.0em;" target="_blank" text-decoration: none font-size: href="../../../contents/video-lectures/lecture-22-advanced-topics/PYvJmLKhM-Y.pdf"> Download this transcript - PDF (English - US)</a></li></ul>
+<p><span m="7000">We only have four more lectures left, and what Professor Demaine</span> <span m="12000">and I have decided to do is give two series of lectures on sort</span> <span m="18000">of advanced topics. So, today at Wednesday we're</span> <span m="22000">going to talk about parallel algorithms, algorithms where you</span> <span m="27000">have more than one processor whacking away on your problem.</span> </p>
+<p><span m="34000">And this is a very hot topic right now because all of the</span> <span m="38000">chip manufacturers are now producing so-called multicore</span> <span m="42000">processors where you have more than one processor per chip.</span> </p>
+<p><span m="47000">So, knowing something about that is good.</span> </p>
+<p><span m="50000">The second topic we're going to cover is going to be caching,</span> <span m="55000">and how you design algorithms for systems with cache.</span> </p>
+<p><span m="60000">Right now, we've sort of program to everything as if it</span> <span m="63000">were just a single level of memory, and for some problems</span> <span m="67000">that's not an entirely realistic model.</span> </p>
+<p><span m="70000">You'd like to have some model for how the caching hierarchy</span> <span m="74000">works, and how you can take advantage of that.</span> </p>
+<p><span m="78000">And there's been a lot of research in that area as well.</span> </p>
+<p><span m="82000">So, both of those actually turn out to be my area of research.</span> </p>
+<p><span m="86000">So, this is actually fun for me.</span> </p>
+<p><span m="90000">Actually, most of it's fun anyway.</span> </p>
+<p><span m="93000">So, today we'll talk about parallel algorithms.</span> </p>
+<p><span m="97000">And the particular topic, it turns out that there are</span> <span m="103000">lots of models for parallel algorithms, and for parallelism.</span> </p>
+<p><span m="109000">And it's one of the reasons that, whereas for serial</span> <span m="114000">algorithms, most people sort of have this basic model that we've</span> <span m="120000">been using. It's sometimes called a random</span> <span m="124000">access machine model, which is what we've been using</span> <span m="128000">to analyze things, whereas in the parallel space,</span> <span m="131000">there's just a huge number of models, and there is no general</span> <span m="135000">agreement on what is the best model because there are</span> <span m="139000">different machines that are made with different configurations,</span> <span m="143000">etc. and people haven't,</span> <span m="144000">sort of, agreed on, even how parallel machines</span> <span m="147000">should be organized. So, we're going to deal with a</span> <span m="152000">particular model, which goes under the rubric of</span> <span m="157000">dynamic multithreading, which is appropriate for the</span> <span m="162000">multicore machines that are now being built for shared memory</span> <span m="168000">programming. It's not appropriate for what's</span> <span m="172000">called distributed memory programs particularly because</span> <span m="177000">the processors are able to access things.</span> </p>
+<p><span m="183000">And for those, you need more involved models.</span> </p>
+<p><span m="186000">And so, let me start just by giving an example of how one</span> <span m="190000">would write something. I'm going to give you a program</span> <span m="194000">for calculating the nth Fibonacci number in this model.</span> </p>
+<p><span m="198000">This is actually a really bad algorithm that I'm going to give</span> <span m="203000">you because it's going to be the exponential time algorithm,</span> <span m="208000">whereas we know from week one or two that you can calculate</span> <span m="212000">the nth Fibonacci number and how much time?</span> </p>
+<p><span m="217000">Log n time. So, this is too exponentials</span> <span m="220000">off what you should be able to get, OK, two exponentials off.</span> </p>
+<p><span m="226000">OK, so here's the code.</span> </p>
+<p><span m="276000">OK, so this is essentially the pseudocode we would write.</span> </p>
+<p><span m="280000">And let me just explain a little bit about,</span> <span m="284000">we have a couple of key words here we haven't seen before:</span> <span m="288000">in particular, spawn and sync.</span> </p>
+<p><span m="292000">OK, so spawn, this basically says that the</span> <span m="298000">subroutine that you're calling, you use it as a keyword before</span> <span m="307000">a subroutine, that it can execute at the same</span> <span m="314000">time as its parent. So, here, what we say x equals</span> <span m="321000">spawn of n minus one, we immediately go onto the next</span> <span m="329000">statement. And now, while we're executing</span> <span m="336000">fib of n minus one, we can also be executing,</span> <span m="342000">now, this statement which itself will spawn something off.</span> </p>
+<p><span m="349000">OK, and we continue, and then we hit the sync</span> <span m="354000">statement. And, what sync says is,</span> <span m="358000">wait until all children are done.</span> </p>
+<p><span m="364000">OK, so it says once you get to this point, you've got to wait</span> <span m="369000">until everything here has completed before you execute the</span> <span m="375000">x plus y because otherwise you're going to try to execute</span> <span m="381000">the calculation of x plus y without having computed it yet.</span> </p>
+<p><span m="386000">OK, so that's the basic structure.</span> </p>
+<p><span m="391000">What this describes, notice in here we never said</span> <span m="393000">how many processors or anything we are running on.</span> </p>
+<p><span m="396000">OK, so this actually is just describing logical parallelism</span> <span m="400000">--</span> <span m="411000">-- not the actual parallelism when we execute it.</span> </p>
+<p><span m="422000">And so, what we need is a scheduler, OK,</span> <span m="431000">to determine how to map this dynamically, unfolding execution</span> <span m="445000">onto whatever processors you have available.</span> </p>
+<p><span m="457000">OK, and so, today actually we're going to talk mostly about</span> <span m="465000">scheduling. OK, and then,</span> <span m="468000">next time we're going to talk about specific application</span> <span m="476000">algorithms, and how you analyze them.</span> </p>
+<p><span m="481000">OK, so you can view the actual multithreaded computation.</span> </p>
+<p><span m="491000">If you take a look at the parallel instruction stream,</span> <span m="496000">it's just a directed acyclic graph, OK?</span> </p>
+<p><span m="501000">So, let me show you how that works.</span> </p>
+<p><span m="505000">So, normally when we have an instruction stream,</span> <span m="510000">I look at each instruction being executed.</span> </p>
+<p><span m="516000">If I'm in a loop, I'm not looking at it as a</span> <span m="518000">loop. I'm just looking at the</span> <span m="520000">sequence of instructions that actually executed.</span> </p>
+<p><span m="522000">I can do that just as a chain. Before I execute one</span> <span m="525000">instruction, I have to execute the one before it.</span> </p>
+<p><span m="528000">Before I execute that, I've got to execute the one</span> <span m="531000">before it. At least, that's the</span> <span m="533000">abstraction. If you've studied processors,</span> <span m="535000">you know that there are a lot of tricks there in figuring out</span> <span m="538000">instruction level parallelism, and how you can actually make</span> <span m="542000">that serial instruction stream actually execute in parallel.</span> </p>
+<p><span m="547000">But what we are going to be mostly talking about is the</span> <span m="555000">logical parallelism here, and what we can do in that</span> <span m="562000">context. So, in this DAG,</span> <span m="566000">the vertices are threads, which are maximal sequences of</span> <span m="574000">instructions not containing --</span> <span m="587000">-- parallel control. And by parallel control,</span> <span m="592000">I just mean spawn, sync, and return from a spawned</span> <span m="598000">procedure. So, let's just mark the,</span> <span m="602000">so the vertices are threads. So, let's just mark what the</span> <span m="606000">vertices are here, OK, what the threads are here.</span> </p>
+<p><span m="610000">So, when we enter the function here, we basically execute up to</span> <span m="616000">the point where, basically, here,</span> <span m="618000">let's call that thread A where we are just doing a sequential</span> <span m="624000">execution up to either returning or starting to do the spawn,</span> <span m="629000">fib of n minus one. So actually,</span> <span m="633000">thread A would include the calculation of n minus one right</span> <span m="638000">up to the point where you actually make the subroutine</span> <span m="643000">jump. That's thread A.</span> </p>
+<p><span m="645000">Thread B would be the stuff that you would do,</span> <span m="649000">executing from fib of, sorry, B would be from the,</span> <span m="654000">right. We'd go up to the spawn.</span> </p>
+<p><span m="657000">So, we've done the spawn. I'm really looking at this.</span> </p>
+<p><span m="663000">So, B would be up to the spawn of y.</span> </p>
+<p><span m="665000">OK, spawn of fib of n minus two to compute y,</span> <span m="669000">and then we'd have essentially an empty thread.</span> </p>
+<p><span m="672000">So, I'll ignore that for now, but really then we have after</span> <span m="677000">the sync up to the point that we get to the return of x plus y.</span> </p>
+<p><span m="682000">So basically, we're just looking at maximal</span> <span m="685000">sequences of instructions that are all serial.</span> </p>
+<p><span m="690000">And every time I do a parallel instruction, OK,</span> <span m="694000">spawn or a sync, or return from it,</span> <span m="697000">that terminates the current thread.</span> </p>
+<p><span m="700000">OK, so we can look at that as a bunch of small threads.</span> </p>
+<p><span m="705000">So those of you who are familiar with threads from Java</span> <span m="710000">threads, or POSIX threads, OK, so-called P threads,</span> <span m="714000">those are sort of heavyweight static threads.</span> </p>
+<p><span m="720000">This is a much lighter weight notion of thread,</span> <span m="724000">OK, that we are using in this model.</span> </p>
+<p><span m="728000">OK, so these are the vertices. And now, let me map out a</span> <span m="733000">little bit how this works, so we can where the edges come</span> <span m="739000">from. So, let's imagine we're</span> <span m="741000">executing fib of four. So, I'm going to draw a</span> <span m="746000">horizontal oval. That's going to correspond to</span> <span m="751000">the procedure execution. And, in this procedure,</span> <span m="756000">there are essentially three threads.</span> </p>
+<p><span m="759000">We start out with A, so this is our initial thread</span> <span m="764000">is this guy here. And then, when he executes a</span> <span m="769000">spawn, OK, he's going to execute a spawn, we are going to create</span> <span m="775000">a new procedure, and he's going to execute a new</span> <span m="780000">A recursively within that procedure.</span> </p>
+<p><span m="785000">But at the same time, we're also going to be,</span> <span m="789000">now, aloud to go on and execute B in the parent,</span> <span m="794000">we have parallelism here when I do a spawn.</span> </p>
+<p><span m="798000">OK, and so there's an edge here.</span> </p>
+<p><span m="801000">This edge we are going to call a spawn edge,</span> <span m="805000">and this is called a continuation edge because it's</span> <span m="811000">just simply continuing the procedure execution.</span> </p>
+<p><span m="817000">OK, now at this point, this guy, we now have two</span> <span m="821000">things that can execute at the same time.</span> </p>
+<p><span m="825000">Once I've executed A, I now have two things that can</span> <span m="829000">execute. OK, so this one,</span> <span m="832000">for example, may spawn another thread here.</span> </p>
+<p><span m="836000">Oh, so this is fib of three, right?</span> </p>
+<p><span m="839000">And this is now fib of two. OK, so he spawns another guy</span> <span m="847000">here, and simultaneously, he can go on and execute B</span> <span m="855000">here, OK, with a continued edge. And B, in fact,</span> <span m="862000">can also spawn at this point. OK, and this is now fib of two</span> <span m="872000">also. And now, at this point,</span> <span m="876000">we can't execute C yet here even though I've spawned things</span> <span m="884000">off. And the reason is because C</span> <span m="888000">won't execute until we've executed the sync statement,</span> <span m="894000">which can't occur until A and B have both been executed,</span> <span m="901000">OK? So, he just sort of sits there</span> <span m="906000">waiting, OK, and a scheduler can't try to schedule him.</span> </p>
+<p><span m="912000">Or if he does, then nothing's going to happen</span> <span m="918000">here, OK? So, we can go on.</span> </p>
+<p><span m="921000">Let's see, here we could call fib of one.</span> </p>
+<p><span m="925000">The fib of one is only going to execute an A statement here.</span> </p>
+<p><span m="934000">OK, of course it can't continue here because A is the only</span> <span m="939000">thing, when I execute fib of one, if we look at the code,</span> <span m="945000">it never executes B or C. OK, and similarly here,</span> <span m="950000">this guy here to do fib of one. OK, and this guy,</span> <span m="955000">I guess, could execute A here of fib of one.</span> </p>
+<p><span m="970000">OK, and maybe now this guy calls his another fib of one,</span> <span m="977000">and this guy does another one. This is going to be fib of</span> <span m="985000">zero, right? I keep drawing that arrow to</span> <span m="991000">the wrong place, OK?</span> </p>
+<p><span m="995000">And now, once these guys return, well,</span> <span m="998000">let's say these guys return here, I can now execute C.</span> </p>
+<p><span m="1002000">But I can't execute with them until both of these guys are</span> <span m="1007000">done, and that guy is done. So, you see that we get a</span> <span m="1012000">synchronization point here before executing C.</span> </p>
+<p><span m="1016000">And then, similarly here, now that we've executed this</span> <span m="1021000">and this, we can now execute this guy here.</span> </p>
+<p><span m="1026000">And so, those returns go to there.</span> </p>
+<p><span m="1031000">Likewise here, this guy can now execute his C,</span> <span m="1037000">and now once both of those are done, we can execute this guy</span> <span m="1046000">here. And then we are done.</span> </p>
+<p><span m="1050000">This is our final thread. So, I should have labeled also</span> <span m="1061000">that when I get one of these guys here, that's a return edge.</span> </p>
+<p><span m="1073000">So, the three types of edges are spawn, return,</span> <span m="1081000">and continuation. OK, and by describing it in</span> <span m="1088000">this way, I essentially get a DAG that unfolds.</span> </p>
+<p><span m="1091000">So, rather than having just a serial execution trace,</span> <span m="1095000">I get something where I have still some serial dependencies.</span> </p>
+<p><span m="1099000">There are still some things that have to be done before</span> <span m="1103000">other things, but there are also things that</span> <span m="1107000">can be done at the same time. So how are we doing?</span> </p>
+<p><span m="1111000">Yeah, question? Is every spawn were covered by</span> <span m="1115000">a sync, effectively, yeah, yeah, effectively.</span> </p>
+<p><span m="1118000">There's actually a null thread that gets executed in there,</span> <span m="1123000">which I hadn't bothered to show.</span> </p>
+<p><span m="1125000">But yes, basically you would then not have any parallelism,</span> <span m="1130000">OK, because you would spawn it off, but then you're not doing</span> <span m="1134000">anything in the parent. So it's pretty much the same,</span> <span m="1138000">yeah, as if it had executed serially.</span> </p>
+<p><span m="1143000">Yep, OK, so you can see that basically what we had here in</span> <span m="1146000">some sense is a DAG embedded in a tree.</span> </p>
+<p><span m="1149000">OK, so you have a tree that's sort of the procedure structure,</span> <span m="1153000">but in their you have a DAG, and that DAG can actually get</span> <span m="1156000">to be pretty complicated. OK, now what I want to do is</span> <span m="1160000">now that we understand that we've got an underlying DAG,</span> <span m="1163000">I want to switch to trying to study the performance attributes</span> <span m="1167000">of a particular DAG execution, so looking at performance</span> <span m="1171000">measures.</span> </p>
+<p><span m="1185000">So, the notation that we'll use is we'll let T_P be the running</span> <span m="1195000">time of whatever our computation is on P processors.</span> </p>
+<p><span m="1205000">OK, so, T_P is, how long does it take to</span> <span m="1207000">execute this on P processors? Now, in general,</span> <span m="1210000">this is not going to be just a particular number,</span> <span m="1213000">OK, because I can have different scheduling disciplines</span> <span m="1217000">would lead me to get numbers for T_P, OK?</span> </p>
+<p><span m="1220000">But when we talk about the running time,</span> <span m="1222000">we'll still sort of use this notation, and I'll try to be</span> <span m="1226000">careful as we go through to make sure that there's no confusion</span> <span m="1230000">about what that means in context.</span> </p>
+<p><span m="1234000">There are a couple of them, though, which are fairly well</span> <span m="1238000">defined. One is based on this.</span> </p>
+<p><span m="1240000">One is T_1. So, T_1 is the running time on</span> <span m="1243000">one processor. OK, so if I were to execute</span> <span m="1246000">this on one processor, you can imagine it's just as if</span> <span m="1249000">I had just gotten rid of the spawn, and syncs,</span> <span m="1253000">and everything, and just executed it.</span> </p>
+<p><span m="1255000">That will give me a particular running time.</span> </p>
+<p><span m="1260000">We call that running time on one processor the work.</span> </p>
+<p><span m="1266000">It's essentially the serial time.</span> </p>
+<p><span m="1270000">OK, so when we talk about the work of a computation,</span> <span m="1276000">we just been essentially a serial running time.</span> </p>
+<p><span m="1282000">OK, the other measure that ends up being interesting is what we</span> <span m="1290000">call T infinity. OK, and this is the critical</span> <span m="1295000">pathlength, OK, which is essentially the</span> <span m="1300000">longest path in the DAG. So, for example,</span> <span m="1306000">if we look at the fib of four in this example,</span> <span m="1310000">it has T of one equal to, so let's assume we have unit</span> <span m="1314000">time threads. I know they're not unit time,</span> <span m="1318000">but let's just imagine, for the purposes of</span> <span m="1321000">understanding this, that every thread costs me one</span> <span m="1326000">unit of time to execute. What would be the work of this</span> <span m="1332000">particular computation? 17, right, OK,</span> <span m="1336000">because all we do is just add up three, six,</span> <span m="1341000">nine, 12, 13, 14, 15, 16, 17.</span> </p>
+<p><span m="1344000">So, the work is 17 in this case if it were unit time threads.</span> </p>
+<p><span m="1352000">In general, you would add up how many instructions or</span> <span m="1355000">whatever were in there. OK, and then T infinity is the</span> <span m="1359000">longest path. So, this is the longest</span> <span m="1362000">sequence. It's like, if you had an</span> <span m="1364000">infinite number of processors, you still can't just do</span> <span m="1368000">everything at once because some things have to come before other</span> <span m="1372000">things. But if you had an infinite</span> <span m="1375000">number of processors, as many processors as you want,</span> <span m="1379000">what's the fastest you could possibly execute this?</span> </p>
+<p><span m="1384000">A little trickier. Seven?</span> </p>
+<p><span m="1387000">So, what's your seven? So, one, two,</span> <span m="1392000">three, four, five, six, seven,</span> <span m="1397000">eight, yeah, eight is the longest path.</span> </p>
+<p><span m="1402000">So, the work and the critical path length, as we'll see,</span> <span m="1410000">are key attributes of any computation.</span> </p>
+<p><span m="1418000">And abstractly, and this is just for [the</span> <span m="1424000">notes?], if they're unit time threads.</span> </p>
+<p><span m="1430000">OK, so we can use these two measures to derive lower bounds</span> <span m="1439000">on T_P for P that fall between one and infinity,</span> <span m="1447000">OK?</span> </p>
+<p><span m="1460000">OK, so the first lower bound we can derive is that T_P has got</span> <span m="1470000">to be at least T_1 over P. OK, so why is that a lower</span> <span m="1479000">bound? Yeah?</span> </p>
+<p><span m="1482000">But if I have P processors, and, OK, and why would I have</span> <span m="1497000">this lower bound? OK, yeah, you've got the right</span> <span m="1505000">idea. So, but can we be a little bit</span> <span m="1507000">more articulate about it? So, that's right,</span> <span m="1510000">so you want to use all of processors.</span> </p>
+<p><span m="1513000">If you could use all of processors, why couldn't I use</span> <span m="1517000">all the processors, though, and have T_P be less</span> <span m="1520000">than this? Why does it have to be at least</span> <span m="1523000">as big as T_1 over P? I'm just asking for a little</span> <span m="1527000">more precision in the answer. You've got exactly the right</span> <span m="1531000">idea, but I need a little more precision if we're going to</span> <span m="1535000">persuade the rest of the class that this is the lower bound.</span> </p>
+<p><span m="1541000">Yeah?</span> </p>
+<p><span m="1550000">Yeah, that's another way of looking at it.</span> </p>
+<p><span m="1553000">If you were to serialize the computation, OK,</span> <span m="1556000">so whatever things you execute on each step,</span> <span m="1559000">you do P of them, and so if you serialized it,</span> <span m="1562000">somehow then it would take you P steps to execute one step of a</span> <span m="1567000">P way, a machine with P processors.</span> </p>
+<p><span m="1569000">So then, OK, yeah?</span> </p>
+<p><span m="1571000">OK, maybe a little more precise.</span> </p>
+<p><span m="1573000">David?</span> </p>
+<p><span m="1588000">Yeah, good, so let me just state this a little bit.</span> </p>
+<p><span m="1593000">So, P processors, so what are we relying on?</span> </p>
+<p><span m="1598000">P processors can do, at most, P work in one step,</span> <span m="1603000">right? So, in one step they do,</span> <span m="1607000">at most P work. They can't do more than P work.</span> </p>
+<p><span m="1612000">And so, if they can do, at most P work in one step,</span> <span m="1618000">then if the number of steps was, in fact,</span> <span m="1622000">less than T_1 over P, they would be able to do more</span> <span m="1628000">than T_1 work in P steps. And, there's only T_1 work to</span> <span m="1635000">be done. OK, I just stated that almost</span> <span m="1639000">as badly as all the responses I got.</span> </p>
+<p><span m="1642000">[LAUGHTER] OK, P processors can do,</span> <span m="1645000">at most, P work in one step, right?</span> </p>
+<p><span m="1650000">So, if there's T_1 work to be done, the number of steps is</span> <span m="1654000">going to be at least T_1 over P, OK?</span> </p>
+<p><span m="1657000">There we go. OK, it wasn't that hard.</span> </p>
+<p><span m="1660000">It's just like, I've got a certain amount of,</span> <span m="1663000">I've got T_1 work to do. I can knock off,</span> <span m="1666000">at most, P on every step. How many steps?</span> </p>
+<p><span m="1669000">Just divide. OK, so it's going to have to be</span> <span m="1673000">at least that amount. OK, good.</span> </p>
+<p><span m="1675000">The other lower bound is T_P is greater than or equal to T</span> <span m="1679000">infinity. Somebody explain to me why that</span> <span m="1684000">might be true. Yeah?</span> </p>
+<p><span m="1686000">Yeah, if you have an infinite number of processors,</span> <span m="1690000">you have P. so if you could do it in a</span> <span m="1693000">certain amount of time with P, you can certainly do it in that</span> <span m="1698000">time with an infinite number of processors.</span> </p>
+<p><span m="1701000">OK, this is in this model where, you know,</span> <span m="1705000">there is lots of stuff that this model doesn't model like</span> <span m="1709000">communication costs and interference,</span> <span m="1712000">and all sorts of things. But it is simple model,</span> <span m="1717000">which actually in practice works out pretty well,</span> <span m="1721000">OK, you're not going to be able to do more work with P</span> <span m="1725000">processors than you are with an infinite number of processors.</span> </p>
+<p><span m="1746000">OK, so those are helpful bounds to understand when we are trying</span> <span m="1752000">to make something go faster, it's nice to know what you</span> <span m="1757000">could possibly hope to achieve, OK, as opposed to beating your</span> <span m="1763000">head against a wall, how come I can't get it to go</span> <span m="1768000">much faster? Maybe it's because one of these</span> <span m="1773000">lower bounds is operating. OK, well, we're interested in</span> <span m="1779000">how fast we can go. That's the main reason for</span> <span m="1784000">using multiple processors is you hope you're going to go faster</span> <span m="1791000">than you could with one processor.</span> </p>
+<p><span m="1795000">So, we define T_1 over T_P to be the speedup on P processors.</span> </p>
+<p><span m="1803000">OK, so we say, how much faster is it on P</span> <span m="1809000">processors than on one processor?</span> </p>
+<p><span m="1814000">OK, that's the speed up. If T_1 over T_P is order P,</span> <span m="1822000">we say that it's linear speedup.</span> </p>
+<p><span m="1827000">OK, in other words, why?</span> </p>
+<p><span m="1832000">Because that says that it means that if I've thrown P processors</span> <span m="1838000">at the job I'm going to get a speedup that's proportional to</span> <span m="1844000">P. OK, so when I throw P</span> <span m="1846000">processors at the job and I get T_P, if that's order P,</span> <span m="1851000">that means that in some sense my processors each contributed</span> <span m="1857000">within a constant factor its full measure of support.</span> </p>
+<p><span m="1864000">If this, in fact, were equal to P,</span> <span m="1868000">we'd call that perfect linear speedup.</span> </p>
+<p><span m="1873000">OK, so but here we're looking at giving ourselves,</span> <span m="1880000">for theoretical purposes, a little bit of a constant</span> <span m="1887000">buffer here, perhaps. If T_1 over T_P is greater than</span> <span m="1894000">P, we call that super linear speedup.</span> </p>
+<p><span m="1901000">OK, so can somebody tell me, when can I get super linear</span> <span m="1905000">speedup?</span> </p>
+<p><span m="1916000">When can I get super linear speed up?</span> </p>
+<p><span m="1919000">Never. OK, why never?</span> </p>
+<p><span m="1921000">Yeah, if we buy these lower bounds, the first lower bound</span> <span m="1926000">there, it is T_P is greater than or equal to T_1 over P.</span> </p>
+<p><span m="1931000">And, if I just take T_1 over T_P, that says it's less than or</span> <span m="1937000">equal to P. so, this is never,</span> <span m="1939000">OK, not possible in this model. OK, there are other models</span> <span m="1945000">where it is possible to get super linear speed up due to</span> <span m="1950000">caching effects, and things of that nature.</span> </p>
+<p><span m="1956000">But in this simple model that we are dealing with,</span> <span m="1963000">it's not possible to get super linear speedup.</span> </p>
+<p><span m="1970000">OK, not possible. Now, the maximum possible</span> <span m="1977000">speedup, given some amount of work and critical path length is</span> <span m="1986000">what? What's the maximum possible</span> <span m="1993000">speed up I could get over any number of processors?</span> </p>
+<p><span m="2000000">What's the maximum I could possibly get?</span> </p>
+<p><span m="2006000">No, I'm saying, no matter how many processors,</span> <span m="2012000">what's the most speedup that I could get?</span> </p>
+<p><span m="2020000">T_1 over T infinity, because this is the,</span> <span m="2024000">so T_1 over T infinity is the maximum I could possibly get.</span> </p>
+<p><span m="2029000">OK, if I threw an infinite number of processors at the</span> <span m="2035000">problem, that's going to give me my biggest speedup.</span> </p>
+<p><span m="2040000">OK, and we call that the parallelism.</span> </p>
+<p><span m="2045000">OK, so that's defined to be the parallelism.</span> </p>
+<p><span m="2048000">So the parallelism of the particular algorithm is</span> <span m="2051000">essentially the work divided by the critical path length.</span> </p>
+<p><span m="2056000">Another way of viewing it is that this is the average amount</span> <span m="2071000">of work that can be done in parallel along each step of the</span> <span m="2086000">critical path. And, we denote it often by P</span> <span m="2097000">bar. So, do not get confused.</span> </p>
+<p><span m="2101000">P bar does not have anything to do with P at some level.</span> </p>
+<p><span m="2105000">OK, P is going to be a certain number of processors you're</span> <span m="2110000">running. P bar is defined just in terms</span> <span m="2113000">of the computation you're executing, not in terms of the</span> <span m="2117000">machine you're running it on. OK, it's just the average</span> <span m="2121000">amount of work that can be done in parallel along each step of</span> <span m="2125000">the critical path. OK, questions so far?</span> </p>
+<p><span m="2130000">So mostly we're just doing definitions so far.</span> </p>
+<p><span m="2133000">OK, now we get into, OK, so it's helpful to know</span> <span m="2137000">what the parallelism is, because the parallelism is</span> <span m="2141000">going to, there's no real point in trying to get speed up bigger</span> <span m="2146000">than the parallelism. OK, so if you are given a</span> <span m="2150000">particular computation, you'll be able to say,</span> <span m="2153000">oh, it doesn't go any faster. You're throwing more processors</span> <span m="2158000">at it. Why is it that going any</span> <span m="2163000">faster? And the answer could be,</span> <span m="2167000">no more parallelism. OK, let's see what I want to,</span> <span m="2174000">yeah, I think we can raise the example here.</span> </p>
+<p><span m="2180000">We'll talk more about this model.</span> </p>
+<p><span m="2185000">Mostly, now, we're going to just talk about</span> <span m="2191000">DAG's. So, we'll talk about the</span> <span m="2195000">programming model next time. So, let's talk about</span> <span m="2203000">scheduling. The goal of scheduler is to map</span> <span m="2208000">the computation to P processors. And this is typically done by a</span> <span m="2215000">runtime system, which, if you will,</span> <span m="2219000">is an algorithm that is running underneath the language layer</span> <span m="2226000">that I showed you. OK, so the programmer designs</span> <span m="2232000">an algorithm using spawns, and syncs, and so forth.</span> </p>
+<p><span m="2235000">Then, underneath that, there's an algorithm that has</span> <span m="2239000">to actually map that executing program onto the processors of</span> <span m="2244000">the machine as it executes. And that's the scheduler.</span> </p>
+<p><span m="2247000">OK, so it's done by the language runtime system,</span> <span m="2251000">typically. OK, so it turns out that online</span> <span m="2257000">schedulers, let me just say they're complex.</span> </p>
+<p><span m="2262000">OK, they're not necessarily easy things to build.</span> </p>
+<p><span m="2269000">OK, they're not too bad actually.</span> </p>
+<p><span m="2273000">But, we are not going to go there because we only have two</span> <span m="2281000">lectures to do this. Instead, we're going to do is</span> <span m="2287000">we'll illustrate the ideas using off-line scheduling.</span> </p>
+<p><span m="2296000">OK, so you'll get an idea out of this for what a scheduler</span> <span m="2300000">does, and it turns out that doing these things online is</span> <span m="2304000">another level of complexity beyond that.</span> </p>
+<p><span m="2307000">And typically, the online schedulers that are</span> <span m="2311000">good, these days, are randomized schedulers.</span> </p>
+<p><span m="2315000">And they have very strong proofs of their ability to</span> <span m="2322000">perform. But we're not going to go</span> <span m="2326000">there. We'll keep it simple.</span> </p>
+<p><span m="2330000">And in particular, we're going to look at a</span> <span m="2336000">particular type of scheduler called a greedy scheduler.</span> </p>
+<p><span m="2345000">So, if you have a DAG to execute, so the basic rules of</span> <span m="2349000">the scheduler is you can't execute a node until all of the</span> <span m="2355000">nodes that precede it in the DAG have executed.</span> </p>
+<p><span m="2359000">OK, so you've got to wait until everything is executed.</span> </p>
+<p><span m="2364000">So, a greedy scheduler, what it says is let's just try</span> <span m="2369000">to do as much as possible on every step, OK?</span> </p>
+<p><span m="2390000">In other words, it says I'm never going to try</span> <span m="2392000">to guess that it's worthwhile delaying doing something.</span> </p>
+<p><span m="2396000">If I could do something now, I'm going to do it.</span> </p>
+<p><span m="2400000">And so, each step is going to correspond to be one of two</span> <span m="2408000">types. The first type is what we'll</span> <span m="2413000">call a complete step. And this is a step in which</span> <span m="2421000">there are at least P threads ready to run.</span> </p>
+<p><span m="2427000">And, I'm executing on P processors.</span> </p>
+<p><span m="2434000">There are at least P threads ready to run.</span> </p>
+<p><span m="2438000">So, what's a greedy strategy here?</span> </p>
+<p><span m="2442000">I've got P processors. I've got at least P threads.</span> </p>
+<p><span m="2448000">Run any P. Yeah, first P would be if you</span> <span m="2452000">had a notion of ordering. That would be perfectly</span> <span m="2457000">reasonable. Here, we are just going to</span> <span m="2462000">execute any P. We might make a mistake there,</span> <span m="2467000">because there may be a particular one that if we</span> <span m="2470000">execute now, that'll enable more parallelism later on.</span> </p>
+<p><span m="2474000">We might not execute that one. We don't know.</span> </p>
+<p><span m="2478000">OK, but basically, what we're going to do is just</span> <span m="2481000">execute any P willy-nilly. So, there's some,</span> <span m="2484000">if you will, non-determinism in this step</span> <span m="2487000">here because which one you execute may or may not be a good</span> <span m="2492000">choice. OK, the second type of step</span> <span m="2498000">we're going to have is an incomplete step.</span> </p>
+<p><span m="2505000">And this is a situation where we have fewer than P threads</span> <span m="2515000">ready to run. So, what's our strategy there?</span> </p>
+<p><span m="2524000">Execute all of them. OK, if it's greedy,</span> <span m="2530000">no point in not executing. OK, so if I've got more than P</span> <span m="2539000">threads ready to run, I execute any P.</span> </p>
+<p><span m="2545000">If I have fewer than P threads ready to run,</span> <span m="2552000">we execute all of them. So, it turns out this is a good</span> <span m="2559000">strategy. It's not a perfect strategy.</span> </p>
+<p><span m="2562000">In fact, the strategy of trying to schedule optimally a DAG on P</span> <span m="2568000">processors is NP complete, meaning it's very difficult.</span> </p>
+<p><span m="2573000">So, those of you going to take 6.045 or 6.840,</span> <span m="2577000">I highly recommend these courses, and we'll talk more</span> <span m="2581000">about that in the last lecture as we talked a little bit about</span> <span m="2586000">what's coming up in the theory engineering concentration.</span> </p>
+<p><span m="2593000">You can learn about NP completeness and about how you</span> <span m="2596000">show that certain problems, there are no good algorithms</span> <span m="2599000">for them, OK, that we are aware of,</span> <span m="2602000">OK, and what exactly that means.</span> </p>
+<p><span m="2604000">So, it turns out that this type of scheduling problem turns out</span> <span m="2608000">to be a very difficult problem to get it optimal.</span> </p>
+<p><span m="2612000">But, there's nice theorem, due independently to Graham and</span> <span m="2626000">Brent. It says, essentially,</span> <span m="2633000">a greedy scheduler executes any computation,</span> <span m="2645000">G, with work, T_1, and critical path length,</span> <span m="2655000">T infinity in time, T_P, less than or equal to T_1</span> <span m="2667000">over P plus T infinity --</span> <span m="2684000">-- on a computer with P processors.</span> </p>
+<p><span m="2689000">OK, so, it says that I can achieve T_1 over P plus T</span> <span m="2696000">infinity. So, what does that say?</span> </p>
+<p><span m="2702000">If we take a look and compare this with our lower bounds on</span> <span m="2709000">runtime, how efficient is this? How does this compare with the</span> <span m="2716000">optimal execution? Yeah, it's two competitive.</span> </p>
+<p><span m="2722000">It's within a factor of two of optimal because this is a lower</span> <span m="2730000">bound and this is a lower bound. And so, if I take twice the max</span> <span m="2737000">of these two, twice the maximum of these two,</span> <span m="2741000">that's going to be bigger than the sum.</span> </p>
+<p><span m="2744000">So, I'm within a factor of two of which ever is the stronger,</span> <span m="2749000">lower bound for any situation. So, this says you get within a</span> <span m="2754000">factor of two of efficiency of scheduling in terms of the</span> <span m="2758000">runtime on P processors. OK, does everybody see that?</span> </p>
+<p><span m="2764000">So, let's prove this theorem. It's quite an elegant theorem.</span> </p>
+<p><span m="2770000">It's not a hard theorem. One of the nice things,</span> <span m="2775000">by the way, about this week, is that nothing is very hard.</span> </p>
+<p><span m="2780000">It just requires you to think differently.</span> </p>
+<p><span m="2785000">OK, so the proof has to do with counting up how many complete</span> <span m="2791000">steps we have, and how many incomplete steps</span> <span m="2795000">we have. OK, so we'll start with the</span> <span m="2801000">number of complete steps. So, can somebody tell me what's</span> <span m="2809000">the largest number of complete steps I could possibly have?</span> </p>
+<p><span m="2818000">Yeah, I heard somebody mumble it back there.</span> </p>
+<p><span m="2825000">T_1 over P. Why is that?</span> </p>
+<p><span m="2828000">Yeah, so the number of complete steps is, at most,</span> <span m="2837000">T_1 over P because why? Yeah, once you've had this</span> <span m="2845000">many, you've done T_1 work, OK?</span> </p>
+<p><span m="2852000">So, every complete step I'm getting P work done.</span> </p>
+<p><span m="2856000">So, if I did more than T_1 over P steps, there would be no more</span> <span m="2861000">work to be done. So, the number of complete</span> <span m="2865000">steps can't be bigger than T_1 over P.</span> </p>
+<p><span m="2890000">OK, so that's this piece. OK, now we're going to count up</span> <span m="2896000">the incomplete steps, and show its bounded by T</span> <span m="2901000">infinity. OK, so let's consider an</span> <span m="2905000">incomplete step. And, let's see what happens.</span> </p>
+<p><span m="2919000">And, let's let G prime be the subgraph of G that remains to be</span> <span m="2937000">executed. OK, so we'll draw a picture</span> <span m="2942000">here. So, imagine we have,</span> <span m="2944000">let's draw it on a new board.</span> </p>
+<p><span m="2966000">So here, we're going to have a graph, our graph,</span> <span m="2972000">G. We're going to do actually P</span> <span m="2976000">equals three as our example here.</span> </p>
+<p><span m="2980000">So, imagine that this is the graph, G.</span> </p>
+<p><span m="2985000">And, I'm not showing the procedures here because this</span> <span m="2992000">actually is a theorem that works for any DAG.</span> </p>
+<p><span m="3000000">And, the procedure outlines are not necessary.</span> </p>
+<p><span m="3009000">All we care about is the threads.</span> </p>
+<p><span m="3016000">I missed one. OK, so imagine that's my DAG,</span> <span m="3025000">G, and imagine that I have executed up to this point.</span> </p>
+<p><span m="3038000">Which ones have I executed? Yeah, I've executed these guys.</span> </p>
+<p><span m="3047000">So, the things that are in G prime are just the things that</span> <span m="3057000">have yet to be executed. And these guys are the ones</span> <span m="3064000">that are already executed. And, we'll imagine that all of</span> <span m="3069000">them are unit time threads without loss of generality.</span> </p>
+<p><span m="3074000">The theorem would go through, even if each of these had a</span> <span m="3079000">particular time associated with it.</span> </p>
+<p><span m="3083000">The same scheduling algorithm will work just fine.</span> </p>
+<p><span m="3087000">So, how can I characterize the threads that are ready to be</span> <span m="3092000">executed? Which are the threads that are</span> <span m="3098000">ready to be executed here? Let's just see.</span> </p>
+<p><span m="3102000">So, that one? No, that's not ready to be</span> <span m="3106000">executed. Why?</span> </p>
+<p><span m="3108000">Because it's got a predecessor here, this guy.</span> </p>
+<p><span m="3112000">OK, so this guy is ready to be executed, and this guy is ready</span> <span m="3119000">to be executed. OK, so those two threads are</span> <span m="3124000">ready to be, how can I characterize this?</span> </p>
+<p><span m="3128000">What's their property? What's a graph theoretic</span> <span m="3132000">property in G prime that tells me whether or not something is</span> <span m="3137000">ready to be executed? It has no predecessor,</span> <span m="3141000">but what's another way of saying that?</span> </p>
+<p><span m="3144000">It's got no predecessor in G prime.</span> </p>
+<p><span m="3149000">What does it mean for a node not to have a predecessor in a</span> <span m="3158000">graph? Its in degree is zero,</span> <span m="3163000">right? Same thing.</span> </p>
+<p><span m="3166000">OK, the threads with in degree, zero and G prime are the ones</span> <span m="3176000">that are ready to be executed. OK, and if it's incomplete</span> <span m="3186000">step, what do I do? I'm going to execute says,</span> <span m="3191000">if it's an incomplete step, I execute all of them.</span> </p>
+<p><span m="3197000">OK, so I execute all of these. OK, now I execute all of the in</span> <span m="3204000">degree zero threads, what happens to the critical</span> <span m="3210000">path length of the graph that remains to be executed?</span> </p>
+<p><span m="3218000">It decreases by one. OK, so the critical path length</span> <span m="3228000">of what remains to be executed, G prime, is reduced by one.</span> </p>
+<p><span m="3240000">So, what's left to be executed on every incomplete step,</span> <span m="3244000">what's left to be executed always reduces by one.</span> </p>
+<p><span m="3248000">Notice the next step here is going to be a complete step,</span> <span m="3252000">because I've got four things that are ready to go.</span> </p>
+<p><span m="3256000">And, I can execute them in such a way that the critical path</span> <span m="3261000">length doesn't get reduced on that step.</span> </p>
+<p><span m="3264000">OK, but if I had to execute all of them, then it does reduce the</span> <span m="3269000">critical path length. Now, of course,</span> <span m="3273000">both could happen, OK, at the same time,</span> <span m="3278000">OK, but any time that I have an incomplete step,</span> <span m="3283000">I'm guaranteed to reduce the critical path length by one.</span> </p>
+<p><span m="3290000">OK, so that implies that the number of incomplete steps is,</span> <span m="3296000">at most, T infinity. And so, therefore,</span> <span m="3301000">T of P is, at most, the number of complete steps</span> <span m="3305000">plus the number of incomplete steps.</span> </p>
+<p><span m="3308000">And we get our bound. This is sort of an amortized</span> <span m="3312000">argument if you want to think of it that way, OK,</span> <span m="3317000">that at every step I'm either amortizing the step against the</span> <span m="3322000">work, or I'm amortizing it against the critical path</span> <span m="3326000">length, or possibly both. But I'm at least doing one of</span> <span m="3332000">those for every step, OK, and so, in the end,</span> <span m="3335000">I just have to add up the two contributions.</span> </p>
+<p><span m="3339000">Any questions about that? So this, by the way,</span> <span m="3342000">is the fundamental theorem of all scheduling.</span> </p>
+<p><span m="3346000">If ever you study anything having to do with scheduling,</span> <span m="3350000">this basic result is sort of the foundation of a huge number</span> <span m="3355000">of things. And then what people do is they</span> <span m="3358000">gussy it up, like, let's do this online,</span> <span m="3361000">OK, with a scheduler, etc., that everybody's trying</span> <span m="3365000">to match these bounds, OK, of what an omniscient</span> <span m="3369000">greedy scheduler would achieve, OK, and there are all kinds of</span> <span m="3374000">other things. But this is sort of the basic</span> <span m="3379000">theorem that just pervades the whole area of scheduling.</span> </p>
+<p><span m="3385000">OK, let's do a quick corollary. I'm not going to erase those.</span> </p>
+<p><span m="3392000">Those are just too important. I want to erase those.</span> </p>
+<p><span m="3397000">Let's not erase those. I want to erase that either.</span> </p>
+<p><span m="3402000">We're going to go back to the top.</span> </p>
+<p><span m="3405000">Actually, we'll put the corollary here because that's</span> <span m="3411000">just one line. OK.</span> </p>
+<p><span m="3431000">The corollary says you get linear speed up if the number of</span> <span m="3437000">processors that you allocate, that you run your job on is</span> <span m="3444000">order, the parallelism. OK, so greedy scheduler gives</span> <span m="3451000">you linear speed up if you're running on essentially</span> <span m="3457000">parallelism or fewer processors. OK, so let's see why that is.</span> </p>
+<p><span m="3466000">And I hope I'll fit this, OK?</span> </p>
+<p><span m="3471000">So, P bar is T_1 over T infinity.</span> </p>
+<p><span m="3478000">And that implies that if P equals order T_1 over T</span> <span m="3484000">infinity, then that says just bringing those around,</span> <span m="3490000">T infinity is order T_1 over P. So, everybody with me?</span> </p>
+<p><span m="3497000">It's just algebra. So, it says this is the</span> <span m="3502000">definition of parallelism, T_1 over T infinity,</span> <span m="3508000">and so, if P is order parallelism, then it's order T_1</span> <span m="3515000">over T infinity. And now, just bring it around.</span> </p>
+<p><span m="3523000">It says T infinity is order T_1 over P.</span> </p>
+<p><span m="3529000">So, that says T infinity is order T_1 over P.</span> </p>
+<p><span m="3536000">OK, and so, therefore, continue the proof here,</span> <span m="3543000">thus T_P is at most T_1 over P plus T infinity.</span> </p>
+<p><span m="3552000">Well, if this is order T_1 over P, the whole thing is order T_1</span> <span m="3563000">over P. OK, and so, now I have T_P is</span> <span m="3569000">order T_1 over P, and what we need is to compute</span> <span m="3577000">T_1 over T_P, and that's going to be order</span> <span m="3585000">T_P. OK?</span> </p>
+<p><span m="3588000">Does everybody see that? So what that says is that if I</span> <span m="3591000">have a certain amount of parallelism, if I run</span> <span m="3594000">essentially on fewer processors than that parallelism,</span> <span m="3598000">I get linear speed up if I use greedy scheduling.</span> </p>
+<p><span m="3602000">OK, if I run on more processors than the parallelism,</span> <span m="3605077">in some sense I'm being wasteful because I can't</span> <span m="3607859">possibly get enough speed up to justify those extra processors.</span> </p>
+<p><span m="3611529">So, understanding parallelism of a job says that's sort of a</span> <span m="3615021">limit on the number of processors I want to have.</span> </p>
+<p><span m="3617862">And, in fact, I can achieve that.</span> </p>
+<p><span m="3619757">Question?</span> </p>
+<p><span m="3639000">Yeah, really, in some sense,</span> <span m="3641008">this is saying it should be omega P.</span> </p>
+<p><span m="3643611">Yeah, so that's fine. It's a question of,</span> <span m="3646586">so ask again.</span> </p>
+<p><span m="3663000">No, no, it's only if it's bounded above by a constant.</span> </p>
+<p><span m="3666495">T_1 and T infinity aren't constants.</span> </p>
+<p><span m="3668804">They're variables in this. So, we are doing multivariable</span> <span m="3672497">asymptotic analysis. So, any of these things can be</span> <span m="3675795">a function of anything else, and can be growing as much as</span> <span m="3679555">we want. So, the fact that we say we are</span> <span m="3682127">given it for a particular thing, we're really not given that</span> <span m="3686019">number. We're given a whole class of</span> <span m="3688327">DAG's or whatever of various sizes is really what we're</span> <span m="3691889">talking about. So, I can look at the growth.</span> </p>
+<p><span m="3697788">Here, where it's talking about the growth of the parallelism,</span> <span m="3705626">sorry, the growth of the runtime T_P as a function of T_1</span> <span m="3712941">and T infinity. So, I am talking about things</span> <span m="3718689">that are growing here, OK?</span> </p>
+<p><span m="3723000">OK, so let's put this to work, OK?</span> </p>
+<p><span m="3726018">And, in fact, so now I'm going to go back to</span> <span m="3729951">here. Now I'm going to tell you about</span> <span m="3733243">a little bit of my own research, and how we use this in some of</span> <span m="3738913">the work that we did. OK, so we've developed a</span> <span m="3743030">dynamic multithreaded language called Cilk, spelled with a C</span> <span m="3748426">because it's based on the language, C.</span> </p>
+<p><span m="3753000">And, it's not an acronym because silk is like nice</span> <span m="3759837">threads, OK, although at one point my students had a</span> <span m="3766953">competition for what the acronym silk could mean.</span> </p>
+<p><span m="3773651">The winner, turns out, was Charles' Idiotic Linguistic</span> <span m="3781046">Kluge. So anyway, if you want to take</span> <span m="3786214">a look at it, you can find some stuff on it</span> <span m="3790714">here. OK,</span> <span m="3800000">OK, and what it uses is actually one of these more</span> <span m="3808412">complicated schedulers. It's a randomized online</span> <span m="3816480">scheduler, OK, and if you look at its expected</span> <span m="3824206">runtime on P processors, it gets effectively T_1 over P</span> <span m="3833476">plus O of T infinity provably. OK, and empirically,</span> <span m="3841428">if you actually look at what kind of runtimes you get to find</span> <span m="3845714">out what's hidden in the big O there, it turns out,</span> <span m="3849285">in fact, it's T_1 over P plus T infinity with the constants here</span> <span m="3853785">being very close to one empirically.</span> </p>
+<p><span m="3856285">So, no guarantees, but this turns out to be a</span> <span m="3859428">pretty good bound. Sometimes, you see a</span> <span m="3862142">coefficient on T infinity that's up maybe close to four or</span> <span m="3866214">something. But generally,</span> <span m="3869385">you don't see something that's much bigger than that.</span> </p>
+<p><span m="3874533">And mostly, it tends to be around, if you do a linear</span> <span m="3879680">regression curve fit, you get that the constant here</span> <span m="3884729">is close to one. And so, with this,</span> <span m="3888094">you get near perfect if you use this formula as a model for your</span> <span m="3894331">runtime. You get near perfect linear</span> <span m="3897795">speed up if the number of processors you're running on is</span> <span m="3903339">much less than your average parallelism, which,</span> <span m="3907892">of course, is the same thing as if T infinity is much less than</span> <span m="3914029">T_1 over P. So, what happens here is that</span> <span m="3919481">when P is much less than P infinity, that is,</span> <span m="3923247">T infinity is much less than T_1 over P, this term ceases to</span> <span m="3928297">matter very much, and you get very good speedup,</span> <span m="3932319">OK, in fact, almost perfect speedup.</span> </p>
+<p><span m="3936000">So, each processor gives you another processor's work as long</span> <span m="3942357">as you are the range where the number of processors is much</span> <span m="3948503">less than the number of parallelism.</span> </p>
+<p><span m="3952211">Now, with this language many years ago, which seems now like</span> <span m="3958463">many years ago, OK, it turned out we competed.</span> </p>
+<p><span m="3963231">We built a bunch of chess programs.</span> </p>
+<p><span m="3968000">And, among our programs were Starsocrates,</span> <span m="3971962">and Cilkchess, and we also had several others.</span> </p>
+<p><span m="3976312">And these were, I would call them,</span> <span m="3979501">world-class. In particular,</span> <span m="3982014">we tied for first in the 1995 World Computer Chess</span> <span m="3986750">Championship in Hong Kong, and then we had a playoff and</span> <span m="3992066">we lost. It was really a shame.</span> </p>
+<p><span m="3995860">We almost won, running on a big parallel</span> <span m="3999157">machine. That was, incidentally,</span> <span m="4001778">some of you may know about the Deep Blue chess playing program.</span> </p>
+<p><span m="4007020">That was the last time before they faced then world champion</span> <span m="4012008">Kasparov that they competed against programs.</span> </p>
+<p><span m="4015728">They tied for third in that tournament.</span> </p>
+<p><span m="4018941">OK, so we actually out-placed them.</span> </p>
+<p><span m="4023000">However, in the head-to-head competition, we lost to them.</span> </p>
+<p><span m="4027159">So we had one loss in the tournament up to the point of</span> <span m="4031099">the finals. They had a loss and a draw.</span> </p>
+<p><span m="4033872">Most people aren't aware that Deep Blue, in fact,</span> <span m="4037375">was not the reigning World Computer Chess Championship when</span> <span m="4041608">they faced Kasparov. The reason that they faced</span> <span m="4044964">Kasparov was because IBM was willing to put up the money.</span> </p>
+<p><span m="4050000">OK, so we developed these chess programs, and the way we</span> <span m="4058029">developed them, let me in particular talk about</span> <span m="4064747">Starsocrates. We had this interesting anomaly</span> <span m="4071172">come up. We were running on a 32</span> <span m="4075699">processor computer at MIT for development.</span> </p>
+<p><span m="4083000">And, we had access to a 512 processor computer for the</span> <span m="4087463">tournament at NCSA at the University of Illinois.</span> </p>
+<p><span m="4091505">So, we had this big machine. Of course, they didn't want to</span> <span m="4096389">give it to us very much, but we have the same machine,</span> <span m="4100852">just a small one, at MIT.</span> </p>
+<p><span m="4102872">So, we would develop on this, and occasionally we'd be able</span> <span m="4107756">to run on this, and this was what we were</span> <span m="4111126">developing for on our processor. So, let me show you sort of the</span> <span m="4117719">anomaly that came up, OK?</span> </p>
+<p><span m="4128000">So, we had a version of a program that I'll call the</span> <span m="4135974">original program, OK, and we had an optimized</span> <span m="4142854">program that included some new features that were supposed to</span> <span m="4152236">make the program go faster. And so, we timed it on our 32</span> <span m="4160992">processor machine. And, it took us 65 seconds to</span> <span m="4168341">run it. OK, and then we timed this new</span> <span m="4173839">program. So, I'll call that T prime of</span> <span m="4177340">sub 32 on our 32 processor machine, and it ran and 40</span> <span m="4182261">seconds to do this particular benchmark.</span> </p>
+<p><span m="4185952">Now, let me just say, I've lied about the actual</span> <span m="4190399">numbers here to make the calculations easy.</span> </p>
+<p><span m="4194375">But, the same idea happened. Just the numbers were messier.</span> </p>
+<p><span m="4201000">OK, so this looks like a significant improvement in</span> <span m="4207275">runtime, but we rejected the optimization.</span> </p>
+<p><span m="4212421">OK, and the reason we rejected it is because we understood</span> <span m="4219574">about the issues of work and critical path.</span> </p>
+<p><span m="4224846">So, let me show you the analysis that we did,</span> <span m="4230368">OK? So the analysis,</span> <span m="4233813">it turns out, if we looked at our</span> <span m="4237441">instrumentation, the work in this case was</span> <span m="4242089">2,048. And, the critical path was one</span> <span m="4246170">second, which, over here with the optimized</span> <span m="4250931">program, the work was, in fact, 1,024.</span> </p>
+<p><span m="4255125">But the critical path was eight.</span> </p>
+<p><span m="4260000">So, if we plug into our simple model here, the one I have up</span> <span m="4267375">there with the approximation there, I have T_32 is equal to</span> <span m="4274625">T_1 over 32 plus T infinity, and that's equal to,</span> <span m="4280625">well, the work is 2,048 divided by 32.</span> </p>
+<p><span m="4285250">What's that? 64, good, plus the critical</span> <span m="4290125">path, one, that's 65. So, that checks out with what</span> <span m="4297625">we saw. OK, in fact,</span> <span m="4300000">we did that, and it checked out.</span> </p>
+<p><span m="4303875">OK, it was very close. OK, over here,</span> <span m="4308375">T prime of 32 is T prime, one over 32 plus T infinity</span> <span m="4314875">prime, and that's equal to 1,024 divided by 32 is 32 plus eight,</span> <span m="4322750">the critical path here. That's 40.</span> </p>
+<p><span m="4327981">So, that checked out too. So, now what we did is we said</span> <span m="4333377">is we said, OK, let's extrapolate to our big</span> <span m="4337596">machine. How fast are these things going</span> <span m="4341422">to run on our big machine? Well, for that,</span> <span m="4345445">we want T of 512. And, that's equal to T_1 over</span> <span m="4349958">512 plus T infinity. And so, what's 2,048 divided by</span> <span m="4356913">512? It's four, plus T infinity is</span> <span m="4361079">one. That's equal to five.</span> </p>
+<p><span m="4364235">So, go quite a bit faster on this.</span> </p>
+<p><span m="4368401">But here, T prime of 512 is equal to T one prime over 512</span> <span m="4375471">plus T infinity prime is equal to, well, 1,024 plus divided by</span> <span m="4383172">512 is two plus critical path of eight, that's ten.</span> </p>
+<p><span m="4391000">OK, and so, you see that on the big machine, we would have been</span> <span m="4395913">running twice as slow had we adopted that,</span> <span m="4399163">quote, "optimization", OK, because we had run out of</span> <span m="4403205">parallelism, and this was making the path longer.</span> </p>
+<p><span m="4407009">We needed to have a way of doing it where we could reduce</span> <span m="4411447">the work. Yeah, it's good to reduce the</span> <span m="4414459">work but not as the critical path ends up getting rid of the</span> <span m="4419135">parallels that we hope to be able to use during the runtime.</span> </p>
+<p><span m="4425000">So, it's twice as slow, OK, twice as slow.</span> </p>
+<p><span m="4428186">So the moral is that the work and critical path length predict</span> <span m="4432927">the performance better than the execution time alone,</span> <span m="4436968">OK, when you look at scalability.</span> </p>
+<p><span m="4440000">And a big issue on a lot of these machines is scalability;</span> <span m="4443600">not always, sometimes you're not worried about scalability.</span> </p>
+<p><span m="4447263">Sometimes you just care. Had we been running in the</span> <span m="4450421">competition on a 32 processor machine, we would have accepted</span> <span m="4454210">this optimization. It would have been a good</span> <span m="4456926">trade-off. OK, but because we knew that we</span> <span m="4459515">were running on a machine with a lot more processors,</span> <span m="4462800">and that we were close to running out of the parallelism,</span> <span m="4466336">it didn't make sense to be increasing the critical path at</span> <span m="4469936">that point, because that was just reducing the parallelism of</span> <span m="4473726">our calculation. OK, next time,</span> <span m="4476887">any questions about that first? No?</span> </p>
+<p><span m="4479041">OK. Next time, now that we</span> <span m="4480626">understand the model for execution, we're going to start</span> <span m="4484111">looking at the performance of particular algorithms what we</span> <span m="4487786">code them up in a dynamic, multithreaded style,</span> <span m="4490701">OK?</span> </p>
+</div>
+        <div id="vid_transcript" itemprop="description" class="tabContent hide">
+<h2 class="subhead">Free Downloads</h2>
+<h3 class="subsubhead">Video</h3>
+<ul>
+<li>iTunes U (<a href="https://itunes.apple.com/us/itunes-u/id341597754">MP4 - 157MB</a>)</li>
+<li>Internet Archive (<a href="http://www.archive.org/download/MIT6.046JF05MPEG4/ocw-6.046-05dec2005-220k.mp4">MP4 - 309MB</a>)</li>
+</ul>
+<br><h3 class="subsubhead">Free Streaming</h3>
+<ul><li><a href="http://videolectures.net/mit6046jf05_introduction_algorithms/">VideoLectures.net</a></li></ul>
+<br><h3 class="subsubhead">Subtitle</h3>
+<ul><li>English - US (<a href="../../../contents/video-lectures/lecture-22-advanced-topics/PYvJmLKhM-Y.srt">SRT</a>)</li></ul>
+</div>
+    
+   </div>  
+
+
+
+
+      					 
+        <div class="" id="parent-fieldname-bottom_html_area">
+            
+            
+        </div>
+    
+                    </div>
+<!--Course_inner_chip tag close -->
+           		</div>
+<!--Course_wrapper tag close --> 
+            </div>
+<!--left tag close -->
+            <div id="right">
+                <!--Begin Right Portion -->
+                    <div>
+    
+<div id="portletwrapper-6f63772e7269676874746f70706f72746c65746d616e616765720a636f6e746578740a2f506c6f6e650a646f6e617465" class="portletWrapper kssattr-portlethash-6f63772e7269676874746f70706f72746c65746d616e616765720a636f6e746578740a2f506c6f6e650a646f6e617465">
+<div class="portletStaticText portlet-static-donate"><p class="zero"><a href="http://ocw.mit.edu/donate"><img src="../../../common/images/button_donate-now.png" alt="Donate Now." class="donate"></a></p></div>
+
+</div>
+
+
+
+
+</div>
+
+                	<div>
+    
+
+
+
+</div>
+
+
+        <div class="" id="parent-fieldname-rsi_top_html_area">
+            
+            
+        </div>
+    
+
+<!-- RSI google ad space-->
+
+
+<div id="google_ads">    
+    <script type="text/javascript" src="http://partner.googleadservices.com/gampad/google_service.js"></script><script type="text/javascript">GS_googleAddAdSenseService("ca-pub-6588555046597237");GS_googleEnableAllServices();</script><script type="text/javascript">GA_googleAddSlot("ca-pub-6588555046597237", "VIDEO_INDIVIDUAL_SLOT_A_DL");GA_googleAddSlot("ca-pub-6588555046597237", "VIDEO_INDIVIDUAL_SLOT_B_DL");GA_googleAddSlot("ca-pub-6588555046597237", "VIDEO_INDIVIDUAL_SLOT_C_DL");</script><script type="text/javascript">GA_googleFetchAds();</script><script language="javascript" type="text/javascript">
+GA_googleAddAttr("TYPE","HOUSE");
+GA_googleAddAttr("DEPARTMENT","6");
+GA_googleAddAttr("CRS_BEG2","04");
+GA_googleAddAttr("CRS_END","6J");
+GA_googleAddAttr("SESSION","F");
+GA_googleAddAttr("YEAR","05");
+</script><script type="text/javascript">GA_googleFillSlot("VIDEO_INDIVIDUAL_SLOT_A_DL");</script><script type="text/javascript">GA_googleFillSlot("VIDEO_INDIVIDUAL_SLOT_B_DL");</script><script type="text/javascript">GA_googleFillSlot("VIDEO_INDIVIDUAL_SLOT_C_DL");</script>
+</div>
+
+<!-- End RSI ads--> 
+
+<div>
+    
+
+
+
+</div>
+
+            </div>
+<!--Right div close -->
+            <div class="clear"></div> 
+        </div>
+<!--grid tag close --> 
+      </div>
+		
+		<div id="bottom">
+			<div id="grid">
+				
+<div id="portletwrapper-6f63772e626f74746f6d706f72746c65746d616e616765720a636f6e746578740a2f506c6f6e650a736974652d666f6f746572" class="portletWrapper kssattr-portlethash-6f63772e626f74746f6d706f72746c65746d616e616765720a636f6e746578740a2f506c6f6e650a736974652d666f6f746572">
+<div class="portletStaticText portlet-static-site-footer">
+<!--googleoff: index--> <div id="bottom"><div id="grid">
+<!-- *begin footer* --> <div role="navigation sitemap" id="footer">
+<div class="grid_2 alpha" id="foot-c1">
+<h4 class="footer">Find Courses</h4> <ul class="foot-bullet">
+<li><a href="http://ocw.mit.edu/courses/find-by-topic/">Find by Topic</a></li>     <li><a href="http://ocw.mit.edu/courses/find-by-number/">Find by Course Number</a></li>     <li><a href="http://ocw.mit.edu/courses/find-by-department/">Find by Department</a></li>     <li><a href="http://ocw.mit.edu/courses/audio-video-courses/">Audio/Video Courses</a></li>     <li><a href="http://ocw.mit.edu/courses/subtitled/">Courses with Subtitles</a></li>     <li><a href="http://ocw.mit.edu/courses/online-textbooks/">Online Textbooks</a></li>     <li><a href="http://ocw.mit.edu/courses/new-courses/">New Courses</a></li>     <li><a href="http://ocw.mit.edu/courses/most-visited-courses/">Most Visited Courses</a></li>     <li><a href="http://ocw.mit.edu/courses/ocw-scholar/">OCW Scholar Courses</a></li>     <li><a href="http://ocw.mit.edu/courses/this-course-at-mit/">This Course at MIT</a></li>     <li><a href="http://ocw.mit.edu/resources/">Supplemental Resources</a></li>     <li><a href="http://ocw.mit.edu/courses/translated-courses/">Translated Courses</a></li>     <li><a href="http://ocw.mit.edu/courses/">View All Courses</a></li> </ul>
+</div> <div class="grid_2" id="foot-c2">
+<h4 class="footer">About</h4> <ul class="foot-bullet">
+<li><a href="http://ocw.mit.edu/about/">About OpenCourseWare</a></li>     <li><a href="http://ocw.mit.edu/about/site-statistics/">Site Stats</a></li>     <li><a href="http://ocw.mit.edu/about/ocw-stories/">OCW Stories</a></li>     <li><a href="http://ocw.mit.edu/about/media-coverage/">Media Coverage</a></li>     <li><a href="http://ocw.mit.edu/about/newsletter/">Newsletter</a></li>     <li><a href="http://ocw.mit.edu/about/media-coverage/press-releases/">Press Releases</a></li> </ul>
+</div> <div class="grid_2" id="foot-c3">
+<h4 class="footer">Donate</h4> <ul class="foot-bullet">
+<li><a href="http://ocw.mit.edu/donate">Make a Donation</a></li>     <li><a href="http://ocw.mit.edu/donate/why-donate/">Why Donate?</a></li>     <li><a href="http://ocw.mit.edu/donate/our-supporters/">Our Supporters</a></li>     <li><a href="http://ocw.mit.edu/donate/other-ways-to-contribute/">Other Ways to Contribute</a></li>     <li><a href="http://ocw.mit.edu/donate/shop-ocw/">Shop OCW</a></li>     <li><a href="http://ocw.mit.edu/support/">Become a Corporate Sponsor</a></li> </ul>
+</div> <div class="grid_2" id="foot-c4">
+<h4 class="footer">Featured Sites</h4> <ul class="foot-bullet">
+<li><a href="http://ocw.mit.edu/high-school/">Highlights for High School</a></li>     <li><a href="http://ocw.mit.edu/educator/">OCW Educator</a></li>     <li><a href="http://ocw.mit.edu/courses/crosslinks/">MIT Crosslinks and OCW</a></li>     <li><a href="http://ocw.mit.edu/ans7870/featured/mitx-courses-on-edx.htm">MITx Courses on edX</a></li>     <li><a href="http://teachingexcellence.mit.edu/">Teaching Excellence at MIT</a></li>     <li><a href="http://www.oeconsortium.org/">Open Education Consortium</a></li> </ul>
+<h4 style="margin-top: 14px;" class="footer">Tools</h4> <ul class="foot-bullet">
+<li><a href="http://ocw.mit.edu/help/">Help &amp; FAQs</a></li>     <li><a href="../../../common/jsp/feedback.htm">Contact Us</a></li>     <li><a href="../../../common/search/AdvancedSearch.htm">Advanced Search</a></li>     <li><a href="http://ocw.mit.edu/help/site-map/">Site Map</a></li>     <li><a href="../../../common/terms/index.htm">Privacy &amp; Terms of Use</a></li>     <li><a href="http://ocw.mit.edu/help/rss/">RSS Feeds</a></li> </ul>
+</div> <div class="grid_4 omega" id="foot-c5">
+<h4 class="footer">Our Corporate Supporters</h4> <!-- HOME_CORP_LOGO_1 --> <div class="sponsors_google_ads_even" id="div-gpt-ad-1388181177156-0"><script type="text/javascript">
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1388181177156-0'); });
+</script></div> <!-- HOME_CORP_LOGO_2 --> <div class="sponsors_google_ads_odd" id="div-gpt-ad-1388181177156-1"><script type="text/javascript">
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1388181177156-1'); });
+</script></div> <!-- HOME_CORP_LOGO_3 --> <div class="sponsors_google_ads_even" id="div-gpt-ad-1388181177156-2"><script type="text/javascript">
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1388181177156-2'); });
+</script></div> <!-- HOME_CORP_LOGO_4 --> <div class="sponsors_google_ads_odd" id="div-gpt-ad-1388181177156-3"><script type="text/javascript">
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1388181177156-3'); });
+</script></div> <!-- HOME_CORP_LOGO_5 --> <div class="sponsors_google_ads_even" id="div-gpt-ad-1388181177156-4"><script type="text/javascript">
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1388181177156-4'); });
+</script></div> <!-- HOME_CORP_LOGO_6 --> <div class="sponsors_google_ads_odd" id="div-gpt-ad-1388181177156-5"><script type="text/javascript">
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1388181177156-5'); });
+</script></div>
+</div> <div class="grid_12 alpha omega" style="border-top: thin solid #d5c9ba; padding-top: 24px; margin-bottom: 10px; text-align: center;"><p style="font-family: TitilliumText22LRegular,Verdana; text-align: center; font-size: 1.1em;">Support for <span style="letter-spacing: 0.5px;"><strong>MIT OPENCOURSEWARE'S 15th anniversary</strong></span> is provided by <a href="http://www.sapientnitro.com/en-us.html#home"><img style="width: 145px; height: 35px; vertical-align: middle; margin-left: 7px;" alt="SapientNitro logo and nameplate." src="../../../common/images/logo_sapient.png"></a></p></div> <div itemtype="http://schema.org/CollegeOrUniversity" itemscope="" itemprop="publisher" class="grid_12 alpha omega">
+<h4 style="border-top: thin solid #d5c9ba; padding-top: 10px; margin-bottom: 10px;" class="footer">About <span itemprop="name">MIT OpenCourseWare</span>
+</h4> <p itemprop="description" style="color: #999; font-size: 1em; line-height: 1.5em; margin-top: 10px;">MIT OpenCourseWare makes the materials used in the teaching of almost all of MIT's subjects available on the Web, free of charge. With more than 2,200 courses available, OCW is delivering on the promise of open sharing of knowledge. <a href="http://ocw.mit.edu/about/">Learn more »</a></p>
+</div> <div style="border-top: none;" class="grid_12 alpha omega" id="foot-copy">
+<a href="http://web.mit.edu"><img style="width: 195; height: 44;" alt="Massachusetts Institute of Technology logo and name." src="../../../common/images/logo_mit.png"></a><a href="http://odl.mit.edu"><img style="width: 289; height: 54; vertical-align: top;" alt="MIT Office of Digital Learning logo and name." src="http://ocw.mit.edu/images/logo_odl.png"></a><a href="http://www.oeconsortium.org/"><img style="width: 219px; height: 59px; vertical-align: top;" alt="Open Education Consortium logo." src="http://ocw.mit.edu/images/logo_oec.png"></a><a itemprop="useRightsUrl" rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img style="width: 126px; height: 44px; margin-right: 0; margin-left: 13px;" alt="Creative Commons logo with terms BY-NC-SA." src="../../../common/images/cc_by-nc-sa.png"></a> <p class="copyright">© 2001–2015<br> Massachusetts Institute of Technology</p> <p style="font-size: 0.9em; margin-bottom: 15px;">Your use of the MIT OpenCourseWare site and materials is subject to our <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons License</a> and other <a rel="cc:morePermissions" href="../../../common/terms/index.htm">terms of use</a>.</p>
+</div>
+</div>
+</div></div> <!--googleon: index-->
+</div>
+
+</div>
+
+
+
+
+
+                
+			</div> <!-- bottom grid end -->
+		</div>
+<!-- bottom end -->
+		
+		
+   </body>
+</html>

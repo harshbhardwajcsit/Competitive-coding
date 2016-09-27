@@ -1,0 +1,1 @@
+the total no. of  Strings generated with space =2^(n-1)       where n is the length of input string

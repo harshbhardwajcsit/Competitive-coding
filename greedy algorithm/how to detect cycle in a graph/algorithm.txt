@@ -1,0 +1,13 @@
+//algorithm for find-union method to detect cycle
+
+
+for each unvisited edge (u, v) in E
+{
+    if(Find(u) = Find(v)) // u and v belong to the same set already
+    {
+        print "Cycle Detected";
+        break;
+    }
+    else
+        Union(u, v); // put u and v in the same set
+}

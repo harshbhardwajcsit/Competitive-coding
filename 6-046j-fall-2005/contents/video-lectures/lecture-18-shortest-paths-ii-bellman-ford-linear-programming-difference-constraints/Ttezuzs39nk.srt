@@ -1,0 +1,5540 @@
+1
+00:00:07,000 --> 00:00:09,000
+Good morning,
+everyone.
+
+2
+00:00:09,000 --> 00:00:14,000
+Glad you are all here bright
+and early.
+
+3
+00:00:14,000 --> 00:00:20,000
+I'm counting the days till the
+TA's outnumber the students.
+
+4
+00:00:20,000 --> 00:00:26,000
+They'll show up.
+We return to a familiar story.
+
+5
+00:00:26,000 --> 00:00:32,000
+This is part two,
+the Empire Strikes Back.
+
+6
+00:00:32,000 --> 00:00:33,000
+So last time,
+our adversary,
+
+7
+00:00:33,000 --> 00:00:36,000
+the graph, came to us with a
+problem.
+
+8
+00:00:36,000 --> 00:00:39,000
+We have a source,
+and we had a directed graph,
+
+9
+00:00:39,000 --> 00:00:43,000
+and we had weights on the
+edges, and they were all
+
+10
+00:00:43,000 --> 00:00:46,000
+nonnegative.
+And there was happiness.
+
+11
+00:00:46,000 --> 00:00:50,000
+And we triumphed over the
+Empire by designing Dijkstra's
+
+12
+00:00:50,000 --> 00:00:54,000
+algorithm, and very efficiently
+finding single source shortest
+
+13
+00:00:54,000 --> 00:01:00,000
+paths, shortest path weight from
+s to every other vertex.
+
+14
+00:01:00,000 --> 00:01:02,000
+Today, however,
+the Death Star has a new trick
+
+15
+00:01:02,000 --> 00:01:05,000
+up its sleeve,
+and we have negative weights,
+
+16
+00:01:05,000 --> 00:01:07,000
+potentially.
+And we're going to have to
+
+17
+00:01:07,000 --> 00:01:09,000
+somehow deal with,
+in particular,
+
+18
+00:01:09,000 --> 00:01:13,000
+negative weight cycles.
+And we saw that when we have a
+
+19
+00:01:13,000 --> 00:01:16,000
+negative weight cycle,
+we can just keep going around,
+
+20
+00:01:16,000 --> 00:01:19,000
+and around, and around,
+and go back in time farther,
+
+21
+00:01:19,000 --> 00:01:21,000
+and farther,
+and farther.
+
+22
+00:01:21,000 --> 00:01:24,000
+And we can get to be
+arbitrarily far back in the
+
+23
+00:01:24,000 --> 00:01:26,000
+past.
+And so there's no shortest
+
+24
+00:01:26,000 --> 00:01:29,000
+path, because whatever path you
+take you can get a shorter one.
+
+25
+00:01:29,000 --> 00:01:33,000
+So we want to address that
+issue today, and we're going to
+
+26
+00:01:33,000 --> 00:01:37,000
+come up with a new algorithm
+actually simpler than Dijkstra,
+
+27
+00:01:37,000 --> 00:01:39,000
+but not as fast,
+called the Bellman-Ford
+
+28
+00:01:39,000 --> 00:01:44,000
+algorithm.
+And, it's going to allow
+
+29
+00:01:44,000 --> 00:01:48,000
+negative weights,
+and in some sense allow
+
+30
+00:01:48,000 --> 00:01:54,000
+negative weight cycles,
+although maybe not as much as
+
+31
+00:01:54,000 --> 00:01:59,000
+you might hope.
+We have to leave room for a
+
+32
+00:01:59,000 --> 00:02:04,000
+sequel, of course.
+OK, so the Bellman-Ford
+
+33
+00:02:04,000 --> 00:02:09,000
+algorithm, invented by two guys,
+as you might expect,
+
+34
+00:02:09,000 --> 00:02:13,000
+it computes the shortest path
+weights.
+
+35
+00:02:13,000 --> 00:02:17,000
+So, it makes no assumption
+about the weights.
+
+36
+00:02:17,000 --> 00:02:22,000
+Weights are arbitrary,
+and it's going to compute the
+
+37
+00:02:22,000 --> 00:02:27,000
+shortest path weights.
+So, remember this notation:
+
+38
+00:02:27,000 --> 00:02:33,000
+delta of s, v is the weight of
+the shortest path from s to v.
+
+39
+00:02:33,000 --> 00:02:40,000
+s was called a source vertex.
+And, we want to compute these
+
+40
+00:02:40,000 --> 00:02:43,000
+weights for all vertices,
+little v.
+
+41
+00:02:43,000 --> 00:02:47,000
+The claim is that computing
+from s to everywhere is no
+
+42
+00:02:47,000 --> 00:02:51,000
+harder than computing s to a
+particular location.
+
+43
+00:02:51,000 --> 00:02:53,000
+So, we're going to do for all
+them.
+
+44
+00:02:53,000 --> 00:02:56,000
+It's still going to be the case
+here.
+
+45
+00:02:56,000 --> 00:02:59,000
+And, it allows negative
+weights.
+
+46
+00:02:59,000 --> 00:03:03,000
+And this is the good case,
+but there's an alternative,
+
+47
+00:03:03,000 --> 00:03:07,000
+which is that Bellman-Ford may
+just say, oops,
+
+48
+00:03:07,000 --> 00:03:11,000
+there's a negative weight
+cycle.
+
+49
+00:03:11,000 --> 00:03:14,000
+And in that case it will just
+say so.
+
+50
+00:03:14,000 --> 00:03:18,000
+So, they say a negative weight
+cycle exists.
+
+51
+00:03:18,000 --> 00:03:23,000
+Therefore, some of these deltas
+are minus infinity.
+
+52
+00:03:23,000 --> 00:03:27,000
+And that seems weird.
+So, Bellman-Ford as we'll
+
+53
+00:03:27,000 --> 00:03:33,000
+present it today is intended for
+the case, but there are no
+
+54
+00:03:33,000 --> 00:03:39,000
+negative weights cycles,
+which is more intuitive.
+
+55
+00:03:39,000 --> 00:03:42,000
+It sort of allows them,
+but it will just report them.
+
+56
+00:03:42,000 --> 00:03:45,000
+In that case,
+it will not give you delta
+
+57
+00:03:45,000 --> 00:03:48,000
+values.
+You can change the algorithm to
+
+58
+00:03:48,000 --> 00:03:52,000
+give you delta values in that
+case, but we are not going to
+
+59
+00:03:52,000 --> 00:03:54,000
+see it here.
+So, in exercise,
+
+60
+00:03:54,000 --> 00:03:57,000
+after you see the algorithm,
+exercise is:
+
+61
+00:03:57,000 --> 00:04:01,000
+compute these deltas in all
+cases.
+
+62
+00:04:01,000 --> 00:04:12,000
+
+
+63
+00:04:12,000 --> 00:04:19,000
+So, it's not hard to do.
+But we don't have time for it
+
+64
+00:04:19,000 --> 00:04:24,000
+here.
+So, here's the algorithm.
+
+65
+00:04:24,000 --> 00:04:32,000
+It's pretty straightforward.
+As I said, it's easier than
+
+66
+00:04:32,000 --> 00:04:36,000
+Dijkstra.
+It's a relaxation algorithm.
+
+67
+00:04:36,000 --> 00:04:40,000
+So the main thing that it does
+is relax edges just like
+
+68
+00:04:40,000 --> 00:04:43,000
+Dijkstra.
+So, we'll be able to use a lot
+
+69
+00:04:43,000 --> 00:04:47,000
+of dilemmas from Dijkstra.
+And proof of correctness will
+
+70
+00:04:47,000 --> 00:04:51,000
+be three times shorter because
+the first two thirds we already
+
+71
+00:04:51,000 --> 00:04:55,000
+have from Dijkstra.
+But I'm jumping ahead a bit.
+
+72
+00:04:55,000 --> 00:04:57,000
+So, the first part is
+initialization.
+
+73
+00:04:57,000 --> 00:05:01,000
+Again, d of v will represent
+the estimated distance from s to
+
+74
+00:05:01,000 --> 00:05:05,000
+v.
+And we're going to be updating
+
+75
+00:05:05,000 --> 00:05:08,000
+those estimates as the algorithm
+goes along.
+
+76
+00:05:08,000 --> 00:05:10,000
+And initially,
+d of s is zero,
+
+77
+00:05:10,000 --> 00:05:14,000
+which now may not be the right
+answer conceivably.
+
+78
+00:05:14,000 --> 00:05:17,000
+Everyone else is infinity,
+which is certainly an upper
+
+79
+00:05:17,000 --> 00:05:20,000
+bound.
+OK, these are both upper bounds
+
+80
+00:05:20,000 --> 00:05:23,000
+on the true distance.
+So that's fine.
+
+81
+00:05:23,000 --> 00:05:27,000
+That's initialization just like
+before.
+
+82
+00:05:27,000 --> 00:05:36,000
+
+
+83
+00:05:36,000 --> 00:05:39,000
+And now we have a main loop
+which happens v minus one times.
+
+84
+00:05:39,000 --> 00:05:41,000
+We're not actually going to use
+the index i.
+
+85
+00:05:41,000 --> 00:05:43,000
+It's just a counter.
+
+86
+00:05:43,000 --> 00:06:02,000
+
+
+87
+00:06:02,000 --> 00:06:07,000
+And we're just going to look at
+every edge and relax it.
+
+88
+00:06:07,000 --> 00:06:13,000
+It's a very simple idea.
+If you learn about relaxation,
+
+89
+00:06:13,000 --> 00:06:16,000
+this is the first thing you
+might try.
+
+90
+00:06:16,000 --> 00:06:20,000
+The question is when do you
+stop.
+
+91
+00:06:20,000 --> 00:06:25,000
+It's sort of like I have this
+friend to what he was like six
+
+92
+00:06:25,000 --> 00:06:31,000
+years old he would claim,
+oh, I know how to spell banana.
+
+93
+00:06:31,000 --> 00:06:37,000
+I just don't know when to stop.
+OK, same thing with relaxation.
+
+94
+00:06:37,000 --> 00:06:40,000
+This is our relaxation step
+just as before.
+
+95
+00:06:40,000 --> 00:06:43,000
+We look at the edge;
+we see whether it violates the
+
+96
+00:06:43,000 --> 00:06:47,000
+triangle inequality according to
+our current estimates we know
+
+97
+00:06:47,000 --> 00:06:51,000
+the distance from s to v should
+be at most distance from s to
+
+98
+00:06:51,000 --> 00:06:54,000
+plus the weight of that edge
+from u to v.
+
+99
+00:06:54,000 --> 00:06:55,000
+If it isn't,
+we set it equal.
+
+100
+00:06:55,000 --> 00:07:00,000
+We've proved that this is
+always an OK thing to do.
+
+101
+00:07:00,000 --> 00:07:03,000
+We never violate,
+I mean, these d of v's never
+
+102
+00:07:03,000 --> 00:07:07,000
+get too small if we do a bunch
+of relaxations.
+
+103
+00:07:07,000 --> 00:07:09,000
+So, the idea is you take every
+edge.
+
+104
+00:07:09,000 --> 00:07:12,000
+You relax it.
+I don't care which order.
+
+105
+00:07:12,000 --> 00:07:15,000
+Just relax every edge,
+one each.
+
+106
+00:07:15,000 --> 00:07:17,000
+And that do that V minus one
+times.
+
+107
+00:07:17,000 --> 00:07:21,000
+The claim is that that should
+be enough if you have no
+
+108
+00:07:21,000 --> 00:07:25,000
+negative weights cycles.
+So, if there's a negative
+
+109
+00:07:25,000 --> 00:07:30,000
+weight cycle,
+we need to figure it out.
+
+110
+00:07:30,000 --> 00:07:35,000
+And, we'll do that in a fairly
+straightforward way,
+
+111
+00:07:35,000 --> 00:07:40,000
+which is we're going to do
+exactly the same thing.
+
+112
+00:07:40,000 --> 00:07:44,000
+So this is outside before loop
+here.
+
+113
+00:07:44,000 --> 00:07:50,000
+We'll have the same four loops
+for each edge in our graph.
+
+114
+00:07:50,000 --> 00:07:54,000
+We'll try to relax it.
+And if you can relax it,
+
+115
+00:07:54,000 --> 00:08:02,000
+the claim is that there has to
+be a negative weight cycle.
+
+116
+00:08:02,000 --> 00:08:04,000
+So this is the main thing that
+needs proof.
+
+117
+00:08:04,000 --> 00:08:28,000
+
+
+118
+00:08:28,000 --> 00:08:31,000
+OK, and that's the algorithm.
+So the claim is that at the
+
+119
+00:08:31,000 --> 00:08:35,000
+ends we should have d of v,
+let's see, L's so to speak.
+
+120
+00:08:35,000 --> 00:08:38,000
+d of v equals delta of s comma
+v for every vertex,
+
+121
+00:08:38,000 --> 00:08:40,000
+v.
+If we don't find a negative
+
+122
+00:08:40,000 --> 00:08:44,000
+weight cycle according to this
+rule, that we should have all
+
+123
+00:08:44,000 --> 00:08:47,000
+the shortest path weights.
+That's the claim.
+
+124
+00:08:47,000 --> 00:08:50,000
+Now, the first question is,
+in here, the running time is
+
+125
+00:08:50,000 --> 00:08:54,000
+very easy to analyze.
+So let's start with the running
+
+126
+00:08:54,000 --> 00:08:56,000
+time.
+We can compare it to Dijkstra,
+
+127
+00:08:56,000 --> 00:09:02,000
+which is over here.
+What is the running time of
+
+128
+00:09:02,000 --> 00:09:06,000
+this algorithm?
+V times E, exactly.
+
+129
+00:09:06,000 --> 00:09:12,000
+OK, I'm going to assume,
+because it's pretty reasonable,
+
+130
+00:09:12,000 --> 00:09:19,000
+that V and E are both positive.
+Then it's V times E.
+
+131
+00:09:19,000 --> 00:09:25,000
+So, this is a little bit
+slower, or a fair amount slower,
+
+132
+00:09:25,000 --> 00:09:30,000
+than Dijkstra's algorithm.
+There it is:
+
+133
+00:09:30,000 --> 00:09:35,000
+E plus V log V is essentially,
+ignoring the logs is pretty
+
+134
+00:09:35,000 --> 00:09:39,000
+much linear time.
+Here we have something that's
+
+135
+00:09:39,000 --> 00:09:43,000
+at least quadratic in V,
+assuming your graph is
+
+136
+00:09:43,000 --> 00:09:45,000
+connected.
+So, it's slower,
+
+137
+00:09:45,000 --> 00:09:48,000
+but it's going to handle these
+negative weights.
+
+138
+00:09:48,000 --> 00:09:52,000
+Dijkstra can't handle negative
+weights at all.
+
+139
+00:09:52,000 --> 00:09:56,000
+So, let's do an example,
+make it clear why you might
+
+140
+00:09:56,000 --> 00:10:03,000
+hope this algorithm works.
+And then we'll prove that it
+
+141
+00:10:03,000 --> 00:10:08,000
+works, of course.
+But the proof will be pretty
+
+142
+00:10:08,000 --> 00:10:12,000
+easy.
+So, I'm going to draw a graph
+
+143
+00:10:12,000 --> 00:10:18,000
+that has negative weights,
+but no negative weight cycles
+
+144
+00:10:18,000 --> 00:10:24,000
+so that I get an interesting
+answer.
+
+145
+00:10:24,000 --> 00:10:55,000
+
+
+146
+00:10:55,000 --> 00:10:57,000
+Good.
+The other thing I need in order
+
+147
+00:10:57,000 --> 00:11:00,000
+to make the output of this
+algorithm well defined,
+
+148
+00:11:00,000 --> 00:11:03,000
+it depends in which order you
+visit the edges.
+
+149
+00:11:03,000 --> 00:11:07,000
+So I'm going to assign an
+arbitrary order to these edges.
+
+150
+00:11:07,000 --> 00:11:11,000
+I could just ask you for an
+order, but to be consistent with
+
+151
+00:11:11,000 --> 00:11:13,000
+the notes, I'll put an ordering
+on it.
+
+152
+00:11:13,000 --> 00:11:17,000
+Let's say I put number four,
+say that's the fourth edge I'll
+
+153
+00:11:17,000 --> 00:11:18,000
+visit.
+It doesn't matter.
+
+154
+00:11:18,000 --> 00:11:22,000
+But it will affect what happens
+during the algorithm for a
+
+155
+00:11:22,000 --> 00:11:25,000
+particular graph.
+
+156
+00:11:25,000 --> 00:11:43,000
+
+
+157
+00:11:43,000 --> 00:11:46,000
+Do they get them all?
+One, two, three,
+
+158
+00:11:46,000 --> 00:11:48,000
+four, five, six,
+seven, eight,
+
+159
+00:11:48,000 --> 00:11:51,000
+OK.
+And my source is going to be A.
+
+160
+00:11:51,000 --> 00:11:54,000
+And, that's it.
+So, I want to run this
+
+161
+00:11:54,000 --> 00:11:57,000
+algorithm.
+I'm just going to initialize
+
+162
+00:11:57,000 --> 00:12:01,000
+everything.
+So, I set the estimates for s
+
+163
+00:12:01,000 --> 00:12:06,000
+to be zero, and everyone else to
+be infinity.
+
+164
+00:12:06,000 --> 00:12:10,000
+And to give me some notion of
+time, over here I'm going to
+
+165
+00:12:10,000 --> 00:12:15,000
+draw or write down what all of
+these d values are as the
+
+166
+00:12:15,000 --> 00:12:20,000
+algorithm proceeds because I'm
+going to start crossing them out
+
+167
+00:12:20,000 --> 00:12:25,000
+and rewriting them that the
+figure will get a little bit
+
+168
+00:12:25,000 --> 00:12:28,000
+messier.
+But we can keep track of it
+
+169
+00:12:28,000 --> 00:12:31,000
+over here.
+It's initially zero and
+
+170
+00:12:31,000 --> 00:12:34,000
+infinities.
+Yeah?
+
+171
+00:12:34,000 --> 00:12:36,000
+It doesn't matter.
+So, for the algorithm you can
+
+172
+00:12:36,000 --> 00:12:40,000
+go to the edges in a different
+order every time if you want.
+
+173
+00:12:40,000 --> 00:12:42,000
+We'll prove that,
+but here I'm going to go
+
+174
+00:12:42,000 --> 00:12:44,000
+through the same order every
+time.
+
+175
+00:12:44,000 --> 00:12:47,000
+Good question.
+It turns out it doesn't matter
+
+176
+00:12:47,000 --> 00:12:49,000
+here.
+OK, so here's the starting
+
+177
+00:12:49,000 --> 00:12:51,000
+point.
+Now I'm going to relax every
+
+178
+00:12:51,000 --> 00:12:53,000
+edge.
+So, there's going to be a lot
+
+179
+00:12:53,000 --> 00:12:55,000
+of edges here that don't do
+anything.
+
+180
+00:12:55,000 --> 00:12:57,000
+I try to relax n minus one.
+I'd say, well,
+
+181
+00:12:57,000 --> 00:13:02,000
+I know how to get from s to B
+with weight infinity.
+
+182
+00:13:02,000 --> 00:13:04,000
+Infinity plus two I can get to
+from s to E.
+
+183
+00:13:04,000 --> 00:13:08,000
+Well, infinity plus two is not
+much better than infinity.
+
+184
+00:13:08,000 --> 00:13:11,000
+OK, so I don't do anything,
+don't update this to infinity.
+
+185
+00:13:11,000 --> 00:13:14,000
+I mean, infinity plus two
+sounds even worse.
+
+186
+00:13:14,000 --> 00:13:16,000
+But infinity plus two is
+infinity.
+
+187
+00:13:16,000 --> 00:13:20,000
+OK, that's the edge number one.
+So, no relaxation edge number
+
+188
+00:13:20,000 --> 00:13:24,000
+two, same deal as number three,
+same deal, edge number four we
+
+189
+00:13:24,000 --> 00:13:27,000
+start to get something
+interesting because I have a
+
+190
+00:13:27,000 --> 00:13:31,000
+finite value here that says I
+can get from A to B using a
+
+191
+00:13:31,000 --> 00:13:35,000
+total weight of minus one.
+So that seems good.
+
+192
+00:13:35,000 --> 00:13:41,000
+I'll write down minus one here,
+and update B to minus one.
+
+193
+00:13:41,000 --> 00:13:45,000
+The rest stay the same.
+So, I'm just going to keep
+
+194
+00:13:45,000 --> 00:13:50,000
+doing this over and over.
+That was edge number four.
+
+195
+00:13:50,000 --> 00:13:53,000
+Number five,
+we also get a relaxation.
+
+196
+00:13:53,000 --> 00:14:00,000
+Four is better than infinity.
+So, c gets a number of four.
+
+197
+00:14:00,000 --> 00:14:04,000
+Then we get to edge number six.
+That's infinity plus five is
+
+198
+00:14:04,000 --> 00:14:07,000
+worse than four.
+OK, so no relaxation there.
+
+199
+00:14:07,000 --> 00:14:11,000
+Edge number seven is
+interesting because I have a
+
+200
+00:14:11,000 --> 00:14:15,000
+finite value here minus one plus
+the weight of this edge,
+
+201
+00:14:15,000 --> 00:14:18,000
+which is three.
+That's a total of two,
+
+202
+00:14:18,000 --> 00:14:20,000
+which is actually better than
+four.
+
+203
+00:14:20,000 --> 00:14:24,000
+So, this route,
+A, B, c is actually better than
+
+204
+00:14:24,000 --> 00:14:26,000
+the route I just found a second
+ago.
+
+205
+00:14:26,000 --> 00:14:30,000
+So, this is now a two.
+This is all happening in one
+
+206
+00:14:30,000 --> 00:14:35,000
+iteration of the main loop.
+We actually found two good
+
+207
+00:14:35,000 --> 00:14:38,000
+paths to c.
+We found one better than the
+
+208
+00:14:38,000 --> 00:14:41,000
+other.
+OK, and that was edge number
+
+209
+00:14:41,000 --> 00:14:44,000
+seven, and edge number eight is
+over here.
+
+210
+00:14:44,000 --> 00:14:47,000
+It doesn't matter.
+OK, so that was round one of
+
+211
+00:14:47,000 --> 00:14:50,000
+this outer loop,
+so, the first value of i.
+
+212
+00:14:50,000 --> 00:14:52,000
+i equals one.
+OK, now we continue.
+
+213
+00:14:52,000 --> 00:14:56,000
+Just keep going.
+So, we start with edge number
+
+214
+00:14:56,000 --> 00:15:00,000
+one.
+Now, minus one plus two is one.
+
+215
+00:15:00,000 --> 00:15:04,000
+That's better than infinity.
+It'll start speeding up.
+
+216
+00:15:04,000 --> 00:15:08,000
+It's repetitive.
+It's actually not too much
+
+217
+00:15:08,000 --> 00:15:14,000
+longer until we're done.
+Number two, this is an infinity
+
+218
+00:15:14,000 --> 00:15:17,000
+so we don't do anything.
+Number three:
+
+219
+00:15:17,000 --> 00:15:22,000
+minus one plus two is one;
+better than infinity.
+
+220
+00:15:22,000 --> 00:15:25,000
+This is vertex d,
+and it's number three.
+
+221
+00:15:25,000 --> 00:15:31,000
+Number four we've already done.
+Nothing changed.
+
+222
+00:15:31,000 --> 00:15:35,000
+Number five:
+this is where we see the path
+
+223
+00:15:35,000 --> 00:15:38,000
+four again, but that's worse
+than two.
+
+224
+00:15:38,000 --> 00:15:43,000
+So, we don't update anything.
+Number six: one plus five is
+
+225
+00:15:43,000 --> 00:15:47,000
+six, which is bigger than two,
+so no good.
+
+226
+00:15:47,000 --> 00:15:49,000
+Go around this way.
+Number seven:
+
+227
+00:15:49,000 --> 00:15:53,000
+same deal.
+Number eight is interesting.
+
+228
+00:15:53,000 --> 00:15:58,000
+So, we have a weight of one
+here, a weight of minus three
+
+229
+00:15:58,000 --> 00:16:02,000
+here.
+So, the total is minus two,
+
+230
+00:16:02,000 --> 00:16:07,000
+which is better than one.
+So, that was d.
+
+231
+00:16:07,000 --> 00:16:13,000
+And, I believe that's it.
+So that was definitely the end
+
+232
+00:16:13,000 --> 00:16:18,000
+of that round.
+So, it's I plus two because we
+
+233
+00:16:18,000 --> 00:16:24,000
+just looked at the eighth edge.
+And, I'll cheat and check.
+
+234
+00:16:24,000 --> 00:16:30,000
+Indeed, that is the last thing
+that happens.
+
+235
+00:16:30,000 --> 00:16:33,000
+We can check the couple of
+outgoing edges from d because
+
+236
+00:16:33,000 --> 00:16:36,000
+that's the only one whose value
+just changed.
+
+237
+00:16:36,000 --> 00:16:39,000
+And, there are no more
+relaxations possible.
+
+238
+00:16:39,000 --> 00:16:43,000
+So, that was in two rounds.
+The claim is we got all the
+
+239
+00:16:43,000 --> 00:16:47,000
+shortest path weights.
+The algorithm would actually
+
+240
+00:16:47,000 --> 00:16:51,000
+loop four times to guarantee
+correctness because we have five
+
+241
+00:16:51,000 --> 00:16:53,000
+vertices here and one less than
+that.
+
+242
+00:16:53,000 --> 00:16:56,000
+So, in fact,
+in the execution here there are
+
+243
+00:16:56,000 --> 00:16:59,000
+two more blank rounds at the
+bottom.
+
+244
+00:16:59,000 --> 00:17:03,000
+Nothing happens.
+But, what the hell?
+
+245
+00:17:03,000 --> 00:17:06,000
+OK, so that is Bellman-Ford.
+I mean, it's certainly not
+
+246
+00:17:06,000 --> 00:17:08,000
+doing anything wrong.
+The question is,
+
+247
+00:17:08,000 --> 00:17:11,000
+why is it guaranteed to
+converge in V minus one steps
+
+248
+00:17:11,000 --> 00:17:13,000
+unless there is a negative
+weight cycle?
+
+249
+00:17:13,000 --> 00:17:15,000
+Question?
+
+250
+00:17:15,000 --> 00:17:24,000
+
+
+251
+00:17:24,000 --> 00:17:25,000
+Right, so that's an
+optimization.
+
+252
+00:17:25,000 --> 00:17:28,000
+If you discover a whole round,
+and nothing happens,
+
+253
+00:17:28,000 --> 00:17:31,000
+so you can keep track of that
+in the algorithm thing,
+
+254
+00:17:31,000 --> 00:17:33,000
+you can stop.
+In the worst case,
+
+255
+00:17:33,000 --> 00:17:35,000
+it won't make a difference.
+But in practice,
+
+256
+00:17:35,000 --> 00:17:37,000
+you probably want to do that.
+Yeah?
+
+257
+00:17:37,000 --> 00:17:40,000
+Good question.
+All right, so some simple
+
+258
+00:17:40,000 --> 00:17:42,000
+observations,
+I mean, we're only doing
+
+259
+00:17:42,000 --> 00:17:44,000
+relaxation.
+So, we can use a lot of our
+
+260
+00:17:44,000 --> 00:17:46,000
+analysis from before.
+In particular,
+
+261
+00:17:46,000 --> 00:17:49,000
+the d values are only
+decreasing monotonically.
+
+262
+00:17:49,000 --> 00:17:51,000
+As we cross out values here,
+we are always making it
+
+263
+00:17:51,000 --> 00:17:54,000
+smaller, which is good.
+Another nifty thing about this
+
+264
+00:17:54,000 --> 00:18:00,000
+algorithm is that you can run it
+even in a distributed system.
+
+265
+00:18:00,000 --> 00:18:02,000
+If this is some actual network,
+some computer network,
+
+266
+00:18:02,000 --> 00:18:05,000
+and these are machines,
+and they're communicating by
+
+267
+00:18:05,000 --> 00:18:07,000
+these links, I mean,
+it's a purely local thing.
+
+268
+00:18:07,000 --> 00:18:09,000
+Relaxation is a local thing.
+You don't need any global
+
+269
+00:18:09,000 --> 00:18:12,000
+strategy, and you're asking
+about, can we do a different
+
+270
+00:18:12,000 --> 00:18:15,000
+order in each step?
+Well, yeah, you could just keep
+
+271
+00:18:15,000 --> 00:18:16,000
+relaxing edges,
+and keep relaxing edges,
+
+272
+00:18:16,000 --> 00:18:19,000
+and just keep going for the
+entire lifetime of the network.
+
+273
+00:18:19,000 --> 00:18:21,000
+And eventually,
+you will find shortest paths.
+
+274
+00:18:21,000 --> 00:18:24,000
+So, this algorithm is
+guaranteed to finish in V rounds
+
+275
+00:18:24,000 --> 00:18:27,000
+in a distributed system.
+It might be more asynchronous.
+
+276
+00:18:27,000 --> 00:18:30,000
+And, it's a little harder to
+analyze.
+
+277
+00:18:30,000 --> 00:18:34,000
+But it will still work
+eventually.
+
+278
+00:18:34,000 --> 00:18:41,000
+It's guaranteed to converge.
+And so, Bellman-Ford is used in
+
+279
+00:18:41,000 --> 00:18:46,000
+the Internet for finding
+shortest paths.
+
+280
+00:18:46,000 --> 00:18:51,000
+OK, so let's finally prove that
+it works.
+
+281
+00:18:51,000 --> 00:18:56,000
+This should only take a couple
+of boards.
+
+282
+00:18:56,000 --> 00:19:03,000
+So let's suppose we have a
+graph and some edge weights that
+
+283
+00:19:03,000 --> 00:19:13,000
+have no negative weight cycles.
+Then the claim is that we
+
+284
+00:19:13,000 --> 00:19:19,000
+terminate with the correct
+answer.
+
+285
+00:19:19,000 --> 00:19:29,000
+So, Bellman-Ford terminates
+with all of these d of v values
+
+286
+00:19:29,000 --> 00:19:38,000
+set to the delta values for
+every vertex.
+
+287
+00:19:38,000 --> 00:19:42,000
+OK, the proof is going to be
+pretty immediate using the
+
+288
+00:19:42,000 --> 00:19:45,000
+lemmas that we had from before
+if you remember them.
+
+289
+00:19:45,000 --> 00:19:50,000
+So, we're just going to look at
+every vertex separately.
+
+290
+00:19:50,000 --> 00:19:54,000
+So, I'll call the vertex v.
+The claim is that this holds by
+
+291
+00:19:54,000 --> 00:19:58,000
+the end of the algorithm.
+So, remember what we need to
+
+292
+00:19:58,000 --> 00:20:02,000
+prove is that at some point,
+d of v equals delta of s comma
+
+293
+00:20:02,000 --> 00:20:06,000
+v because we know it decreases
+monotonically,
+
+294
+00:20:06,000 --> 00:20:10,000
+and we know that it never gets
+any smaller than the correct
+
+295
+00:20:10,000 --> 00:20:15,000
+value because relaxations are
+always safe.
+
+296
+00:20:15,000 --> 00:20:24,000
+So, we just need to show at
+some point this holds,
+
+297
+00:20:24,000 --> 00:20:32,000
+and that it will hold at the
+end.
+
+298
+00:20:32,000 --> 00:20:41,000
+So, by monotonicity of the d
+values, and by correctness part
+
+299
+00:20:41,000 --> 00:20:51,000
+one, which was that the d of v's
+are always greater than or equal
+
+300
+00:20:51,000 --> 00:20:58,000
+to the deltas,
+we only need to show that at
+
+301
+00:20:58,000 --> 00:21:04,000
+some point we have equality.
+
+302
+00:21:04,000 --> 00:21:18,000
+
+
+303
+00:21:18,000 --> 00:21:21,000
+So that's our goal.
+So what we're going to do is
+
+304
+00:21:21,000 --> 00:21:24,000
+just look at v,
+and the shortest path to v,
+
+305
+00:21:24,000 --> 00:21:30,000
+and see what happens to the
+algorithm relative to that path.
+
+306
+00:21:30,000 --> 00:21:35,000
+So, I'm going to name the path.
+Let's call it p.
+
+307
+00:21:35,000 --> 00:21:40,000
+It starts at vertex v_0 and
+goes to v_1, v_2,
+
+308
+00:21:40,000 --> 00:21:46,000
+whatever, and ends at v_k.
+And, this is not just any
+
+309
+00:21:46,000 --> 00:21:51,000
+shortest path,
+but it's one that starts at s.
+
+310
+00:21:51,000 --> 00:21:54,000
+So, v_0's s,
+and it ends at v.
+
+311
+00:21:54,000 --> 00:22:01,000
+So, I'm going to give a couple
+of names to s and v so I can
+
+312
+00:22:01,000 --> 00:22:04,000
+talk about the path more
+uniformly.
+
+313
+00:22:04,000 --> 00:22:11,000
+So, this is a shortest path
+from s to v.
+
+314
+00:22:11,000 --> 00:22:15,000
+Now, I also want it to be not
+just any shortest path from s to
+
+315
+00:22:15,000 --> 00:22:20,000
+v, but among all shortest paths
+from s to v I want it to be one
+
+316
+00:22:20,000 --> 00:22:23,000
+with the fewest possible edges.
+
+317
+00:22:23,000 --> 00:22:32,000
+
+
+318
+00:22:32,000 --> 00:22:36,000
+OK, so shortest here means in
+terms of the total weight of the
+
+319
+00:22:36,000 --> 00:22:38,000
+path.
+Subject to being shortest in
+
+320
+00:22:38,000 --> 00:22:42,000
+weight, I wanted to also be
+shortest in the number of edges.
+
+321
+00:22:42,000 --> 00:22:46,000
+And, the reason I want that is
+to be able to conclude that p is
+
+322
+00:22:46,000 --> 00:22:50,000
+a simple path,
+meaning that it doesn't repeat
+
+323
+00:22:50,000 --> 00:22:52,000
+any vertices.
+Now, can anyone tell me why I
+
+324
+00:22:52,000 --> 00:22:56,000
+need to assume that the number
+of edges is the smallest
+
+325
+00:22:56,000 --> 00:23:01,000
+possible in order to guarantee
+that p is simple?
+
+326
+00:23:01,000 --> 00:23:04,000
+The claim is that not all
+shortest paths are necessarily
+
+327
+00:23:04,000 --> 00:23:05,000
+simple.
+Yeah?
+
+328
+00:23:05,000 --> 00:23:07,000
+Right, I can have a zero weight
+cycle, exactly.
+
+329
+00:23:07,000 --> 00:23:10,000
+So, we are hoping,
+I mean, in fact in the theorem
+
+330
+00:23:10,000 --> 00:23:14,000
+here, we're assuming that there
+are no negative weight cycles.
+
+331
+00:23:14,000 --> 00:23:17,000
+But there might be zero weight
+cycles still.
+
+332
+00:23:17,000 --> 00:23:20,000
+As a zero weight cycle,
+you can put that in the middle
+
+333
+00:23:20,000 --> 00:23:23,000
+of any shortest path to make it
+arbitrarily long,
+
+334
+00:23:23,000 --> 00:23:26,000
+repeat vertices over and over.
+That's going to be annoying.
+
+335
+00:23:26,000 --> 00:23:30,000
+What I want is that p is
+simple.
+
+336
+00:23:30,000 --> 00:23:33,000
+And, I can guarantee that
+essentially by shortcutting.
+
+337
+00:23:33,000 --> 00:23:36,000
+If ever I take a zero weight
+cycle, I throw it away.
+
+338
+00:23:36,000 --> 00:23:39,000
+And this is one mathematical
+way of doing that.
+
+339
+00:23:39,000 --> 00:23:43,000
+OK, now what else do we know
+about this shortest path?
+
+340
+00:23:43,000 --> 00:23:47,000
+Well, we know that subpaths are
+shortest paths are shortest
+
+341
+00:23:47,000 --> 00:23:49,000
+paths.
+That's optimal substructure.
+
+342
+00:23:49,000 --> 00:23:53,000
+So, we know what the shortest
+path from s to v_i is sort of
+
+343
+00:23:53,000 --> 00:23:55,000
+inductively.
+It's the shortest path,
+
+344
+00:23:55,000 --> 00:23:58,000
+I mean, it's the weight of that
+path, which is,
+
+345
+00:23:58,000 --> 00:24:01,000
+in particular,
+the shortest path from s to v
+
+346
+00:24:01,000 --> 00:24:07,000
+minus one plus the weight of the
+last edge, v minus one to v_i.
+
+347
+00:24:07,000 --> 00:24:17,000
+So, this is by optimal
+substructure as we proved last
+
+348
+00:24:17,000 --> 00:24:23,000
+time.
+OK, and I think that's pretty
+
+349
+00:24:23,000 --> 00:24:30,000
+much the warm-up.
+So, I want to sort of do this
+
+350
+00:24:30,000 --> 00:24:33,000
+inductively in I,
+start out with v zero,
+
+351
+00:24:33,000 --> 00:24:37,000
+and go up to v_k.
+So, the first question is,
+
+352
+00:24:37,000 --> 00:24:40,000
+what is d of v_0,
+which is s?
+
+353
+00:24:40,000 --> 00:24:44,000
+What is d of the source?
+Well, certainly at the
+
+354
+00:24:44,000 --> 00:24:47,000
+beginning of the algorithm,
+it's zero.
+
+355
+00:24:47,000 --> 00:24:52,000
+So, let's say equals zero
+initially because that's what we
+
+356
+00:24:52,000 --> 00:24:55,000
+set it to.
+And it only goes down from
+
+357
+00:24:55,000 --> 00:24:57,000
+there.
+So, it certainly,
+
+358
+00:24:57,000 --> 00:25:01,000
+at most, zero.
+The real question is,
+
+359
+00:25:01,000 --> 00:25:06,000
+what is delta of s comma v_0.
+What is the shortest path
+
+360
+00:25:06,000 --> 00:25:09,000
+weight from s to s?
+It has to be zero,
+
+361
+00:25:09,000 --> 00:25:13,000
+otherwise you have a negative
+weight cycle,
+
+362
+00:25:13,000 --> 00:25:15,000
+exactly.
+My favorite answer,
+
+363
+00:25:15,000 --> 00:25:19,000
+zero.
+So, if we had another path from
+
+364
+00:25:19,000 --> 00:25:21,000
+s to s, I mean,
+that is a cycle.
+
+365
+00:25:21,000 --> 00:25:26,000
+So, it's got to be zero.
+So, these are actually equal at
+
+366
+00:25:26,000 --> 00:25:32,000
+the beginning of the algorithm,
+which is great.
+
+367
+00:25:32,000 --> 00:25:37,000
+That means they will be for all
+time because we just argued up
+
+368
+00:25:37,000 --> 00:25:41,000
+here, only goes down,
+never can get too small.
+
+369
+00:25:41,000 --> 00:25:45,000
+So, we have d of v_0 set to the
+right thing.
+
+370
+00:25:45,000 --> 00:25:49,000
+Great: good for the base case
+of the induction.
+
+371
+00:25:49,000 --> 00:25:53,000
+Of course, what we really care
+about is v_k,
+
+372
+00:25:53,000 --> 00:25:56,000
+which is v.
+So, let's talk about the v_i
+
+373
+00:25:56,000 --> 00:26:02,000
+inductively, and then we will
+get v_k as a result.
+
+374
+00:26:02,000 --> 00:26:11,000
+
+
+375
+00:26:11,000 --> 00:26:14,000
+So, yeah, let's do it by
+induction.
+
+376
+00:26:14,000 --> 00:26:16,000
+That's more fun.
+
+377
+00:26:16,000 --> 00:26:27,000
+
+
+378
+00:26:27,000 --> 00:26:32,000
+Let's say that d of v_i is
+equal to delta of s v_i after I
+
+379
+00:26:32,000 --> 00:26:38,000
+rounds of the algorithm.
+So, this is actually referring
+
+380
+00:26:38,000 --> 00:26:42,000
+to the I that is in the
+algorithm here.
+
+381
+00:26:42,000 --> 00:26:46,000
+These are rounds.
+So, one round is an entire
+
+382
+00:26:46,000 --> 00:26:52,000
+execution of all the edges,
+relaxation of all the edges.
+
+383
+00:26:52,000 --> 00:26:56,000
+So, this is certainly true for
+I equals zero.
+
+384
+00:26:56,000 --> 00:27:00,000
+We just proved that.
+After zero rounds,
+
+385
+00:27:00,000 --> 00:27:06,000
+at the beginning of the
+algorithm, d of v_0 equals delta
+
+386
+00:27:06,000 --> 00:27:11,000
+of s, v_0.
+OK, so now, that's not really
+
+387
+00:27:11,000 --> 00:27:13,000
+what I wanted,
+but OK, fine.
+
+388
+00:27:13,000 --> 00:27:16,000
+Now we'll prove it for d of v_i
+plus one.
+
+389
+00:27:16,000 --> 00:27:20,000
+Generally, I recommend you
+assume something.
+
+390
+00:27:20,000 --> 00:27:24,000
+In fact, why don't I follow my
+own advice and change it?
+
+391
+00:27:24,000 --> 00:27:29,000
+It's usually nicer to think of
+induction as recursion.
+
+392
+00:27:29,000 --> 00:27:32,000
+So, you assume that this is
+true, let's say,
+
+393
+00:27:32,000 --> 00:27:37,000
+for j less than the i that you
+care about, and then you prove
+
+394
+00:27:37,000 --> 00:27:42,000
+it for d of v_i.
+It's usually a lot easier to
+
+395
+00:27:42,000 --> 00:27:44,000
+think about it that way.
+In particular,
+
+396
+00:27:44,000 --> 00:27:48,000
+you can use strong induction
+for all less than i.
+
+397
+00:27:48,000 --> 00:27:51,000
+Here, we're only going to need
+it for one less.
+
+398
+00:27:51,000 --> 00:27:56,000
+We have some relation between I
+and I minus one here in terms of
+
+399
+00:27:56,000 --> 00:27:59,000
+the deltas.
+And so, we want to argue
+
+400
+00:27:59,000 --> 00:28:05,000
+something about the d values.
+OK, well, let's think about
+
+401
+00:28:05,000 --> 00:28:08,000
+what's going on here.
+We know that,
+
+402
+00:28:08,000 --> 00:28:15,000
+let's say, after I minus one
+rounds, we have this inductive
+
+403
+00:28:15,000 --> 00:28:22,000
+hypothesis, d of v_i minus one
+equals delta of s v_i minus one.
+
+404
+00:28:22,000 --> 00:28:27,000
+And, we want to conclude that
+after i rounds,
+
+405
+00:28:27,000 --> 00:28:31,000
+so we have one more round to do
+this.
+
+406
+00:28:31,000 --> 00:28:38,000
+We want to conclude that d of
+v_i has the right answer,
+
+407
+00:28:38,000 --> 00:28:44,000
+delta of s comma v_i.
+Does that look familiar at all?
+
+408
+00:28:44,000 --> 00:28:47,000
+So we want to relax every edge
+in this round.
+
+409
+00:28:47,000 --> 00:28:49,000
+In particular,
+at some point,
+
+410
+00:28:49,000 --> 00:28:53,000
+we have to relax the edge from
+v_i minus one to v_i.
+
+411
+00:28:53,000 --> 00:28:56,000
+We know that this path consists
+of edges.
+
+412
+00:28:56,000 --> 00:29:00,000
+That's the definition of a
+path.
+
+413
+00:29:00,000 --> 00:29:10,000
+So, during the i'th round,
+we relax every edge.
+
+414
+00:29:10,000 --> 00:29:18,000
+So, we better relax v_i minus
+one v_i.
+
+415
+00:29:18,000 --> 00:29:30,000
+And, what happens then?
+It's a test of memory.
+
+416
+00:29:30,000 --> 00:29:43,000
+
+
+417
+00:29:43,000 --> 00:29:46,000
+Quick, the Death Star is
+approaching.
+
+418
+00:29:46,000 --> 00:29:51,000
+So, if we have the correct
+value for v_i minus one,
+
+419
+00:29:51,000 --> 00:29:57,000
+that we relax an outgoing edge
+from there, and that edge is an
+
+420
+00:29:57,000 --> 00:30:01,000
+edge of the shortest path from s
+to v_i.
+
+421
+00:30:01,000 --> 00:30:07,000
+What do we know?
+d of v_i becomes the correct
+
+422
+00:30:07,000 --> 00:30:13,000
+value, delta of s comma v_i.
+This was called correctness
+
+423
+00:30:13,000 --> 00:30:18,000
+lemma last time.
+One of the things we proved
+
+424
+00:30:18,000 --> 00:30:24,000
+about Dijkstra's algorithm,
+but it was really just a fact
+
+425
+00:30:24,000 --> 00:30:29,000
+about relaxation.
+And it was a pretty simple
+
+426
+00:30:29,000 --> 00:30:32,000
+proof.
+And it comes from this fact.
+
+427
+00:30:32,000 --> 00:30:35,000
+We know the shortest path
+weight is this.
+
+428
+00:30:35,000 --> 00:30:38,000
+So, certainly d of v_i was at
+least this big,
+
+429
+00:30:38,000 --> 00:30:42,000
+and let's suppose it's greater,
+or otherwise we were done.
+
+430
+00:30:42,000 --> 00:30:44,000
+We know d of v_i minus one is
+set to this.
+
+431
+00:30:44,000 --> 00:30:48,000
+And so, this is exactly the
+condition that's being checked
+
+432
+00:30:48,000 --> 00:30:52,000
+in the relaxation step.
+And, the d of v_i value will be
+
+433
+00:30:52,000 --> 00:30:54,000
+greater than this,
+let's suppose.
+
+434
+00:30:54,000 --> 00:30:56,000
+And then, we'll set it equal to
+this.
+
+435
+00:30:56,000 --> 00:31:01,000
+And that's exactly d of s v_i.
+So, when we relax that edge,
+
+436
+00:31:01,000 --> 00:31:04,000
+we've got to set it to the
+right value.
+
+437
+00:31:04,000 --> 00:31:06,000
+So, this is the end of the
+proof, right?
+
+438
+00:31:06,000 --> 00:31:08,000
+It's very simple.
+The point is,
+
+439
+00:31:08,000 --> 00:31:11,000
+you look at your shortest path.
+Here it is.
+
+440
+00:31:11,000 --> 00:31:14,000
+And if we assume there's no
+negative weight cycles,
+
+441
+00:31:14,000 --> 00:31:17,000
+this has the correct value
+initially.
+
+442
+00:31:17,000 --> 00:31:20,000
+d of s is going to be zero.
+After the first round,
+
+443
+00:31:20,000 --> 00:31:23,000
+you've got to relax this edge.
+And then you get the right
+
+444
+00:31:23,000 --> 00:31:26,000
+value for that vertex.
+After the second round,
+
+445
+00:31:26,000 --> 00:31:30,000
+you've got to relax this edge,
+which gets you the right d
+
+446
+00:31:30,000 --> 00:31:36,000
+value for this vertex and so on.
+And so, no matter which
+
+447
+00:31:36,000 --> 00:31:40,000
+shortest path you take,
+you can apply this analysis.
+
+448
+00:31:40,000 --> 00:31:44,000
+And you know that by,
+if the length of this path,
+
+449
+00:31:44,000 --> 00:31:50,000
+here we assumed it was k edges,
+then after k rounds you've got
+
+450
+00:31:50,000 --> 00:31:53,000
+to be done.
+OK, so this was not actually
+
+451
+00:31:53,000 --> 00:31:57,000
+the end of the proof.
+Sorry.
+
+452
+00:31:57,000 --> 00:32:03,000
+So this means after k rounds,
+we have the right answer for
+
+453
+00:32:03,000 --> 00:32:08,000
+v_k, which is v.
+So, the only question is how
+
+454
+00:32:08,000 --> 00:32:12,000
+big could k be?
+And, it better be the right
+
+455
+00:32:12,000 --> 00:32:18,000
+answer, at most,
+v minus one is the claim by the
+
+456
+00:32:18,000 --> 00:32:24,000
+algorithm that you only need to
+do v minus one steps.
+
+457
+00:32:24,000 --> 00:32:30,000
+And indeed, the number of edges
+in a simple path in a graph is,
+
+458
+00:32:30,000 --> 00:32:37,000
+at most, the number of vertices
+minus one.
+
+459
+00:32:37,000 --> 00:32:40,000
+k is, at most,
+v minus one because p is
+
+460
+00:32:40,000 --> 00:32:43,000
+simple.
+So, that's why we had to assume
+
+461
+00:32:43,000 --> 00:32:47,000
+that it wasn't just any shortest
+path.
+
+462
+00:32:47,000 --> 00:32:52,000
+It had to be a simple one so it
+didn't repeat any vertices.
+
+463
+00:32:52,000 --> 00:32:55,000
+So there are,
+at most, V vertices in the
+
+464
+00:32:55,000 --> 00:33:01,000
+path, so at most,
+V minus one edges in the path.
+
+465
+00:33:01,000 --> 00:33:05,000
+OK, and that's all there is to
+Bellman-Ford.
+
+466
+00:33:05,000 --> 00:33:08,000
+So: pretty simple in
+correctness.
+
+467
+00:33:08,000 --> 00:33:15,000
+Of course, we're using a lot of
+the lemmas that we proved last
+
+468
+00:33:15,000 --> 00:33:21,000
+time, which makes it easier.
+OK, a consequence of this
+
+469
+00:33:21,000 --> 00:33:27,000
+theorem, or of this proof is
+that if Bellman-Ford fails to
+
+470
+00:33:27,000 --> 00:33:33,000
+converge, and that's what the
+algorithm is checking is whether
+
+471
+00:33:33,000 --> 00:33:39,000
+this relaxation still requires
+work after these d minus one
+
+472
+00:33:39,000 --> 00:33:44,000
+steps.
+Right, the end of this
+
+473
+00:33:44,000 --> 00:33:48,000
+algorithm is run another round,
+a V'th round,
+
+474
+00:33:48,000 --> 00:33:53,000
+see whether anything changes.
+So, we'll say that the
+
+475
+00:33:53,000 --> 00:33:58,000
+algorithm fails to converge
+after V minus one steps or
+
+476
+00:33:58,000 --> 00:34:01,000
+rounds.
+Then, there has to be a
+
+477
+00:34:01,000 --> 00:34:04,000
+negative weight cycle.
+OK, this is just a
+
+478
+00:34:04,000 --> 00:34:06,000
+contrapositive of what we
+proved.
+
+479
+00:34:06,000 --> 00:34:10,000
+We proved that if you assume
+there's no negative weight
+
+480
+00:34:10,000 --> 00:34:14,000
+cycle, then we know that d of s
+is zero, and then all this
+
+481
+00:34:14,000 --> 00:34:18,000
+argument says is you've got to
+converge after v minus one
+
+482
+00:34:18,000 --> 00:34:21,000
+rounds.
+There can't be anything left to
+
+483
+00:34:21,000 --> 00:34:24,000
+do once you've reached the
+shortest path weights because
+
+484
+00:34:24,000 --> 00:34:30,000
+you're going monotonically;
+you can never hit the bottom.
+
+485
+00:34:30,000 --> 00:34:33,000
+You can never go to the floor.
+So, if you fail to converge
+
+486
+00:34:33,000 --> 00:34:37,000
+somehow after V minus one
+rounds, you've got to have
+
+487
+00:34:37,000 --> 00:34:40,000
+violated the assumption.
+The only assumption we made was
+
+488
+00:34:40,000 --> 00:34:42,000
+there's no negative weight
+cycle.
+
+489
+00:34:42,000 --> 00:34:45,000
+So, this tells us that
+Bellman-Ford is actually
+
+490
+00:34:45,000 --> 00:34:48,000
+correct.
+When it says that there is a
+
+491
+00:34:48,000 --> 00:34:51,000
+negative weight cycle,
+it indeed means it.
+
+492
+00:34:51,000 --> 00:34:53,000
+It's true.
+OK, and you can modify
+
+493
+00:34:53,000 --> 00:34:56,000
+Bellman-Ford in that case to
+sort of run a little longer,
+
+494
+00:34:56,000 --> 00:35:01,000
+and find where all the minus
+infinities are.
+
+495
+00:35:01,000 --> 00:35:02,000
+And that is,
+in some sense,
+
+496
+00:35:02,000 --> 00:35:05,000
+one of the things you have to
+do in your problem set,
+
+497
+00:35:05,000 --> 00:35:08,000
+I believe.
+So, I won't cover it here.
+
+498
+00:35:08,000 --> 00:35:11,000
+But, it's a good exercise in
+any case to figure out how you
+
+499
+00:35:11,000 --> 00:35:14,000
+would find where the minus
+infinities are.
+
+500
+00:35:14,000 --> 00:35:18,000
+What are all the vertices
+reachable from negative weight
+
+501
+00:35:18,000 --> 00:35:20,000
+cycle?
+Those are the ones that have
+
+502
+00:35:20,000 --> 00:35:22,000
+minus infinities.
+OK, so you might say,
+
+503
+00:35:22,000 --> 00:35:26,000
+well, that was awfully fast.
+Actually, it's not over yet.
+
+504
+00:35:26,000 --> 00:35:29,000
+The episode is not yet ended.
+We're going to use Bellman-Ford
+
+505
+00:35:29,000 --> 00:35:35,000
+to solve the even bigger and
+greater shortest path problems.
+
+506
+00:35:35,000 --> 00:35:39,000
+And in the remainder of today's
+lecture, we will see it applied
+
+507
+00:35:39,000 --> 00:35:42,000
+to a more general problem,
+in some sense,
+
+508
+00:35:42,000 --> 00:35:45,000
+called linear programming.
+And the next lecture,
+
+509
+00:35:45,000 --> 00:35:49,000
+we'll really use it to do some
+amazing stuff with all pairs
+
+510
+00:35:49,000 --> 00:35:52,000
+shortest paths.
+Let's go over here.
+
+511
+00:35:52,000 --> 00:35:55,000
+So, our goal,
+although it won't be obvious
+
+512
+00:35:55,000 --> 00:35:59,000
+today, is to be able to compute
+the shortest paths between every
+
+513
+00:35:59,000 --> 00:36:03,000
+pair of vertices,
+which we could certainly do at
+
+514
+00:36:03,000 --> 00:36:08,000
+this point just by running
+Bellman-Ford v times.
+
+515
+00:36:08,000 --> 00:36:15,000
+OK, but we want to do better
+than that, of course.
+
+516
+00:36:15,000 --> 00:36:21,000
+And, that will be the climax of
+the trilogy.
+
+517
+00:36:21,000 --> 00:36:30,000
+OK, today we just discovered
+who Luke's father is.
+
+518
+00:36:30,000 --> 00:36:37,000
+So, it turns out the father of
+shortest paths is linear
+
+519
+00:36:37,000 --> 00:36:42,000
+programming.
+Actually, simultaneously the
+
+520
+00:36:42,000 --> 00:36:50,000
+father and the mother because
+programs do not have gender.
+
+521
+00:36:50,000 --> 00:36:57,000
+OK, my father likes to say,
+we both took improv comedy
+
+522
+00:36:57,000 --> 00:37:05,000
+lessons so we have degrees in
+improvisation.
+
+523
+00:37:05,000 --> 00:37:07,000
+And he said,
+you know, we went to improv
+
+524
+00:37:07,000 --> 00:37:10,000
+classes in order to learn how to
+make our humor better.
+
+525
+00:37:10,000 --> 00:37:13,000
+And, the problem is,
+it didn't actually make our
+
+526
+00:37:13,000 --> 00:37:16,000
+humor better.
+It just made us less afraid to
+
+527
+00:37:16,000 --> 00:37:17,000
+use it.
+[LAUGHTER] So,
+
+528
+00:37:17,000 --> 00:37:20,000
+you are subjected to all this
+improv humor.
+
+529
+00:37:20,000 --> 00:37:22,000
+I didn't see the connection of
+Luke's father,
+
+530
+00:37:22,000 --> 00:37:25,000
+but there you go.
+OK, so, linear programming is a
+
+531
+00:37:25,000 --> 00:37:29,000
+very general problem,
+a very big tool.
+
+532
+00:37:29,000 --> 00:37:32,000
+Has anyone seen linear
+programming before?
+
+533
+00:37:32,000 --> 00:37:36,000
+OK, one person.
+And, I'm sure you will,
+
+534
+00:37:36,000 --> 00:37:40,000
+at some time in your life,
+do anything vaguely computing
+
+535
+00:37:40,000 --> 00:37:45,000
+optimization related,
+linear programming comes up at
+
+536
+00:37:45,000 --> 00:37:48,000
+some point.
+It's a very useful tool.
+
+537
+00:37:48,000 --> 00:37:53,000
+You're given a matrix and two
+vectors: not too exciting yet.
+
+538
+00:37:53,000 --> 00:37:57,000
+What you want to do is find a
+vector.
+
+539
+00:37:57,000 --> 00:38:02,000
+This is a very dry description.
+We'll see what makes it so
+
+540
+00:38:02,000 --> 00:38:04,000
+interesting in a moment.
+
+541
+00:38:04,000 --> 00:38:17,000
+
+
+542
+00:38:17,000 --> 00:38:21,000
+So, you want to maximize some
+objective, and you have some
+
+543
+00:38:21,000 --> 00:38:24,000
+constraints.
+And they're all linear.
+
+544
+00:38:24,000 --> 00:38:28,000
+So, the objective is a linear
+function in the variables x,
+
+545
+00:38:28,000 --> 00:38:32,000
+and your constraints are a
+bunch of linear constraints,
+
+546
+00:38:32,000 --> 00:38:36,000
+inequality constraints,
+that's one makes an
+
+547
+00:38:36,000 --> 00:38:39,000
+interesting.
+It's not just solving a linear
+
+548
+00:38:39,000 --> 00:38:43,000
+system as you've seen in linear
+algebra, or whatever.
+
+549
+00:38:43,000 --> 00:38:46,000
+Or, of course,
+it could be that there is no
+
+550
+00:38:46,000 --> 00:38:49,000
+such x.
+OK: vaguely familiar you might
+
+551
+00:38:49,000 --> 00:38:52,000
+think to the theorem about
+Bellman-Ford.
+
+552
+00:38:52,000 --> 00:38:56,000
+And, we'll show that there's
+some kind of connection here
+
+553
+00:38:56,000 --> 00:39:01,000
+that either you want to find
+something, or show that it
+
+554
+00:39:01,000 --> 00:39:06,000
+doesn't exist.
+Well, that's still a pretty
+
+555
+00:39:06,000 --> 00:39:09,000
+vague connection,
+but I also want to maximize
+
+556
+00:39:09,000 --> 00:39:13,000
+something, or are sort of
+minimize the shortest paths,
+
+557
+00:39:13,000 --> 00:39:17,000
+OK, somewhat similar.
+We have these constraints.
+
+558
+00:39:17,000 --> 00:39:19,000
+So, yeah.
+This may be intuitive to you,
+
+559
+00:39:19,000 --> 00:39:22,000
+I don't know.
+I prefer a more geometric
+
+560
+00:39:22,000 --> 00:39:27,000
+picture, and I will try to draw
+such a geometric picture,
+
+561
+00:39:27,000 --> 00:39:30,000
+and I've never tried to do this
+on a blackboard,
+
+562
+00:39:30,000 --> 00:39:36,000
+so it should be interesting.
+I think I'm going to fail
+
+563
+00:39:36,000 --> 00:39:39,000
+miserably.
+It sort of looks like a
+
+564
+00:39:39,000 --> 00:39:41,000
+dodecahedron,
+right?
+
+565
+00:39:41,000 --> 00:39:44,000
+Sort of, kind of,
+not really.
+
+566
+00:39:44,000 --> 00:39:47,000
+A bit rough on the bottom,
+OK.
+
+567
+00:39:47,000 --> 00:39:51,000
+So, if you have a bunch of
+linear constraints,
+
+568
+00:39:51,000 --> 00:39:56,000
+this is supposed to be in 3-D.
+Now I labeled it.
+
+569
+00:39:56,000 --> 00:40:00,000
+It's now in 3-D.
+Good.
+
+570
+00:40:00,000 --> 00:40:02,000
+So, you have these linear
+constraints.
+
+571
+00:40:02,000 --> 00:40:06,000
+That turns out to define
+hyperplanes in n dimensions.
+
+572
+00:40:06,000 --> 00:40:11,000
+OK, so you have this base here
+that's three-dimensional space.
+
+573
+00:40:11,000 --> 00:40:14,000
+So, n equals three.
+And, these hyperplanes,
+
+574
+00:40:14,000 --> 00:40:17,000
+if you're looking at one side
+of the hyperplane,
+
+575
+00:40:17,000 --> 00:40:21,000
+that's the less than or equal
+to, if you take the
+
+576
+00:40:21,000 --> 00:40:24,000
+intersection,
+you get some convex polytope or
+
+577
+00:40:24,000 --> 00:40:27,000
+polyhedron.
+In 3-D, you might get a
+
+578
+00:40:27,000 --> 00:40:29,000
+dodecahedron or whatever.
+And, your goal,
+
+579
+00:40:29,000 --> 00:40:33,000
+you have some objective vector
+c, let's say,
+
+580
+00:40:33,000 --> 00:40:37,000
+up.
+Suppose that's the c vector.
+
+581
+00:40:37,000 --> 00:40:42,000
+Your goal is to find the
+highest point in this polytope.
+
+582
+00:40:42,000 --> 00:40:47,000
+So here, it's maybe this one.
+OK, this is the target.
+
+583
+00:40:47,000 --> 00:40:49,000
+This is the optimal,
+x.
+
+584
+00:40:49,000 --> 00:40:54,000
+That is the geometric view.
+If you prefer the algebraic
+
+585
+00:40:54,000 --> 00:41:00,000
+view, you want to maximize the c
+transpose times x.
+
+586
+00:41:00,000 --> 00:41:01,000
+So, this is m.
+This is n.
+
+587
+00:41:01,000 --> 00:41:04,000
+Check out the dimensions work
+out.
+
+588
+00:41:04,000 --> 00:41:08,000
+So that's saying you want to
+maximize the dot product.
+
+589
+00:41:08,000 --> 00:41:13,000
+You want to maximize the extent
+to which x is in the direction
+
+590
+00:41:13,000 --> 00:41:16,000
+c.
+And, you want to maximize that
+
+591
+00:41:16,000 --> 00:41:20,000
+subject to some constraints,
+which looks something like
+
+592
+00:41:20,000 --> 00:41:22,000
+this, maybe.
+So, this is A,
+
+593
+00:41:22,000 --> 00:41:25,000
+and it's m by n.
+You want to multiply it by,
+
+594
+00:41:25,000 --> 00:41:30,000
+it should be something of
+height n.
+
+595
+00:41:30,000 --> 00:41:32,000
+That's x.
+Let me put x down here,
+
+596
+00:41:32,000 --> 00:41:36,000
+n by one.
+And, it should be less than or
+
+597
+00:41:36,000 --> 00:41:39,000
+equal to something of this
+height, which is B,
+
+598
+00:41:39,000 --> 00:41:44,000
+the right hand side.
+OK, that's the algebraic view,
+
+599
+00:41:44,000 --> 00:41:48,000
+which is to check out all the
+dimensions are working out.
+
+600
+00:41:48,000 --> 00:41:52,000
+But, you can read these off in
+each row here,
+
+601
+00:41:52,000 --> 00:41:57,000
+when multiplied by this column,
+gives you one value here.
+
+602
+00:41:57,000 --> 00:42:03,000
+And as just a linear
+constraints on all the x sides.
+
+603
+00:42:03,000 --> 00:42:08,000
+So, you want to maximize this
+linear function of x_1 up to x_n
+
+604
+00:42:08,000 --> 00:42:11,000
+subject to these constraints,
+OK?
+
+605
+00:42:11,000 --> 00:42:16,000
+Pretty simple,
+but pretty powerful in general.
+
+606
+00:42:16,000 --> 00:42:21,000
+So, it turns out that with,
+you can formulate a huge number
+
+607
+00:42:21,000 --> 00:42:26,000
+of problems such as shortest
+paths as a linear program.
+
+608
+00:42:26,000 --> 00:42:31,000
+So, it's a general tool.
+And in this class,
+
+609
+00:42:31,000 --> 00:42:37,000
+we will not cover any
+algorithms for solving linear
+
+610
+00:42:37,000 --> 00:42:40,000
+programming.
+It's a bit tricky.
+
+611
+00:42:40,000 --> 00:42:44,000
+I'll just mention that they are
+out there.
+
+612
+00:42:44,000 --> 00:42:50,000
+So, there's many efficient
+algorithms, and lots of code
+
+613
+00:42:50,000 --> 00:42:55,000
+that does this.
+It's a very practical setup.
+
+614
+00:42:55,000 --> 00:43:02,000
+So, lots of algorithms to solve
+LP's, linear programs.
+
+615
+00:43:02,000 --> 00:43:05,000
+Linear programming is usually
+called LP.
+
+616
+00:43:05,000 --> 00:43:08,000
+And, I'll mention a few of
+them.
+
+617
+00:43:08,000 --> 00:43:14,000
+There's the simplex algorithm.
+This is one of the first.
+
+618
+00:43:14,000 --> 00:43:18,000
+I think it is the first,
+the ellipsoid algorithm.
+
+619
+00:43:18,000 --> 00:43:24,000
+There's interior point methods,
+and there's random sampling.
+
+620
+00:43:24,000 --> 00:43:29,000
+I'll just say a little bit
+about each of these because
+
+621
+00:43:29,000 --> 00:43:36,000
+we're not going to talk about
+any of them in depth.
+
+622
+00:43:36,000 --> 00:43:38,000
+The simplex algorithm,
+this is, I mean,
+
+623
+00:43:38,000 --> 00:43:41,000
+one of the first algorithms in
+the world in some sense,
+
+624
+00:43:41,000 --> 00:43:43,000
+certainly one of the most
+popular.
+
+625
+00:43:43,000 --> 00:43:47,000
+It's still used today.
+Almost all linear programming
+
+626
+00:43:47,000 --> 00:43:50,000
+code uses the simplex algorithm.
+It happens to run an
+
+627
+00:43:50,000 --> 00:43:53,000
+exponential time in the
+worst-case, so it's actually
+
+628
+00:43:53,000 --> 00:43:56,000
+pretty bad theoretically.
+But in practice,
+
+629
+00:43:56,000 --> 00:43:59,000
+it works really well.
+And there is some recent work
+
+630
+00:43:59,000 --> 00:44:03,000
+that tries to understand this.
+It's still exponential in the
+
+631
+00:44:03,000 --> 00:44:06,000
+worst case.
+But, it's practical.
+
+632
+00:44:06,000 --> 00:44:10,000
+There's actually an open
+problem whether there exists a
+
+633
+00:44:10,000 --> 00:44:13,000
+variation of simplex that runs
+in polynomial time.
+
+634
+00:44:13,000 --> 00:44:17,000
+But, I won't go into that.
+That's a major open problem in
+
+635
+00:44:17,000 --> 00:44:22,000
+this area of linear programming.
+The ellipsoid algorithm was the
+
+636
+00:44:22,000 --> 00:44:26,000
+first algorithm to solve linear
+programming in polynomial time.
+
+637
+00:44:26,000 --> 00:44:30,000
+So, for a long time,
+people didn't know.
+
+638
+00:44:30,000 --> 00:44:32,000
+Around this time,
+people started realizing
+
+639
+00:44:32,000 --> 00:44:36,000
+polynomial time is a good thing.
+That happened around the late
+
+640
+00:44:36,000 --> 00:44:37,000
+60s.
+Polynomial time is good.
+
+641
+00:44:37,000 --> 00:44:41,000
+And, the ellipsoid algorithm is
+the first one to do it.
+
+642
+00:44:41,000 --> 00:44:44,000
+It's a very general algorithm,
+and very powerful,
+
+643
+00:44:44,000 --> 00:44:46,000
+theoretically:
+completely impractical.
+
+644
+00:44:46,000 --> 00:44:49,000
+But, it's cool.
+It lets you do things like you
+
+645
+00:44:49,000 --> 00:44:52,000
+can solve a linear program that
+has exponentially many
+
+646
+00:44:52,000 --> 00:44:56,000
+constraints in polynomial time.
+You've got all sorts of crazy
+
+647
+00:44:56,000 --> 00:44:57,000
+things.
+So, I'll just say it's
+
+648
+00:44:57,000 --> 00:45:01,000
+polynomial time.
+I can't say something nice
+
+649
+00:45:01,000 --> 00:45:04,000
+about it; don't say it at all.
+It's impractical.
+
+650
+00:45:04,000 --> 00:45:07,000
+Interior point methods are sort
+of the mixture.
+
+651
+00:45:07,000 --> 00:45:11,000
+They run in polynomial time.
+You can guarantee that.
+
+652
+00:45:11,000 --> 00:45:14,000
+And, they are also pretty
+practical, and there's sort of
+
+653
+00:45:14,000 --> 00:45:18,000
+this competition these days
+about whether simplex or
+
+654
+00:45:18,000 --> 00:45:21,000
+interior point is better.
+And, I don't know what it is
+
+655
+00:45:21,000 --> 00:45:24,000
+today but a few years ago they
+were neck and neck.
+
+656
+00:45:24,000 --> 00:45:27,000
+And, random sampling is a brand
+new approach.
+
+657
+00:45:27,000 --> 00:45:31,000
+This is just from a couple
+years ago by two MIT professors,
+
+658
+00:45:31,000 --> 00:45:35,000
+Dimitris Bertsimas and Santosh
+Vempala, I guess the other is in
+
+659
+00:45:35,000 --> 00:45:39,000
+applied math.
+So, just to show you,
+
+660
+00:45:39,000 --> 00:45:41,000
+there's active work in this
+area.
+
+661
+00:45:41,000 --> 00:45:44,000
+People are still finding new
+ways to solve linear programs.
+
+662
+00:45:44,000 --> 00:45:47,000
+This is completely randomized,
+and very simple,
+
+663
+00:45:47,000 --> 00:45:50,000
+and very general.
+It hasn't been implemented,
+
+664
+00:45:50,000 --> 00:45:52,000
+so we don't know how practical
+it is yet.
+
+665
+00:45:52,000 --> 00:45:54,000
+But, it has potential.
+OK: pretty neat.
+
+666
+00:45:54,000 --> 00:45:57,000
+OK, we're going to look at a
+somewhat simpler version of
+
+667
+00:45:57,000 --> 00:46:02,000
+linear programming.
+The first restriction we are
+
+668
+00:46:02,000 --> 00:46:05,000
+going to make is actually not
+much of a restriction.
+
+669
+00:46:05,000 --> 00:46:09,000
+But, nonetheless we will
+consider it, it's a little bit
+
+670
+00:46:09,000 --> 00:46:13,000
+easier to think about.
+So here, we had some polytope
+
+671
+00:46:13,000 --> 00:46:16,000
+we wanted to maximize some
+objective.
+
+672
+00:46:16,000 --> 00:46:19,000
+In a feasibility problem,
+I just want to know,
+
+673
+00:46:19,000 --> 00:46:23,000
+is the polytope empty?
+Can you find any point in that
+
+674
+00:46:23,000 --> 00:46:26,000
+polytope?
+Can you find any set of values,
+
+675
+00:46:26,000 --> 00:46:30,000
+x, that satisfy these
+constraints?
+
+676
+00:46:30,000 --> 00:46:34,000
+OK, so there's no objective.
+c, just find x such that AX is
+
+677
+00:46:34,000 --> 00:46:39,000
+less than or equal to B.
+OK, it turns out you can prove
+
+678
+00:46:39,000 --> 00:46:43,000
+a very general theorem that if
+you can solve linear
+
+679
+00:46:43,000 --> 00:46:47,000
+feasibility, you can also solve
+linear programming.
+
+680
+00:46:47,000 --> 00:46:52,000
+We won't prove that here,
+but this is actually no easier
+
+681
+00:46:52,000 --> 00:46:56,000
+than the original problem even
+though it feels easier,
+
+682
+00:46:56,000 --> 00:47:03,000
+and it's easier to think about.
+I was just saying actually no
+
+683
+00:47:03,000 --> 00:47:08,000
+easier than LP.
+OK, the next restriction we're
+
+684
+00:47:08,000 --> 00:47:11,000
+going to make is a real
+restriction.
+
+685
+00:47:11,000 --> 00:47:17,000
+And it simplifies the problem
+quite a bit.
+
+686
+00:47:17,000 --> 00:47:30,000
+
+
+687
+00:47:30,000 --> 00:47:35,000
+And that's to look at different
+constraints.
+
+688
+00:47:35,000 --> 00:47:40,000
+And, if all this seemed a bit
+abstract so far,
+
+689
+00:47:40,000 --> 00:47:45,000
+we will now ground ourselves
+little bit.
+
+690
+00:47:45,000 --> 00:47:51,000
+A system of different
+constraints is a linear
+
+691
+00:47:51,000 --> 00:47:57,000
+feasibility problem.
+So, it's an LP where there's no
+
+692
+00:47:57,000 --> 00:48:06,000
+objective.
+And, it's with a restriction,
+
+693
+00:48:06,000 --> 00:48:17,000
+so, where each row of the
+matrix, so, the matrix,
+
+694
+00:48:17,000 --> 00:48:26,000
+A, has one one,
+and it has one minus one,
+
+695
+00:48:26,000 --> 00:48:36,000
+and everything else in the row
+is zero.
+
+696
+00:48:36,000 --> 00:48:40,000
+OK, in other words,
+each constraint has its very
+
+697
+00:48:40,000 --> 00:48:45,000
+simple form.
+It involves two variables and
+
+698
+00:48:45,000 --> 00:48:49,000
+some number.
+So, we have something like x_j
+
+699
+00:48:49,000 --> 00:48:53,000
+minus x_i is less than or equal
+to w_ij.
+
+700
+00:48:53,000 --> 00:49:00,000
+So, this is just a number.
+These are two variables.
+
+701
+00:49:00,000 --> 00:49:02,000
+There's a minus sign,
+no values up here,
+
+702
+00:49:02,000 --> 00:49:06,000
+no coefficients,
+no other of the X_k's appear,
+
+703
+00:49:06,000 --> 00:49:09,000
+just two of them.
+And, you have a bunch of
+
+704
+00:49:09,000 --> 00:49:13,000
+constraints of this form,
+one per row of the matrix.
+
+705
+00:49:13,000 --> 00:49:16,000
+Geometrically,
+I haven't thought about what
+
+706
+00:49:16,000 --> 00:49:18,000
+this means.
+I think it means the
+
+707
+00:49:18,000 --> 00:49:22,000
+hyperplanes are pretty simple.
+Sorry I can't do better than
+
+708
+00:49:22,000 --> 00:49:25,000
+that.
+It's a little hard to see this
+
+709
+00:49:25,000 --> 00:49:30,000
+in high dimensions.
+But, it will start to
+
+710
+00:49:30,000 --> 00:49:38,000
+correspond to something we've
+seen, namely the board that its
+
+711
+00:49:38,000 --> 00:49:45,000
+next to, very shortly.
+OK, so let's do a very quick
+
+712
+00:49:45,000 --> 00:49:50,000
+example mainly to have something
+to point at.
+
+713
+00:49:50,000 --> 00:49:59,000
+Here's a very simple system of
+difference constraints --
+
+714
+00:49:59,000 --> 00:50:11,000
+
+
+715
+00:50:11,000 --> 00:50:13,000
+-- OK, and a solution.
+Why not?
+
+716
+00:50:13,000 --> 00:50:18,000
+It's not totally trivial to
+solve this, but here's a
+
+717
+00:50:18,000 --> 00:50:21,000
+solution.
+And the only thing to check is
+
+718
+00:50:21,000 --> 00:50:25,000
+that each of these constraints
+is satisfied.
+
+719
+00:50:25,000 --> 00:50:29,000
+x_1 minus x_2 is three,
+which is less than or equal to
+
+720
+00:50:29,000 --> 00:50:35,000
+three, and so on.
+There could be negative values.
+
+721
+00:50:35,000 --> 00:50:42,000
+There could be positive values.
+It doesn't matter.
+
+722
+00:50:42,000 --> 00:50:49,000
+I'd like to transform this
+system of difference constraints
+
+723
+00:50:49,000 --> 00:50:55,000
+into a graph because we know a
+lot about graphs.
+
+724
+00:50:55,000 --> 00:51:03,000
+So, we're going to call this
+the constraint graph.
+
+725
+00:51:03,000 --> 00:51:08,000
+And, it's going to represent
+these constraints.
+
+726
+00:51:08,000 --> 00:51:13,000
+How'd I do it?
+Well, I take every constraint,
+
+727
+00:51:13,000 --> 00:51:20,000
+which in general looks like
+this, and I convert it into an
+
+728
+00:51:20,000 --> 00:51:24,000
+edge.
+OK, so if I write it as x_j
+
+729
+00:51:24,000 --> 00:51:29,000
+minus x_i is less than or equal
+to some w_ij,
+
+730
+00:51:29,000 --> 00:51:36,000
+w seems suggestive of weights.
+That's exactly why I called it
+
+731
+00:51:36,000 --> 00:51:38,000
+w.
+I'm going to make that an edge
+
+732
+00:51:38,000 --> 00:51:41,000
+from v_i to v_j.
+So, the order flips a little
+
+733
+00:51:41,000 --> 00:51:44,000
+bit.
+And, the weight of that edge is
+
+734
+00:51:44,000 --> 00:51:46,000
+w_ij.
+So, just do that.
+
+735
+00:51:46,000 --> 00:51:49,000
+Make n vertices.
+So, you have the number of
+
+736
+00:51:49,000 --> 00:51:53,000
+vertices equals n.
+The number of edges equals the
+
+737
+00:51:53,000 --> 00:51:56,000
+number of constraints,
+which is m, the height of the
+
+738
+00:51:56,000 --> 00:52:01,000
+matrix, and just transform.
+So, for example,
+
+739
+00:52:01,000 --> 00:52:06,000
+here we have three variables.
+So, we have three vertices,
+
+740
+00:52:06,000 --> 00:52:09,000
+v_1, v_2, v_3.
+We have x_1 minus x_2.
+
+741
+00:52:09,000 --> 00:52:14,000
+So, we have an edge from v_2 to
+v_1 of weight three.
+
+742
+00:52:14,000 --> 00:52:18,000
+We have x_2 minus x_3.
+So, we have an edge from v_3 to
+
+743
+00:52:18,000 --> 00:52:23,000
+v_2 of weight minus two.
+And, we have x_1 minus x_3.
+
+744
+00:52:23,000 --> 00:52:27,000
+So, we have an edge from v_3 to
+v_1 of weight two.
+
+745
+00:52:27,000 --> 00:52:32,000
+I hope I got the directions
+right.
+
+746
+00:52:32,000 --> 00:52:34,000
+Yep.
+So, there it is,
+
+747
+00:52:34,000 --> 00:52:40,000
+a graph: currently no obvious
+connection to shortest paths,
+
+748
+00:52:40,000 --> 00:52:42,000
+right?
+But in fact,
+
+749
+00:52:42,000 --> 00:52:47,000
+this constraint is closely
+related to shortest paths.
+
+750
+00:52:47,000 --> 00:52:52,000
+So let me just rewrite it.
+You could say,
+
+751
+00:52:52,000 --> 00:52:59,000
+well, an x_j is less than or
+equal to x_i plus w_ij.
+
+752
+00:52:59,000 --> 00:53:03,000
+Or, you could think of it as
+d[j] less than or equal to d[i]
+
+753
+00:53:03,000 --> 00:53:07,000
+plus w_ij.
+This is a conceptual balloon.
+
+754
+00:53:07,000 --> 00:53:10,000
+Look awfully familiar?
+A lot like the triangle
+
+755
+00:53:10,000 --> 00:53:13,000
+inequality, a lot like
+relaxation.
+
+756
+00:53:13,000 --> 00:53:17,000
+So, there's a very close
+connection between these two
+
+757
+00:53:17,000 --> 00:53:21,000
+problems as we will now prove.
+
+758
+00:53:21,000 --> 00:53:43,000
+
+
+759
+00:53:43,000 --> 00:53:45,000
+So, we're going to have two
+theorems.
+
+760
+00:53:45,000 --> 00:53:49,000
+And, they're going to look
+similar to the correctness of
+
+761
+00:53:49,000 --> 00:53:53,000
+Bellman-Ford in that they talk
+about negative weight cycles.
+
+762
+00:53:53,000 --> 00:53:54,000
+Here we go.
+It turns out,
+
+763
+00:53:54,000 --> 00:53:57,000
+I mean, we have this constraint
+graph.
+
+764
+00:53:57,000 --> 00:54:02,000
+It can have negative weights.
+It can have positive weights.
+
+765
+00:54:02,000 --> 00:54:05,000
+It turns out what matters is if
+you have a negative weight
+
+766
+00:54:05,000 --> 00:54:07,000
+cycle.
+So, the first thing to prove is
+
+767
+00:54:07,000 --> 00:54:11,000
+that if you have a negative
+weight cycle that something bad
+
+768
+00:54:11,000 --> 00:54:13,000
+happens.
+OK, what could happen bad?
+
+769
+00:54:13,000 --> 00:54:16,000
+Well, we're just trying to
+satisfy this system of
+
+770
+00:54:16,000 --> 00:54:19,000
+constraints.
+So, the bad thing is that there
+
+771
+00:54:19,000 --> 00:54:22,000
+might not be any solution.
+These constraints may be
+
+772
+00:54:22,000 --> 00:54:24,000
+infeasible.
+And that's the claim.
+
+773
+00:54:24,000 --> 00:54:29,000
+The claim is that this is
+actually an if and only if.
+
+774
+00:54:29,000 --> 00:54:33,000
+But first we'll proved the if.
+If you have a negative weight
+
+775
+00:54:33,000 --> 00:54:38,000
+cycle, you're doomed.
+The difference constraints are
+
+776
+00:54:38,000 --> 00:54:41,000
+unsatisfiable.
+That's a more intuitive way to
+
+777
+00:54:41,000 --> 00:54:43,000
+say it.
+In the LP world,
+
+778
+00:54:43,000 --> 00:54:48,000
+they call it infeasible.
+But unsatisfiable makes a lot
+
+779
+00:54:48,000 --> 00:54:51,000
+more sense.
+There's no way to assign the
+
+780
+00:54:51,000 --> 00:54:56,000
+x_i's in order to satisfy all
+the constraints simultaneously.
+
+781
+00:54:56,000 --> 00:55:01,000
+So, let's just take a look.
+Consider a negative weight
+
+782
+00:55:01,000 --> 00:55:03,000
+cycle.
+It starts at some vertex,
+
+783
+00:55:03,000 --> 00:55:07,000
+goes through some vertices,
+and at some point comes back.
+
+784
+00:55:07,000 --> 00:55:11,000
+I don't care whether it repeats
+vertices, just as long as this
+
+785
+00:55:11,000 --> 00:55:15,000
+cycle, from v_1 to v_1 is a
+negative weight cycle strictly
+
+786
+00:55:15,000 --> 00:55:17,000
+negative weight.
+
+787
+00:55:17,000 --> 00:55:26,000
+
+
+788
+00:55:26,000 --> 00:55:30,000
+OK, and what I'm going to do is
+just write down all the
+
+789
+00:55:30,000 --> 00:55:34,000
+constraints.
+Each of these edges corresponds
+
+790
+00:55:34,000 --> 00:55:37,000
+to a constraint,
+which must be in the set of
+
+791
+00:55:37,000 --> 00:55:40,000
+constraints because we had that
+graph.
+
+792
+00:55:40,000 --> 00:55:45,000
+So, these are all edges.
+Let's look at what they give
+
+793
+00:55:45,000 --> 00:55:48,000
+us.
+So, we have an edge from v_1 to
+
+794
+00:55:48,000 --> 00:55:50,000
+v_2.
+That corresponds to x_2 minus
+
+795
+00:55:50,000 --> 00:55:53,000
+x_1 is, at most,
+something, w_12.
+
+796
+00:55:53,000 --> 00:55:57,000
+Then we have x_3 minus x_2.
+That's the weight w_23,
+
+797
+00:55:57,000 --> 00:56:04,000
+and so on.
+And eventually we get up to
+
+798
+00:56:04,000 --> 00:56:08,000
+something like x_k minus
+x_(k-1).
+
+799
+00:56:08,000 --> 00:56:15,000
+That's this edge:
+w_(k-1),k , and lastly we have
+
+800
+00:56:15,000 --> 00:56:23,000
+this edge, which wraps around.
+So, it's x_1 minus x_k,
+
+801
+00:56:23,000 --> 00:56:30,000
+w_k1 if I've got the signs
+right.
+
+802
+00:56:30,000 --> 00:56:35,000
+Good, so here's a bunch of
+constraints.
+
+803
+00:56:35,000 --> 00:56:40,000
+What do you suggest I do with
+them?
+
+804
+00:56:40,000 --> 00:56:47,000
+Anything interesting about
+these constraints,
+
+805
+00:56:47,000 --> 00:56:52,000
+say, the left hand sides?
+Sorry?
+
+806
+00:56:52,000 --> 00:57:00,000
+It sounded like the right word.
+What was it?
+
+807
+00:57:00,000 --> 00:57:01,000
+Telescopes, yes,
+good.
+
+808
+00:57:01,000 --> 00:57:04,000
+Everything cancels.
+If I added these up,
+
+809
+00:57:04,000 --> 00:57:08,000
+there's an x_2 and a minus x_2.
+There's a minus x_1 and an x_1.
+
+810
+00:57:08,000 --> 00:57:12,000
+There's a minus XK and an XK.
+Everything here cancels if I
+
+811
+00:57:12,000 --> 00:57:15,000
+add up the left hand sides.
+So, what happens if I add up
+
+812
+00:57:15,000 --> 00:57:18,000
+the right hand sides?
+Over here I get zero,
+
+813
+00:57:18,000 --> 00:57:20,000
+my favorite answer.
+And over here,
+
+814
+00:57:20,000 --> 00:57:24,000
+we get all the weights of all
+the edges in the negative weight
+
+815
+00:57:24,000 --> 00:57:30,000
+cycle, which is the weight of
+the cycle, which is negative.
+
+816
+00:57:30,000 --> 00:57:33,000
+So, zero is strictly less than
+zero: contradiction.
+
+817
+00:57:33,000 --> 00:57:35,000
+Contradiction:
+wait a minute,
+
+818
+00:57:35,000 --> 00:57:37,000
+we didn't assume anything that
+was false.
+
+819
+00:57:37,000 --> 00:57:40,000
+So, it's not really a
+contradiction in the
+
+820
+00:57:40,000 --> 00:57:43,000
+mathematical sense.
+We didn't contradict the world.
+
+821
+00:57:43,000 --> 00:57:47,000
+We just said that these
+constraints are contradictory.
+
+822
+00:57:47,000 --> 00:57:50,000
+In other words,
+if you pick any values of the
+
+823
+00:57:50,000 --> 00:57:53,000
+x_i's, there is no way that
+these can all be true because
+
+824
+00:57:53,000 --> 00:57:55,000
+that you would get a
+contradiction.
+
+825
+00:57:55,000 --> 00:57:59,000
+So, it's impossible for these
+things to be satisfied by some
+
+826
+00:57:59,000 --> 00:58:01,000
+real x_i's.
+So, these must be
+
+827
+00:58:01,000 --> 00:58:07,000
+unsatisfiable.
+Let's say there's no satisfying
+
+828
+00:58:07,000 --> 00:58:11,000
+assignment, a little more
+precise, x_1 up to x_m,
+
+829
+00:58:11,000 --> 00:58:14,000
+no weights.
+Can we satisfy those
+
+830
+00:58:14,000 --> 00:58:18,000
+constraints?
+Because they add up to zero on
+
+831
+00:58:18,000 --> 00:58:23,000
+the left-hand side,
+and negative on the right-hand
+
+832
+00:58:23,000 --> 00:58:26,000
+side.
+OK, so that's an easy proof.
+
+833
+00:58:26,000 --> 00:58:33,000
+The reverse direction will be
+only slightly harder.
+
+834
+00:58:33,000 --> 00:58:34,000
+OK, so, cool.
+We have this connection.
+
+835
+00:58:34,000 --> 00:58:37,000
+So motivation is,
+suppose you'd want to solve
+
+836
+00:58:37,000 --> 00:58:40,000
+these difference constraints.
+And we'll see one such
+
+837
+00:58:40,000 --> 00:58:42,000
+application.
+I Googled around for difference
+
+838
+00:58:42,000 --> 00:58:44,000
+constraints.
+There is a fair number of
+
+839
+00:58:44,000 --> 00:58:46,000
+papers that care about
+difference constraints.
+
+840
+00:58:46,000 --> 00:58:49,000
+And, they all use shortest
+paths to solve them.
+
+841
+00:58:49,000 --> 00:58:51,000
+So, if we can prove a
+connection between shortest
+
+842
+00:58:51,000 --> 00:58:54,000
+paths, which we know how to
+compute, and difference
+
+843
+00:58:54,000 --> 00:58:56,000
+constraints, then we'll have
+something cool.
+
+844
+00:58:56,000 --> 00:59:00,000
+And, next class will see even
+more applications of difference
+
+845
+00:59:00,000 --> 00:59:05,000
+constraints.
+It turns out they're really
+
+846
+00:59:05,000 --> 00:59:09,000
+useful for all pairs shortest
+paths.
+
+847
+00:59:09,000 --> 00:59:16,000
+OK, but for now let's just
+prove this equivalence and
+
+848
+00:59:16,000 --> 00:59:21,000
+finish it off.
+So, the reverse direction is if
+
+849
+00:59:21,000 --> 00:59:29,000
+there's no negative weight cycle
+in this constraint graph,
+
+850
+00:59:29,000 --> 00:59:35,000
+then the system better be
+satisfiable.
+
+851
+00:59:35,000 --> 00:59:42,000
+The claim is that these
+negative weight cycles are the
+
+852
+00:59:42,000 --> 00:59:49,000
+only barriers for finding a
+solution to these difference
+
+853
+00:59:49,000 --> 00:59:54,000
+constraints.
+I have this feeling somewhere
+
+854
+00:59:54,000 --> 00:59:58,000
+here.
+I had to talk about the
+
+855
+00:59:58,000 --> 01:00:03,000
+constraint graph.
+Good.
+
+856
+01:00:03,000 --> 01:00:13,000
+
+
+857
+01:00:13,000 --> 01:00:19,830
+Satisfied, good.
+So, here we're going to see a
+
+858
+01:00:19,830 --> 01:00:28,482
+technique that is very useful
+when thinking about shortest
+
+859
+01:00:28,482 --> 01:00:32,788
+paths.
+And, it's a bit hard to guess,
+
+860
+01:00:32,788 --> 01:00:36,505
+especially if you haven't seen
+it before.
+
+861
+01:00:36,505 --> 01:00:40,780
+This is useful in problem sets,
+and in quizzes,
+
+862
+01:00:40,780 --> 01:00:45,334
+and finals, and everything.
+So, keep this in mind.
+
+863
+01:00:45,334 --> 01:00:50,539
+I mean, I'm using it to prove
+this rather simple theorem,
+
+864
+01:00:50,539 --> 01:00:56,115
+but the idea of changing the
+graph, so I'm going to call this
+
+865
+01:00:56,115 --> 01:01:00,483
+constraint graph G.
+Changing the graph is a very
+
+866
+01:01:00,483 --> 01:01:04,386
+powerful idea.
+So, we're going to add a new
+
+867
+01:01:04,386 --> 01:01:07,732
+vertex, s, or source,
+use the source,
+
+868
+01:01:07,732 --> 01:01:13,215
+Luke, and we're going to add a
+bunch of edges from s because
+
+869
+01:01:13,215 --> 01:01:17,397
+being a source,
+it better be connected to some
+
+870
+01:01:17,397 --> 01:01:23,529
+things.
+So, we are going to add a zero
+
+871
+01:01:23,529 --> 01:01:29,764
+weight edge, or weight zero edge
+from s to everywhere,
+
+872
+01:01:29,764 --> 01:01:36,000
+so, to every other vertex in
+the constraint graph.
+
+873
+01:01:36,000 --> 01:01:40,121
+Those vertices are called v_i,
+v_1 up to v_n.
+
+874
+01:01:40,121 --> 01:01:45,928
+So, I have my constraint graph.
+But I'll copy this one so I can
+
+875
+01:01:45,928 --> 01:01:49,768
+change it.
+It's always good to backup your
+
+876
+01:01:49,768 --> 01:01:53,046
+work before you make changes,
+right?
+
+877
+01:01:53,046 --> 01:01:57,542
+So now, I want to add a new
+vertex, s, over here,
+
+878
+01:01:57,542 --> 01:02:01,195
+my new source.
+I just take my constraint
+
+879
+01:02:01,195 --> 01:02:06,909
+graph, whatever it looks like,
+add in weight zero edges to all
+
+880
+01:02:06,909 --> 01:02:11,171
+the other vertices.
+Simple enough.
+
+881
+01:02:11,171 --> 01:02:14,100
+Now, what did I do?
+What did you do?
+
+882
+01:02:14,100 --> 01:02:18,953
+Well, I have a candidate source
+now which can reach all the
+
+883
+01:02:18,953 --> 01:02:21,799
+vertices.
+So, shortest path from s,
+
+884
+01:02:21,799 --> 01:02:24,728
+hopefully, well,
+paths from s exist.
+
+885
+01:02:24,728 --> 01:02:30,000
+I can get from s to everywhere
+in weight at most zero.
+
+886
+01:02:30,000 --> 01:02:31,851
+OK, maybe less.
+Could it be less?
+
+887
+01:02:31,851 --> 01:02:34,338
+Well, you know,
+like v_2, I can get to it by
+
+888
+01:02:34,338 --> 01:02:36,710
+zero minus two.
+So, that's less than zero.
+
+889
+01:02:36,710 --> 01:02:38,677
+So I've got to be a little
+careful.
+
+890
+01:02:38,677 --> 01:02:40,933
+What if there's a negative
+weight cycle?
+
+891
+01:02:40,933 --> 01:02:42,785
+Oh no?
+Then there wouldn't be any
+
+892
+01:02:42,785 --> 01:02:44,347
+shortest paths.
+Fortunately,
+
+893
+01:02:44,347 --> 01:02:47,413
+we assume that there's no
+negative weight cycle in the
+
+894
+01:02:47,413 --> 01:02:49,785
+original graph.
+And if you think about it,
+
+895
+01:02:49,785 --> 01:02:53,082
+if there's no negative weight
+cycle in the original graph,
+
+896
+01:02:53,082 --> 01:02:55,396
+we add an edge from s to
+everywhere else.
+
+897
+01:02:55,396 --> 01:02:58,520
+We're not making any new
+negative weight cycles because
+
+898
+01:02:58,520 --> 01:03:01,586
+you can start at s and go
+somewhere at a cost of zero,
+
+899
+01:03:01,586 --> 01:03:05,000
+which doesn't affect any
+weights.
+
+900
+01:03:05,000 --> 01:03:08,920
+And then, you are forced to
+stay in the old graph.
+
+901
+01:03:08,920 --> 01:03:12,840
+So, there can't be any new
+negative weight cycles.
+
+902
+01:03:12,840 --> 01:03:17,000
+So, the modified graph has no
+negative weight cycles.
+
+903
+01:03:17,000 --> 01:03:20,519
+That's good because it also has
+paths from s,
+
+904
+01:03:20,519 --> 01:03:25,000
+and therefore it also has
+shortest paths from s.
+
+905
+01:03:25,000 --> 01:03:30,376
+The modified graph has no
+negative weight because it
+
+906
+01:03:30,376 --> 01:03:34,487
+didn't before.
+And, it has paths from s.
+
+907
+01:03:34,487 --> 01:03:38,387
+There's a path from s to every
+vertex.
+
+908
+01:03:38,387 --> 01:03:44,923
+There may not have been before.
+Before, I couldn't get from v_2
+
+909
+01:03:44,923 --> 01:03:49,561
+to v_3, for example.
+Well, that's still true.
+
+910
+01:03:49,561 --> 01:03:53,145
+But from s I can get to
+everywhere.
+
+911
+01:03:53,145 --> 01:03:58,521
+So, that means that this graph,
+this modified graph,
+
+912
+01:03:58,521 --> 01:04:04,974
+has shortest paths.
+Shortest paths exist from s.
+
+913
+01:04:04,974 --> 01:04:09,860
+In other words,
+if I took all the shortest path
+
+914
+01:04:09,860 --> 01:04:14,641
+weights, like I ran Bellman-Ford
+from s, then,
+
+915
+01:04:14,641 --> 01:04:19,421
+I would get a bunch of finite
+numbers, d of v,
+
+916
+01:04:19,421 --> 01:04:22,926
+for every value,
+for every vertex.
+
+917
+01:04:22,926 --> 01:04:27,175
+That seems like a good idea.
+Let's do it.
+
+918
+01:04:27,175 --> 01:04:33,757
+So, shortest paths exist.
+Let's just assign x_i to be the
+
+919
+01:04:33,757 --> 01:04:36,782
+shortest path weight from s to
+v_i.
+
+920
+01:04:36,782 --> 01:04:39,806
+Why not?
+That's a good choice for a
+
+921
+01:04:39,806 --> 01:04:43,898
+number, the shortest path weight
+from s to v_i.
+
+922
+01:04:43,898 --> 01:04:47,990
+This is finite because it's
+less than infinity,
+
+923
+01:04:47,990 --> 01:04:51,549
+and it's greater than minus
+infinity, so,
+
+924
+01:04:51,549 --> 01:04:55,730
+some finite number.
+That's what we need to do in
+
+925
+01:04:55,730 --> 01:05:00,000
+order to satisfy these
+constraints.
+
+926
+01:05:00,000 --> 01:05:03,933
+The claim is that this is a
+satisfying assignment.
+
+927
+01:05:03,933 --> 01:05:05,860
+Why?
+Triangle inequality.
+
+928
+01:05:05,860 --> 01:05:09,311
+Somewhere here we wrote
+triangle inequality.
+
+929
+01:05:09,311 --> 01:05:12,924
+This looks a lot like the
+triangle inequality.
+
+930
+01:05:12,924 --> 01:05:16,456
+In fact, I think that's the end
+of the proof.
+
+931
+01:05:16,456 --> 01:05:19,908
+Let's see here.
+What we want to be true with
+
+932
+01:05:19,908 --> 01:05:24,564
+this assignment is that x_j
+minus x_i is less than or equal
+
+933
+01:05:24,564 --> 01:05:28,497
+to w_ij whenever ij is an edge.
+Or, let's say v_i,
+
+934
+01:05:28,497 --> 01:05:31,949
+v_j, for every such constraint,
+so, for v_i,
+
+935
+01:05:31,949 --> 01:05:37,313
+v_j in the edge set.
+OK, so what is this true?
+
+936
+01:05:37,313 --> 01:05:42,217
+Well, let's just expand it out.
+So, x_i is this delta,
+
+937
+01:05:42,217 --> 01:05:46,935
+and x_j is some other delta.
+So, we have delta of s,
+
+938
+01:05:46,935 --> 01:05:51,654
+vj minus delta of s_vi.
+And, on the right-hand side,
+
+939
+01:05:51,654 --> 01:05:56,743
+well, w_ij, that was the weight
+of the edge from I to J.
+
+940
+01:05:56,743 --> 01:06:01,000
+So, this is the weight of v_i
+to v_j.
+
+941
+01:06:01,000 --> 01:06:03,659
+OK, I will rewrite this
+slightly.
+
+942
+01:06:03,659 --> 01:06:07,315
+Delta s, vj is less than or
+equal to delta s,
+
+943
+01:06:07,315 --> 01:06:09,060
+vi plus w of v_i,
+v_j.
+
+944
+01:06:09,060 --> 01:06:12,965
+And that's the triangle
+inequality more or less.
+
+945
+01:06:12,965 --> 01:06:18,117
+The shortest path from s to v_j
+is, at most, shortest path from
+
+946
+01:06:18,117 --> 01:06:22,022
+s to v_i plus a particular path
+from v_i to v_j,
+
+947
+01:06:22,022 --> 01:06:24,765
+namely the single edge v_i to
+v_j.
+
+948
+01:06:24,765 --> 01:06:30,000
+This could only be longer than
+the shortest path.
+
+949
+01:06:30,000 --> 01:06:33,372
+And so, that makes the
+right-hand side bigger,
+
+950
+01:06:33,372 --> 01:06:37,644
+which makes this inequality
+more true, meaning it was true
+
+951
+01:06:37,644 --> 01:06:39,967
+before.
+And now it's still true.
+
+952
+01:06:39,967 --> 01:06:42,441
+And, that proves it.
+This is true.
+
+953
+01:06:42,441 --> 01:06:45,513
+And, these were all equivalent
+statements.
+
+954
+01:06:45,513 --> 01:06:48,961
+This we know to be true by
+triangle inequality.
+
+955
+01:06:48,961 --> 01:06:52,408
+Therefore, these constraints
+are all satisfied.
+
+956
+01:06:52,408 --> 01:06:54,357
+Magic.
+I'm so excited here.
+
+957
+01:06:54,357 --> 01:06:59,004
+So, we've proved that having a
+negative weight cycle is exactly
+
+958
+01:06:59,004 --> 01:07:05,000
+when these system of difference
+constraints are unsatisfiable.
+
+959
+01:07:05,000 --> 01:07:08,241
+So, if we want to satisfy them,
+if we want to find the right
+
+960
+01:07:08,241 --> 01:07:10,000
+answer to x, we run
+Bellman-Ford.
+
+961
+01:07:10,000 --> 01:07:12,417
+Either it says,
+oh, no negative weight cycle.
+
+962
+01:07:12,417 --> 01:07:14,945
+Then you are hosed.
+Then, there is no solution.
+
+963
+01:07:14,945 --> 01:07:17,252
+But that's the best you could
+hope to know.
+
+964
+01:07:17,252 --> 01:07:19,670
+Otherwise, it says,
+oh, there was no negative
+
+965
+01:07:19,670 --> 01:07:22,087
+weight cycle,
+and here are your shortest path
+
+966
+01:07:22,087 --> 01:07:23,736
+weights.
+You just plug them in,
+
+967
+01:07:23,736 --> 01:07:26,868
+and bam, you have your x_i's
+that satisfy the constraints.
+
+968
+01:07:26,868 --> 01:07:30,000
+Awesome.
+Now, it wasn't just any graph.
+
+969
+01:07:30,000 --> 01:07:32,877
+I mean, we started with
+constraints, algebra,
+
+970
+01:07:32,877 --> 01:07:35,886
+we converted it into a graph by
+this transform.
+
+971
+01:07:35,886 --> 01:07:37,978
+Then we added a source vertex,
+s.
+
+972
+01:07:37,978 --> 01:07:41,641
+So, I mean, we had to build a
+graph to solve our problem,
+
+973
+01:07:41,641 --> 01:07:43,210
+very powerful idea.
+Cool.
+
+974
+01:07:43,210 --> 01:07:47,135
+This is the idea of reduction.
+You can reduce the problem you
+
+975
+01:07:47,135 --> 01:07:50,601
+want to solve into some problem
+you know how to solve.
+
+976
+01:07:50,601 --> 01:07:54,656
+You know how to solve shortest
+paths when there are no negative
+
+977
+01:07:54,656 --> 01:07:57,337
+weight cycles,
+or find out that there is a
+
+978
+01:07:57,337 --> 01:08:01,000
+negative weight cycle by
+Bellman-Ford.
+
+979
+01:08:01,000 --> 01:08:06,099
+So, now we know how to solve
+difference constraints.
+
+980
+01:08:06,099 --> 01:08:09,400
+It turns out you can do even
+more.
+
+981
+01:08:09,400 --> 01:08:15,000
+Bellman-Ford does a little bit
+more than just solve these
+
+982
+01:08:15,000 --> 01:08:18,899
+constraints.
+But first let me write down
+
+983
+01:08:18,899 --> 01:08:22,899
+what I've been jumping up and
+down about.
+
+984
+01:08:22,899 --> 01:08:27,000
+The corollary is you can use
+Bellman-Ford.
+
+985
+01:08:27,000 --> 01:08:34,484
+I mean, you make this graph.
+Then you apply Bellman-Ford,
+
+986
+01:08:34,484 --> 01:08:41,330
+and it will solve your system
+of difference constraints.
+
+987
+01:08:41,330 --> 01:08:45,685
+So, let me put in some numbers
+here.
+
+988
+01:08:45,685 --> 01:08:49,792
+You have m difference
+constraints.
+
+989
+01:08:49,792 --> 01:08:56,265
+And, you have n variables.
+And, it will solve them in
+
+990
+01:08:56,265 --> 01:09:02,416
+order m times n time.
+Actually, these numbers go up
+
+991
+01:09:02,416 --> 01:09:07,332
+slightly because we are adding n
+edges, and we're adding one
+
+992
+01:09:07,332 --> 01:09:12,000
+vertex, but assuming all of
+these numbers are nontrivial,
+
+993
+01:09:12,000 --> 01:09:14,916
+m is at least n.
+It's order MN time.
+
+994
+01:09:14,916 --> 01:09:20,082
+OK, trying to avoid cases where
+some of them are close to zero.
+
+995
+01:09:20,082 --> 01:09:22,250
+Good.
+So, some other facts,
+
+996
+01:09:22,250 --> 01:09:26,250
+that's what I just said.
+And we'll leave these as
+
+997
+01:09:26,250 --> 01:09:31,000
+exercises because they're not
+too essential.
+
+998
+01:09:31,000 --> 01:09:35,627
+The main thing we need is this.
+But, some other cool facts is
+
+999
+01:09:35,627 --> 01:09:39,484
+that Bellman-Ford actually
+optimizes some objective
+
+1000
+01:09:39,484 --> 01:09:42,492
+functions.
+So, we are saying it's just a
+
+1001
+01:09:42,492 --> 01:09:46,193
+feasibility problem.
+We just want to know whether
+
+1002
+01:09:46,193 --> 01:09:48,738
+these constraints are
+satisfiable.
+
+1003
+01:09:48,738 --> 01:09:52,750
+In fact, you can add a
+particular objective function.
+
+1004
+01:09:52,750 --> 01:09:56,837
+So, you can't give it an
+arbitrary objective function,
+
+1005
+01:09:56,837 --> 01:10:04,647
+but here's one of interest.
+x_1 plus x_2 plus x_n,
+
+1006
+01:10:04,647 --> 01:10:15,000
+OK, but not just that.
+We have some constraints.
+
+1007
+01:10:15,000 --> 01:10:24,000
+
+
+1008
+01:10:24,000 --> 01:10:27,395
+OK, this is a linear program.
+I want to maximize the sum of
+
+1009
+01:10:27,395 --> 01:10:30,849
+the x_i's subject to all the
+x_i's being nonpositive and the
+
+1010
+01:10:30,849 --> 01:10:33,542
+difference constraints.
+So, this we had before.
+
+1011
+01:10:33,542 --> 01:10:35,943
+This is fine.
+We noticed at some point you
+
+1012
+01:10:35,943 --> 01:10:38,811
+could get from s to everywhere
+with cost, at most,
+
+1013
+01:10:38,811 --> 01:10:40,509
+zero.
+So, we know that in this
+
+1014
+01:10:40,509 --> 01:10:42,851
+assignment all of the x_i's are
+negative.
+
+1015
+01:10:42,851 --> 01:10:45,602
+That's not necessary,
+but it's true when you run
+
+1016
+01:10:45,602 --> 01:10:47,943
+Bellman-Ford.
+So if you solve your system
+
+1017
+01:10:47,943 --> 01:10:50,754
+using Bellman-Ford,
+which is no less general than
+
+1018
+01:10:50,754 --> 01:10:53,272
+anything else,
+you happen to get nonpositive
+
+1019
+01:10:53,272 --> 01:10:54,969
+x_i's.
+And so, subject to that
+
+1020
+01:10:54,969 --> 01:10:58,072
+constraint, it actually makes
+them is close to zero as
+
+1021
+01:10:58,072 --> 01:11:04,009
+possible in the L1 norm.
+In the sum of these values,
+
+1022
+01:11:04,009 --> 01:11:08,577
+it tries to make the sum as
+close to zero,
+
+1023
+01:11:08,577 --> 01:11:15,154
+it tries to make the values as
+small as possible in absolute
+
+1024
+01:11:15,154 --> 01:11:20,393
+value in this sense.
+OK, it does more than that.
+
+1025
+01:11:20,393 --> 01:11:25,297
+It cooks, it cleans,
+it finds shortest paths.
+
+1026
+01:11:25,297 --> 01:11:31,761
+It also minimizes the spread,
+the maximum over all i of x_i
+
+1027
+01:11:31,761 --> 01:11:37,000
+minus the minimum over all i of
+x_i.
+
+1028
+01:11:37,000 --> 01:11:40,840
+So, I mean, if you have your
+real line, and here are the
+
+1029
+01:11:40,840 --> 01:11:44,402
+x_i's wherever they are.
+It minimizes this distance.
+
+1030
+01:11:44,402 --> 01:11:46,567
+And zero is somewhere over
+here.
+
+1031
+01:11:46,567 --> 01:11:50,268
+So, it tries to make the x_i's
+as compact as possible.
+
+1032
+01:11:50,268 --> 01:11:54,458
+This is actually the L infinity
+norm, if you know stuff about
+
+1033
+01:11:54,458 --> 01:11:56,972
+norms from your linear algebra
+class.
+
+1034
+01:11:56,972 --> 01:12:00,673
+OK, this is the L1 norm.
+I think it minimizes every LP
+
+1035
+01:12:00,673 --> 01:12:05,170
+norm.
+Good, so let's use this for
+
+1036
+01:12:05,170 --> 01:12:09,163
+something.
+Yeah, let's solve a real
+
+1037
+01:12:09,163 --> 01:12:13,978
+problem, and then we'll be done
+for today.
+
+1038
+01:12:13,978 --> 01:12:20,790
+Next class we'll see the really
+cool stuff, the really cool
+
+1039
+01:12:20,790 --> 01:12:27,366
+application of all of this.
+For now, and we'll see a cool
+
+1040
+01:12:27,366 --> 01:12:32,886
+but relatively simple
+application, which is VLSI
+
+1041
+01:12:32,886 --> 01:12:37,528
+layout.
+We talked a little bit about
+
+1042
+01:12:37,528 --> 01:12:40,779
+VLSI way back and divide and
+conquer.
+
+1043
+01:12:40,779 --> 01:12:45,655
+You have a bunch of chips,
+or you want to arrange them,
+
+1044
+01:12:45,655 --> 01:12:50,441
+and minimize some objectives.
+So, here's a particular,
+
+1045
+01:12:50,441 --> 01:12:54,505
+tons of problems that come out
+of VLSI layout.
+
+1046
+01:12:54,505 --> 01:12:59,020
+Here's one of them.
+You have a bunch of features of
+
+1047
+01:12:59,020 --> 01:13:04,583
+an integrated circuit.
+You want to somehow arrange
+
+1048
+01:13:04,583 --> 01:13:09,845
+them on your circuit without
+putting any two of them too
+
+1049
+01:13:09,845 --> 01:13:13,768
+close to each other.
+You have some minimum
+
+1050
+01:13:13,768 --> 01:13:19,030
+separation like at least they
+should not get top of each
+
+1051
+01:13:19,030 --> 01:13:22,283
+other.
+Probably, you also need some
+
+1052
+01:13:22,283 --> 01:13:26,589
+separation to put wires in
+between, and so on,
+
+1053
+01:13:26,589 --> 01:13:33,000
+so, without putting any two
+features too close together.
+
+1054
+01:13:33,000 --> 01:13:37,152
+OK, so just to give you an
+idea, so I have some objects and
+
+1055
+01:13:37,152 --> 01:13:41,089
+I'm going to be a little bit
+vague about how this works.
+
+1056
+01:13:41,089 --> 01:13:43,738
+You have some features.
+This is stuff,
+
+1057
+01:13:43,738 --> 01:13:47,460
+some chips, whatever.
+We don't really care what their
+
+1058
+01:13:47,460 --> 01:13:50,825
+shapes look like.
+I just want to be able to move
+
+1059
+01:13:50,825 --> 01:13:55,192
+them around so that the gap at
+any point, so let me just think
+
+1060
+01:13:55,192 --> 01:13:58,199
+about this gap.
+This gap should be at least
+
+1061
+01:13:58,199 --> 01:14:01,134
+some delta.
+Or, I don't want to use delta.
+
+1062
+01:14:01,134 --> 01:14:05,000
+Let's say epsilon,
+good, small number.
+
+1063
+01:14:05,000 --> 01:14:08,827
+So, I just need some separation
+between all of my parts.
+
+1064
+01:14:08,827 --> 01:14:12,378
+And for this problem,
+I'm going to be pretty simple,
+
+1065
+01:14:12,378 --> 01:14:15,719
+just say that the parts are
+only allowed to slide
+
+1066
+01:14:15,719 --> 01:14:18,433
+horizontally.
+So, it's a one-dimensional
+
+1067
+01:14:18,433 --> 01:14:20,730
+problem.
+These objects are in 2-d,
+
+1068
+01:14:20,730 --> 01:14:23,654
+or whatever,
+but I can only slide them an x
+
+1069
+01:14:23,654 --> 01:14:25,672
+coordinate.
+So, to model that,
+
+1070
+01:14:25,672 --> 01:14:29,570
+I'm going to look at the left
+edge of every part and say,
+
+1071
+01:14:29,570 --> 01:14:32,981
+well, these two left edges
+should be at least some
+
+1072
+01:14:32,981 --> 01:14:36,848
+separation.
+So, I think of it as whatever
+
+1073
+01:14:36,848 --> 01:14:38,952
+the distance is plus some
+epsilon.
+
+1074
+01:14:38,952 --> 01:14:41,501
+But, you know,
+if you have some funky 2-d
+
+1075
+01:14:41,501 --> 01:14:45,135
+shapes you have to compute,
+well, this is a little bit too
+
+1076
+01:14:45,135 --> 01:14:47,621
+close because these come into
+alignment.
+
+1077
+01:14:47,621 --> 01:14:51,063
+But, there's some constraint,
+well, for any two pieces,
+
+1078
+01:14:51,063 --> 01:14:53,677
+I could figure out how close
+they can get.
+
+1079
+01:14:53,677 --> 01:14:57,309
+They should get no closer.
+So, I'm going to call this x_1.
+
+1080
+01:14:57,309 --> 01:15:00,243
+I'll call this x_2.
+So, we have some constraint
+
+1081
+01:15:00,243 --> 01:15:03,111
+like x_2 minus x_1 is at least d
+plus epsilon,
+
+1082
+01:15:03,111 --> 01:15:07,000
+or whatever you compute that
+weight to be.
+
+1083
+01:15:07,000 --> 01:15:09,735
+OK, so for every pair of
+pieces, I can do this,
+
+1084
+01:15:09,735 --> 01:15:13,066
+compute some constraint on how
+far apart they have to be.
+
+1085
+01:15:13,066 --> 01:15:15,861
+And, now I'd like to assign
+these x coordinates.
+
+1086
+01:15:15,861 --> 01:15:18,596
+Right now, I'm assuming they're
+just variables.
+
+1087
+01:15:18,596 --> 01:15:22,105
+I want to slide these pieces
+around horizontally in order to
+
+1088
+01:15:22,105 --> 01:15:25,257
+compactify them as much as
+possible so they fit in the
+
+1089
+01:15:25,257 --> 01:15:28,350
+smallest chip that I can make
+because it costs money,
+
+1090
+01:15:28,350 --> 01:15:31,145
+and time, and everything,
+and power, everything.
+
+1091
+01:15:31,145 --> 01:15:34,000
+You always want your chip
+small.
+
+1092
+01:15:34,000 --> 01:15:40,225
+So, Bellman-Ford does that.
+All right, so Bellman-Ford
+
+1093
+01:15:40,225 --> 01:15:47,626
+solves these constraints because
+it's just a bunch of difference
+
+1094
+01:15:47,626 --> 01:15:51,972
+constraints.
+And we know that they are
+
+1095
+01:15:51,972 --> 01:15:57,963
+solvable because you could
+spread all the pieces out
+
+1096
+01:15:57,963 --> 01:16:03,250
+arbitrarily far.
+And, it minimizes the spread,
+
+1097
+01:16:03,250 --> 01:16:10,298
+minimizes the size of the chip
+I need, a max of x_i minus the
+
+1098
+01:16:10,298 --> 01:16:14,879
+min of x_i.
+So, this is it maximizes
+
+1099
+01:16:14,879 --> 01:16:18,167
+compactness, or minimizes size
+of the chip.
+
+1100
+01:16:18,167 --> 01:16:22,943
+OK, this is a one-dimensional
+problem, so it may seem a little
+
+1101
+01:16:22,943 --> 01:16:27,014
+artificial, but the two
+dimensional problem is really
+
+1102
+01:16:27,014 --> 01:16:29,049
+hard to solve.
+And this is,
+
+1103
+01:16:29,049 --> 01:16:33,355
+in fact, the best you can do
+with a nice polynomial time
+
+1104
+01:16:33,355 --> 01:16:37,419
+algorithm.
+There are other applications if
+
+1105
+01:16:37,419 --> 01:16:42,024
+you're scheduling events in,
+like, a multimedia environment,
+
+1106
+01:16:42,024 --> 01:16:46,629
+and you want to guarantee that
+this audio plays at least two
+
+1107
+01:16:46,629 --> 01:16:50,922
+seconds after this video,
+but then there are things that
+
+1108
+01:16:50,922 --> 01:16:55,605
+are playing at the same time,
+and they have to be within some
+
+1109
+01:16:55,605 --> 01:16:59,351
+gap of each other,
+so, lots of papers about using
+
+1110
+01:16:59,351 --> 01:17:02,786
+Bellman-Ford,
+solve difference constraints to
+
+1111
+01:17:02,786 --> 01:17:06,766
+enable multimedia environments.
+OK, so there you go.
+
+1112
+01:17:06,766 --> 01:17:11,449
+And next class we'll see more
+applications of Bellman-Ford to
+
+1113
+01:17:11,449 --> 01:17:14,181
+all pairs shortest paths.
+Questions?
+
+1114
+01:17:14,181 --> 01:17:17,000
+Great.

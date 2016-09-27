@@ -1,0 +1,5411 @@
+1
+00:00:10,000 --> 00:00:14,000
+We're going to get started.
+Handouts are the by the door if
+
+2
+00:00:14,000 --> 00:00:18,000
+anybody didn't pick one up.
+My name is Charles Leiserson.
+
+3
+00:00:18,000 --> 00:00:23,000
+I will be lecturing this course
+this term, Introduction to
+
+4
+00:00:23,000 --> 00:00:26,000
+Algorithms, with Erik Demaine.
+In addition,
+
+5
+00:00:26,000 --> 00:00:30,000
+this is an SMA course,
+a Singapore MIT Alliance course
+
+6
+00:00:30,000 --> 00:00:35,000
+which will be run in Singapore
+by David Hsu.
+
+7
+00:00:35,000 --> 00:00:40,000
+And so all the lectures will be
+videotaped and made available on
+
+8
+00:00:40,000 --> 00:00:45,000
+the Web for the Singapore
+students, as well as for MIT
+
+9
+00:00:45,000 --> 00:00:49,000
+students who choose to watch
+them on the Web.
+
+10
+00:00:49,000 --> 00:00:55,000
+If you have an issue of not
+wanting to be on the videotape,
+
+11
+00:00:55,000 --> 00:00:58,000
+you should sit in the back row.
+OK?
+
+12
+00:00:58,000 --> 00:01:03,000
+Otherwise, you will be on it.
+There is a video recording
+
+13
+00:01:03,000 --> 00:01:06,000
+policy, but it seems like they
+ran out.
+
+14
+00:01:06,000 --> 00:01:10,000
+If anybody wants to see it,
+people, if they could just sort
+
+15
+00:01:10,000 --> 00:01:14,000
+of pass them around maybe a
+little bit, once you're done
+
+16
+00:01:14,000 --> 00:01:18,000
+reading it, or you can come up.
+I did secure one copy.
+
+17
+00:01:18,000 --> 00:01:21,000
+Before we get into the content
+of the course,
+
+18
+00:01:21,000 --> 00:01:25,000
+let's briefly go over the
+course information because there
+
+19
+00:01:25,000 --> 00:01:30,000
+are some administrative things
+that we sort of have to do.
+
+20
+00:01:30,000 --> 00:01:33,000
+As you can see,
+this term we have a big staff.
+
+21
+00:01:33,000 --> 00:01:35,000
+Take a look at the handout
+here.
+
+22
+00:01:35,000 --> 00:01:40,000
+Including this term six TAs,
+which is two more TAs than we
+
+23
+00:01:40,000 --> 00:01:45,000
+normally get for this course.
+That means recitations will be
+
+24
+00:01:45,000 --> 00:01:48,000
+particularly small.
+There is a World Wide Web page,
+
+25
+00:01:48,000 --> 00:01:53,000
+and you should bookmark that
+and go there regularly because
+
+26
+00:01:53,000 --> 00:01:58,000
+that is where everything will be
+distributed.
+
+27
+00:01:58,000 --> 00:02:00,000
+Email.
+You should not be emailing
+
+28
+00:02:00,000 --> 00:02:04,000
+directly to, even though we give
+you our email addresses,
+
+29
+00:02:04,000 --> 00:02:06,000
+to the individual members of
+the staff.
+
+30
+00:02:06,000 --> 00:02:10,000
+You should email us generally.
+And the reason is you will get
+
+31
+00:02:10,000 --> 00:02:13,000
+much faster response.
+And also, for any
+
+32
+00:02:13,000 --> 00:02:16,000
+communications,
+generally we like to monitor
+
+33
+00:02:16,000 --> 00:02:20,000
+what the communications are so
+it's helpful to have emails
+
+34
+00:02:20,000 --> 00:02:23,000
+coming to everybody on the
+course staff.
+
+35
+00:02:23,000 --> 00:02:26,000
+As I mentioned,
+we will be doing distance
+
+36
+00:02:26,000 --> 00:02:29,000
+learning this term.
+And so you can watch lectures
+
+37
+00:02:29,000 --> 00:02:34,000
+online if you choose to do that.
+I would recommend,
+
+38
+00:02:34,000 --> 00:02:38,000
+for people who have the
+opportunity to watch,
+
+39
+00:02:38,000 --> 00:02:40,000
+to come live.
+It's better live.
+
+40
+00:02:40,000 --> 00:02:44,000
+You get to interact.
+There's an intangible that
+
+41
+00:02:44,000 --> 00:02:48,000
+comes with having it live.
+In fact, in addition to the
+
+42
+00:02:48,000 --> 00:02:53,000
+videos, I meet weekly with the
+Singapore students so that they
+
+43
+00:02:53,000 --> 00:02:58,000
+have a live session as well.
+Prerequisites.
+
+44
+00:02:58,000 --> 00:03:01,000
+The prerequisites for this
+course are 6.042,
+
+45
+00:03:01,000 --> 00:03:05,000
+which is Math for Computer
+Science, and 6.001.
+
+46
+00:03:05,000 --> 00:03:09,000
+You basically need discrete
+mathematics and probability,
+
+47
+00:03:09,000 --> 00:03:13,000
+as well as programming
+experience to take this course
+
+48
+00:03:13,000 --> 00:03:16,000
+successfully.
+People do not have that
+
+49
+00:03:16,000 --> 00:03:19,000
+background should not be in the
+class.
+
+50
+00:03:19,000 --> 00:03:22,000
+We will be checking
+prerequisites.
+
+51
+00:03:22,000 --> 00:03:27,000
+If you have any questions,
+please come to talk to us after
+
+52
+00:03:27,000 --> 00:03:29,000
+class.
+Let's see.
+
+53
+00:03:29,000 --> 00:03:32,000
+Lectures are here.
+For SMA students,
+
+54
+00:03:32,000 --> 00:03:36,000
+they have the videotapes and
+they will also have a weekly
+
+55
+00:03:36,000 --> 00:03:39,000
+meeting.
+Students must attend a one-hour
+
+56
+00:03:39,000 --> 00:03:44,000
+recitation session each week.
+There will be new material
+
+57
+00:03:44,000 --> 00:03:47,000
+presented in the recitation.
+Unlike the lectures,
+
+58
+00:03:47,000 --> 00:03:51,000
+they will not be online.
+Unlike the lectures,
+
+59
+00:03:51,000 --> 00:03:55,000
+there will not be lecture notes
+distributed for the recitations
+
+60
+00:03:55,000 --> 00:03:59,000
+in general.
+And, yet, there will be
+
+61
+00:03:59,000 --> 00:04:03,000
+material there that is directly
+on the exams.
+
+62
+00:04:03,000 --> 00:04:07,000
+And so every term we say oh,
+when did you cover that?
+
+63
+00:04:07,000 --> 00:04:10,000
+That was in recitation.
+You missed that one.
+
+64
+00:04:10,000 --> 00:04:14,000
+So, recitations are mandatory.
+And, in particular,
+
+65
+00:04:14,000 --> 00:04:18,000
+also let me just mention your
+recitation instructor is the one
+
+66
+00:04:18,000 --> 00:04:23,000
+who assigns your final grade.
+So we have a grade meeting and
+
+67
+00:04:23,000 --> 00:04:27,000
+keep everybody normal,
+but your recitation has the
+
+68
+00:04:27,000 --> 00:04:30,000
+final say on your grade.
+Handouts.
+
+69
+00:04:30,000 --> 00:04:34,000
+Handouts are available on the
+course Web page.
+
+70
+00:04:34,000 --> 00:04:38,000
+We will not generally,
+except for this one,
+
+71
+00:04:38,000 --> 00:04:42,000
+first handout,
+be bringing handouts to class.
+
+72
+00:04:42,000 --> 00:04:46,000
+Textbook is this book,
+Introduction to Algorithms.
+
+73
+00:04:46,000 --> 00:04:50,000
+MIT students can get it any of
+the local bookstores,
+
+74
+00:04:50,000 --> 00:04:55,000
+including the MIT Coop.
+There is also a new online
+
+75
+00:04:55,000 --> 00:05:01,000
+service that provides textbooks.
+You can also get a discount if
+
+76
+00:05:01,000 --> 00:05:04,000
+you buy it at the MIT Press
+Bookstore.
+
+77
+00:05:04,000 --> 00:05:10,000
+There is a coupon in the MIT
+Student Telephone Directory for
+
+78
+00:05:10,000 --> 00:05:14,000
+a discount on MIT Press books.
+And you can use that to
+
+79
+00:05:14,000 --> 00:05:17,000
+purchase this book at a
+discount.
+
+80
+00:05:17,000 --> 00:05:21,000
+Course website.
+This is the course website.
+
+81
+00:05:21,000 --> 00:05:25,000
+It links to the Stellar
+website, which is where,
+
+82
+00:05:25,000 --> 00:05:30,000
+actually, everything will be
+kept.
+
+83
+00:05:30,000 --> 00:05:33,000
+And SMA students have their own
+website.
+
+84
+00:05:33,000 --> 00:05:37,000
+Some students find this course
+particularly challenges so we
+
+85
+00:05:37,000 --> 00:05:41,000
+will have extra help.
+We will post weekly office
+
+86
+00:05:41,000 --> 00:05:44,000
+hours on the course website for
+the TAs.
+
+87
+00:05:44,000 --> 00:05:49,000
+And then as an experiment this
+term, we are going to offer
+
+88
+00:05:49,000 --> 00:05:53,000
+homework labs for this class.
+What a homework lab is,
+
+89
+00:05:53,000 --> 00:05:58,000
+is it's a place and a time you
+can go where other people in the
+
+90
+00:05:58,000 --> 00:06:04,000
+course will go to do homework.
+And there will be typically two
+
+91
+00:06:04,000 --> 00:06:07,000
+TAs who staff the lab.
+And so, as you're working on
+
+92
+00:06:07,000 --> 00:06:10,000
+your homework,
+you can get help from the TAs
+
+93
+00:06:10,000 --> 00:06:13,000
+if you need it.
+And it's generally a place,
+
+94
+00:06:13,000 --> 00:06:17,000
+we're going to schedule those,
+and they will be on the course
+
+95
+00:06:17,000 --> 00:06:21,000
+calendar for where it is and
+when it is that they will be
+
+96
+00:06:21,000 --> 00:06:26,000
+held, but usually Sundays 2:00
+to 4:00 pm, or else it will be
+
+97
+00:06:26,000 --> 00:06:28,000
+some evening.
+I think the first one is an
+
+98
+00:06:28,000 --> 00:06:33,000
+evening, right?
+Near to when the homework is
+
+99
+00:06:33,000 --> 00:06:36,000
+due.
+Your best bet is try to do the
+
+100
+00:06:36,000 --> 00:06:39,000
+homework in advance of the
+homework lab.
+
+101
+00:06:39,000 --> 00:06:43,000
+But then, if you want extra
+help, if you want to talk over
+
+102
+00:06:43,000 --> 00:06:48,000
+your solutions with people
+because as we will talk about
+
+103
+00:06:48,000 --> 00:06:53,000
+problem sets you can solve in
+collaboration with other people
+
+104
+00:06:53,000 --> 00:06:55,000
+in the class.
+In addition,
+
+105
+00:06:55,000 --> 00:07:00,000
+there are several peer
+assistance programs.
+
+106
+00:07:00,000 --> 00:07:04,000
+Also the office of Minority
+Education has an assistance
+
+107
+00:07:04,000 --> 00:07:08,000
+program, and those usually get
+booked up pretty quickly.
+
+108
+00:07:08,000 --> 00:07:12,000
+If you're interested in those,
+good idea to make an
+
+109
+00:07:12,000 --> 00:07:15,000
+appointment to get there and get
+help soon.
+
+110
+00:07:15,000 --> 00:07:19,000
+The homework labs,
+I hope a lot of people will try
+
+111
+00:07:19,000 --> 00:07:21,000
+that out.
+We've never done this.
+
+112
+00:07:21,000 --> 00:07:24,000
+I don't know of any other
+course.
+
+113
+00:07:24,000 --> 00:07:28,000
+Do other people know of courses
+at MIT that have done this?
+
+114
+00:07:28,000 --> 00:07:31,000
+6.011 did it,
+OK.
+
+115
+00:07:31,000 --> 00:07:34,000
+Good.
+And was it successful in that
+
+116
+00:07:34,000 --> 00:07:36,000
+class?
+It never went,
+
+117
+00:07:36,000 --> 00:07:36,000
+OK.
+Good.
+[LAUGHTER] We will see.
+If it's not paying off then we
+
+118
+00:07:42,000 --> 00:07:47,000
+will just return to ordinary
+office hours for those TAs,
+
+119
+00:07:47,000 --> 00:07:52,000
+but I think for some students
+that is a good opportunity.
+
+120
+00:07:52,000 --> 00:07:58,000
+If you wish to be registered in
+this course, you must sign up on
+
+121
+00:07:58,000 --> 00:08:04,000
+the course Web page.
+So, that is requirement one.
+
+122
+00:08:04,000 --> 00:08:09,000
+It must be done today.
+You will find it difficult to
+
+123
+00:08:09,000 --> 00:08:13,000
+pass the course if you are not
+in the class.
+
+124
+00:08:13,000 --> 00:08:19,000
+And you should notify your TA
+if you decide to drop so that we
+
+125
+00:08:19,000 --> 00:08:23,000
+can get you off and stop the
+mailings, stop the spam.
+
+126
+00:08:23,000 --> 00:08:29,000
+And you should register today
+before 7:00 PM.
+
+127
+00:08:29,000 --> 00:08:33,000
+And then we're going to email
+your recitation assignment to
+
+128
+00:08:33,000 --> 00:08:36,000
+you before Noon tomorrow.
+And if you don't receive this
+
+129
+00:08:36,000 --> 00:08:41,000
+information by Thursday Noon,
+please send us an email to the
+
+130
+00:08:41,000 --> 00:08:44,000
+course staff generally,
+not to me individually,
+
+131
+00:08:44,000 --> 00:08:48,000
+saying that you didn't receive
+your recitation assignment.
+
+132
+00:08:48,000 --> 00:08:52,000
+And so if you haven't received
+it by Thursday Noon you want to.
+
+133
+00:08:52,000 --> 00:08:56,000
+I think generally they are
+going to send them out tonight
+
+134
+00:08:56,000 --> 00:09:00,000
+or at least by tomorrow morning.
+Yeah.
+
+135
+00:09:00,000 --> 00:09:02,000
+OK.
+SMA students don't have to
+
+136
+00:09:02,000 --> 00:09:03,000
+worry about this.
+Problem sets.
+
+137
+00:09:03,000 --> 00:09:07,000
+We have nine problem sets that
+we project will be assigned
+
+138
+00:09:07,000 --> 00:09:10,000
+during the semester.
+A couple things about problem
+
+139
+00:09:10,000 --> 00:09:12,000
+sets.
+Homeworks won't generally be
+
+140
+00:09:12,000 --> 00:09:15,000
+accepted, if you have
+extenuating circumstances you
+
+141
+00:09:15,000 --> 00:09:18,000
+should make prior arrangements
+with your recitation instructor.
+
+142
+00:09:18,000 --> 00:09:21,000
+In fact, almost all of the
+administrative stuff,
+
+143
+00:09:21,000 --> 00:09:25,000
+you shouldn't come to me to ask
+and say can I hand in something
+
+144
+00:09:25,000 --> 00:09:27,000
+late?
+You should be talking to your
+
+145
+00:09:27,000 --> 00:09:32,000
+recitation instructor.
+You can read the other things
+
+146
+00:09:32,000 --> 00:09:35,000
+about the form,
+but let me just mention that
+
+147
+00:09:35,000 --> 00:09:40,000
+there are exercises that should
+be solved but not handed in as
+
+148
+00:09:40,000 --> 00:09:43,000
+well to give you drill on the
+material.
+
+149
+00:09:43,000 --> 00:09:46,000
+I highly recommend you doing
+the exercises.
+
+150
+00:09:46,000 --> 00:09:50,000
+They both test your
+understanding of the material,
+
+151
+00:09:50,000 --> 00:09:55,000
+and exercises have this way of
+finding themselves on quizzes.
+
+152
+00:09:55,000 --> 00:10:00,000
+You're often asked to describe
+algorithms.
+
+153
+00:10:00,000 --> 00:10:06,000
+And here is a little outline of
+what you can use to describe an
+
+154
+00:10:06,000 --> 00:10:09,000
+algorithm.
+The grading policy is something
+
+155
+00:10:09,000 --> 00:10:15,000
+that somehow I cover.
+And always every term there are
+
+156
+00:10:15,000 --> 00:10:20,000
+at least a couple of students
+who pretend like I never showed
+
+157
+00:10:20,000 --> 00:10:24,000
+them this.
+If you skip problems it has a
+
+158
+00:10:24,000 --> 00:10:30,000
+nonlinear effect on your grade.
+Nonlinear, OK?
+
+159
+00:10:30,000 --> 00:10:34,000
+If you don't skip any problems,
+no effect on your grade.
+
+160
+00:10:34,000 --> 00:10:38,000
+If you skip one problem,
+a hundredth of a letter grade,
+
+161
+00:10:38,000 --> 00:10:42,000
+we can handle that.
+But two problems it's a tenth.
+
+162
+00:10:42,000 --> 00:10:46,000
+And, as you see,
+by the time you have skipped
+
+163
+00:10:46,000 --> 00:10:50,000
+like five letter grades,
+it is already five problems.
+
+164
+00:10:50,000 --> 00:10:53,000
+This is not problem sets,
+by the way.
+
+165
+00:10:53,000 --> 00:10:54,000
+This is problems,
+OK?
+
+166
+00:10:54,000 --> 00:10:59,000
+You're down a third of a letter
+grade.
+
+167
+00:10:59,000 --> 00:11:03,000
+And if you don't do nine or
+more, so that's typically about
+
+168
+00:11:03,000 --> 00:11:07,000
+three to four problem sets,
+you don't pass the class.
+
+169
+00:11:07,000 --> 00:11:11,000
+I always have some students
+coming at the end of the year
+
+170
+00:11:11,000 --> 00:11:14,000
+saying oh, I didn't do any of my
+problems.
+
+171
+00:11:14,000 --> 00:11:18,000
+Can you just pass me because I
+did OK on the exams?
+
+172
+00:11:18,000 --> 00:11:23,000
+Answer no, a very simple answer
+because we've said it upfront.
+
+173
+00:11:23,000 --> 00:11:27,000
+So, the problem sets are an
+integral part of the course.
+
+174
+00:11:27,000 --> 00:11:32,000
+Collaboration policy.
+This is extremely important so
+
+175
+00:11:32,000 --> 00:11:35,000
+everybody pay attention.
+If you are asleep now wake up.
+
+176
+00:11:35,000 --> 00:11:39,000
+Like that's going to wake
+anybody up, right?
+
+177
+00:11:39,000 --> 00:11:41,000
+[LAUGHTER] The goal of
+homework.
+
+178
+00:11:41,000 --> 00:11:45,000
+Professor Demaine and my
+philosophy is that the goal of
+
+179
+00:11:45,000 --> 00:11:48,000
+homework is to help you learn
+the material.
+
+180
+00:11:48,000 --> 00:11:52,000
+And one way of helping to learn
+is not to just be stuck and
+
+181
+00:11:52,000 --> 00:11:56,000
+unable to solve something
+because then you're in no better
+
+182
+00:11:56,000 --> 00:12:00,000
+shape when the exam roles
+around, which is where we're
+
+183
+00:12:00,000 --> 00:12:04,000
+actually evaluating you.
+So, you're encouraged to
+
+184
+00:12:04,000 --> 00:12:07,000
+collaborate.
+But there are some commonsense
+
+185
+00:12:07,000 --> 00:12:11,000
+things about collaboration.
+If you go and you collaborate
+
+186
+00:12:11,000 --> 00:12:15,000
+to the extent that all you're
+doing is getting the information
+
+187
+00:12:15,000 --> 00:12:18,000
+from somebody else,
+you're not learning the
+
+188
+00:12:18,000 --> 00:12:22,000
+material and you're not going to
+do well on the exams.
+
+189
+00:12:22,000 --> 00:12:25,000
+In our experience,
+students who collaborate
+
+190
+00:12:25,000 --> 00:12:30,000
+generally do better than
+students who work alone.
+
+191
+00:12:30,000 --> 00:12:33,000
+But you owe it to yourself,
+if you're going to work in a
+
+192
+00:12:33,000 --> 00:12:37,000
+study group, to be prepared for
+your study group meeting.
+
+193
+00:12:37,000 --> 00:12:40,000
+And specifically you should
+spend a half an hour to 45
+
+194
+00:12:40,000 --> 00:12:44,000
+minutes on each problem before
+you go to group so you're up to
+
+195
+00:12:44,000 --> 00:12:47,000
+speed and you've tried out your
+ideas.
+
+196
+00:12:47,000 --> 00:12:50,000
+And you may have solutions to
+some, you may be stuck on some
+
+197
+00:12:50,000 --> 00:12:54,000
+other ones, but at least you
+applied yourself to it.
+
+198
+00:12:54,000 --> 00:12:57,000
+After 30 to 45 minutes,
+if you cannot get the problem,
+
+199
+00:12:57,000 --> 00:13:01,000
+just sitting there and banging
+your head against it makes no
+
+200
+00:13:01,000 --> 00:13:04,000
+sense.
+It's not a productive use of
+
+201
+00:13:04,000 --> 00:13:07,000
+your time.
+And I know most of you have
+
+202
+00:13:07,000 --> 00:13:09,000
+issues with having time on your
+hands, right?
+
+203
+00:13:09,000 --> 00:13:13,000
+Like it's not there.
+So, don't go banging your head
+
+204
+00:13:13,000 --> 00:13:16,000
+against problems that are too
+hard or where you don't
+
+205
+00:13:16,000 --> 00:13:18,000
+understand what's going on or
+whatever.
+
+206
+00:13:18,000 --> 00:13:21,000
+That's when the study group can
+help out.
+
+207
+00:13:21,000 --> 00:13:24,000
+And, as I mentioned,
+we'll have homework labs which
+
+208
+00:13:24,000 --> 00:13:28,000
+will give you an opportunity to
+go and do that and coordinate
+
+209
+00:13:28,000 --> 00:13:32,000
+with other students rather than
+necessarily having to form your
+
+210
+00:13:32,000 --> 00:13:35,000
+own group.
+And the TAs will be there.
+
+211
+00:13:35,000 --> 00:13:40,000
+If your group is unable to
+solve the problem then talk to
+
+212
+00:13:40,000 --> 00:13:43,000
+other groups or ask your
+recitation instruction.
+
+213
+00:13:43,000 --> 00:13:46,000
+And, that's how you go about
+solving them.
+
+214
+00:13:46,000 --> 00:13:51,000
+Writing up the problem sets,
+however, is your individual
+
+215
+00:13:51,000 --> 00:13:54,000
+responsibility and should be
+done alone.
+
+216
+00:13:54,000 --> 00:13:58,000
+You don't write up your problem
+solutions with other students,
+
+217
+00:13:58,000 --> 00:14:04,000
+you write them up on your own.
+And you should on your problem
+
+218
+00:14:04,000 --> 00:14:07,000
+sets, because this is an
+academic place,
+
+219
+00:14:07,000 --> 00:14:12,000
+we understand that the source
+of academic information is very
+
+220
+00:14:12,000 --> 00:14:17,000
+important, if you collaborated
+on solutions you should write a
+
+221
+00:14:17,000 --> 00:14:22,000
+list of the collaborators.
+Say I worked with so and so on
+
+222
+00:14:22,000 --> 00:14:25,000
+this solution.
+It does not affect your grade.
+
+223
+00:14:25,000 --> 00:14:30,000
+It's just a question of being
+scholarly.
+
+224
+00:14:30,000 --> 00:14:34,000
+It is a violation of this
+policy to submit a problem
+
+225
+00:14:34,000 --> 00:14:38,000
+solution that you cannot orally
+explain to a member of the
+
+226
+00:14:38,000 --> 00:14:41,000
+course staff.
+You say oh, well,
+
+227
+00:14:41,000 --> 00:14:44,000
+my write-up is similar to that
+other person's.
+
+228
+00:14:44,000 --> 00:14:48,000
+I didn't copy them.
+We may ask you to orally
+
+229
+00:14:48,000 --> 00:14:51,000
+explain your solution.
+If you are unable,
+
+230
+00:14:51,000 --> 00:14:55,000
+according to this policy,
+the presumption is that you
+
+231
+00:14:55,000 --> 00:14:58,000
+cheated.
+So, do not write up stuff that
+
+232
+00:14:58,000 --> 00:15:04,000
+you don't understand.
+You should be able to write up
+
+233
+00:15:04,000 --> 00:15:08,000
+the stuff that you understand.
+Understand why you're putting
+
+234
+00:15:08,000 --> 00:15:12,000
+down what you're putting down.
+If it isn't obvious,
+
+235
+00:15:12,000 --> 00:15:15,000
+no collaboration whatsoever is
+permitted on exams.
+
+236
+00:15:15,000 --> 00:15:20,000
+Exams is when we evaluate you.
+And now we're not interested in
+
+237
+00:15:20,000 --> 00:15:23,000
+evaluating other people,
+we're interested in evaluating
+
+238
+00:15:23,000 --> 00:15:26,000
+you.
+So, no collaboration on exams.
+
+239
+00:15:26,000 --> 00:15:31,000
+We will have a take-home exam
+for the second quiz.
+
+240
+00:15:31,000 --> 00:15:33,000
+You should look at the
+schedule.
+
+241
+00:15:33,000 --> 00:15:36,000
+If there are problems with the
+schedule of that,
+
+242
+00:15:36,000 --> 00:15:39,000
+we want to know early.
+And we will give you more
+
+243
+00:15:39,000 --> 00:15:43,000
+details about the collaboration
+in the lecture on Monday,
+
+244
+00:15:43,000 --> 00:15:45,000
+November 28th.
+Now, generally,
+
+245
+00:15:45,000 --> 00:15:49,000
+the lectures here,
+they're mandatory and you have
+
+246
+00:15:49,000 --> 00:15:52,000
+to know them,
+but I know that some people say
+
+247
+00:15:52,000 --> 00:15:55,000
+gee, 9:30 is kind of early,
+especially on a Monday or
+
+248
+00:15:55,000 --> 00:15:58,000
+whatever.
+It can be kind of early to get
+
+249
+00:15:58,000 --> 00:16:01,000
+up.
+However, on Monday,
+
+250
+00:16:01,000 --> 00:16:05,000
+November 28th,
+you fail the exam if you do not
+
+251
+00:16:05,000 --> 00:16:10,000
+show up to lecture on time.
+That one day you must show up.
+
+252
+00:16:10,000 --> 00:16:14,000
+Any questions about that?
+That one day you must show up
+
+253
+00:16:14,000 --> 00:16:18,000
+here, even if you've been
+watching them on the Web.
+
+254
+00:16:18,000 --> 00:16:21,000
+And generally,
+if you think you have
+
+255
+00:16:21,000 --> 00:16:24,000
+transgressed,
+the best is to come to us to
+
+256
+00:16:24,000 --> 00:16:28,000
+talk about it.
+We can usually work something
+
+257
+00:16:28,000 --> 00:16:32,000
+out.
+It's when we find somebody has
+
+258
+00:16:32,000 --> 00:16:37,000
+transgressed from a third-party
+or from obvious analyses that we
+
+259
+00:16:37,000 --> 00:16:41,000
+do with homeworks,
+that's when things get messy.
+
+260
+00:16:41,000 --> 00:16:45,000
+So, if you think,
+for some reason or other,
+
+261
+00:16:45,000 --> 00:16:49,000
+oh, I may have done something
+wrong, please come and talk to
+
+262
+00:16:49,000 --> 00:16:52,000
+us.
+We actually were students once,
+
+263
+00:16:52,000 --> 00:16:56,000
+too, albeit many years ago.
+Any questions?
+
+264
+00:16:56,000 --> 00:17:00,000
+So, this class has great
+material.
+
+265
+00:17:00,000 --> 00:17:06,000
+Fabulous material.
+And it's really fun,
+
+266
+00:17:06,000 --> 00:17:16,000
+but you do have to work hard.
+Let's talk content.
+
+267
+00:17:16,000 --> 00:17:29,000
+
+
+268
+00:17:29,000 --> 00:17:32,000
+This is the topic of the first
+part of the course.
+
+269
+00:17:32,000 --> 00:17:35,000
+The first part of the course is
+focused on analysis.
+
+270
+00:17:35,000 --> 00:17:39,000
+The second part of the course
+is focused on design.
+
+271
+00:17:39,000 --> 00:17:43,000
+Before you can do design,
+you have to master a bunch of
+
+272
+00:17:43,000 --> 00:17:45,000
+techniques for analyzing
+algorithms.
+
+273
+00:17:45,000 --> 00:17:49,000
+And then you'll be in a
+position to design algorithms
+
+274
+00:17:49,000 --> 00:17:52,000
+that you can analyze and that
+which are efficient.
+
+275
+00:17:52,000 --> 00:17:57,000
+The analysis of algorithm is
+the theoretical study --
+
+276
+00:17:57,000 --> 00:18:05,000
+
+
+277
+00:18:05,000 --> 00:18:13,000
+-- of computer program
+performance --
+
+278
+00:18:13,000 --> 00:18:19,000
+
+
+279
+00:18:19,000 --> 00:18:24,000
+-- and resource usage.
+And a particular focus on
+
+280
+00:18:24,000 --> 00:18:28,000
+performance.
+We're studying how to make
+
+281
+00:18:28,000 --> 00:18:31,000
+things fast.
+In particular,
+
+282
+00:18:31,000 --> 00:18:36,000
+computer programs.
+We also will discover and talk
+
+283
+00:18:36,000 --> 00:18:40,000
+about other resources such as
+communication,
+
+284
+00:18:40,000 --> 00:18:44,000
+such as memory,
+whether RAM memory or disk
+
+285
+00:18:44,000 --> 00:18:48,000
+memory.
+There are other resources that
+
+286
+00:18:48,000 --> 00:18:52,000
+we may care about,
+but predominantly we focus on
+
+287
+00:18:52,000 --> 00:18:57,000
+performance.
+Because this is a course about
+
+288
+00:18:57,000 --> 00:19:02,000
+performance, I like to put
+things in perspective a little
+
+289
+00:19:02,000 --> 00:19:07,000
+bit by starting out and asking,
+in programming,
+
+290
+00:19:07,000 --> 00:19:13,000
+what is more important than
+performance?
+
+291
+00:19:13,000 --> 00:19:18,000
+If you're in an engineering
+situation and writing code,
+
+292
+00:19:18,000 --> 00:19:23,000
+writing software,
+what's more important than
+
+293
+00:19:23,000 --> 00:19:26,000
+performance?
+Correctness.
+
+294
+00:19:26,000 --> 00:19:26,000
+Good.
+OK.
+What else?
+Simplicity can be.
+
+295
+00:19:31,000 --> 00:19:32,000
+Very good.
+Yeah.
+
+296
+00:19:32,000 --> 00:19:40,000
+Maintainability often much more
+important than performance.
+
+297
+00:19:40,000 --> 00:19:44,000
+Cost.
+And what type of cost are you
+
+298
+00:19:44,000 --> 00:19:49,000
+thinking?
+No, I mean cost of what?
+
+299
+00:19:49,000 --> 00:19:53,000
+We're talking software here,
+right?
+
+300
+00:19:53,000 --> 00:20:00,000
+What type of cost do you have
+in mind?
+
+301
+00:20:00,000 --> 00:20:05,000
+There are some costs that are
+involved when programming like
+
+302
+00:20:05,000 --> 00:20:08,000
+programmer time.
+So, programmer time is another
+
+303
+00:20:08,000 --> 00:20:11,000
+thing also that might be.
+Stability.
+
+304
+00:20:11,000 --> 00:20:16,000
+Robustness of the software.
+Does it break all the time?
+
+305
+00:20:16,000 --> 00:20:18,000
+What else?
+
+306
+00:20:18,000 --> 00:20:25,000
+
+
+307
+00:20:25,000 --> 00:20:28,000
+Come on.
+We've got a bunch of engineers
+
+308
+00:20:28,000 --> 00:20:30,000
+here.
+A lot of things.
+
+309
+00:20:30,000 --> 00:20:33,000
+How about features?
+Features can be more important.
+
+310
+00:20:33,000 --> 00:20:37,000
+Having a wider collection of
+features than your competitors.
+
+311
+00:20:37,000 --> 00:20:39,000
+Functionality.
+Modularity.
+
+312
+00:20:39,000 --> 00:20:44,000
+Is it designed in a way where
+you can make changes in a local
+
+313
+00:20:44,000 --> 00:20:48,000
+part of the code and you don't
+have to make changes across the
+
+314
+00:20:48,000 --> 00:20:52,000
+code in order to affect a simple
+change in the functionality?
+
+315
+00:20:52,000 --> 00:20:56,000
+There is one big one which
+definitely, especially in the
+
+316
+00:20:56,000 --> 00:21:01,000
+`90s, was like the big thing in
+computers.
+
+317
+00:21:01,000 --> 00:21:03,000
+The big thing.
+Well, security actually.
+
+318
+00:21:03,000 --> 00:21:06,000
+Good.
+I don't even have that one
+
+319
+00:21:06,000 --> 00:21:08,000
+down.
+Security is excellent.
+
+320
+00:21:08,000 --> 00:21:11,000
+That's actually been more in
+the 2000.
+
+321
+00:21:11,000 --> 00:21:14,000
+Security has been far more
+important often than
+
+322
+00:21:14,000 --> 00:21:17,000
+performance.
+Scalability has been important,
+
+323
+00:21:17,000 --> 00:21:20,000
+although scalability,
+in some sense,
+
+324
+00:21:20,000 --> 00:21:24,000
+is performance related.
+But, yes, scalability is good.
+
+325
+00:21:24,000 --> 00:21:29,000
+What was the big breakthrough
+and why do people use Macintosh
+
+326
+00:21:29,000 --> 00:21:32,000
+rather than Windows,
+those people who are of that
+
+327
+00:21:32,000 --> 00:21:36,000
+religion?
+User-friendliness.
+
+328
+00:21:36,000 --> 00:21:38,000
+Wow.
+If you look at the number of
+
+329
+00:21:38,000 --> 00:21:43,000
+cycles of computers that went
+into user-friendliness in the
+
+330
+00:21:43,000 --> 00:21:47,000
+`90s, it grew from almost
+nothing to where it's now the
+
+331
+00:21:47,000 --> 00:21:52,000
+vast part of the computation
+goes into user-friendly.
+
+332
+00:21:52,000 --> 00:21:56,000
+So, all those things are more
+important than performance.
+
+333
+00:21:56,000 --> 00:22:00,000
+This is a course on
+performance.
+
+334
+00:22:00,000 --> 00:22:05,000
+Then you can say OK,
+well, why do we bother and why
+
+335
+00:22:05,000 --> 00:22:12,000
+study algorithms and performance
+if it's at the bottom of the
+
+336
+00:22:12,000 --> 00:22:15,000
+heap?
+Almost always people would
+
+337
+00:22:15,000 --> 00:22:20,000
+rather have these other things
+than performance.
+
+338
+00:22:20,000 --> 00:22:26,000
+You go off and you say to
+somebody, would I rather have
+
+339
+00:22:26,000 --> 00:22:32,000
+performance or more
+user-friendliness?
+
+340
+00:22:32,000 --> 00:22:36,000
+It's almost always more
+important than performance.
+
+341
+00:22:36,000 --> 00:22:39,000
+Why do we care then?
+Yeah?
+
+342
+00:22:39,000 --> 00:22:44,000
+
+
+343
+00:22:44,000 --> 00:22:47,000
+That wasn't user-friendly.
+Sometimes performance is
+
+344
+00:22:47,000 --> 00:22:50,000
+correlated with
+user-friendliness,
+
+345
+00:22:50,000 --> 00:22:52,000
+absolutely.
+Nothing is more frustrating
+
+346
+00:22:52,000 --> 00:22:55,000
+than sitting there waiting,
+right?
+
+347
+00:22:55,000 --> 00:22:58,000
+So, that's a good reason.
+What are some other reasons
+
+348
+00:22:58,000 --> 00:23:02,000
+why?
+Sometimes they have real-time
+
+349
+00:23:02,000 --> 00:23:07,000
+constraints so they don't
+actually work unless they
+
+350
+00:23:07,000 --> 00:23:10,000
+perform adequately.
+Yeah?
+
+351
+00:23:10,000 --> 00:23:14,000
+Hard to get,
+well, we don't usually quantify
+
+352
+00:23:14,000 --> 00:23:19,000
+user-friendliness so I'm not
+sure, but I understand what
+
+353
+00:23:19,000 --> 00:23:23,000
+you're saying.
+He said we don't get
+
+354
+00:23:23,000 --> 00:23:26,000
+exponential performance
+improvements in
+
+355
+00:23:26,000 --> 00:23:32,000
+user-friendliness.
+We often don't get that in
+
+356
+00:23:32,000 --> 00:23:34,000
+performance either,
+by the way.
+
+357
+00:23:34,000 --> 00:23:38,000
+[LAUGHTER] Sometimes we do,
+but that's good.
+
+358
+00:23:38,000 --> 00:23:42,000
+There are several reasons that
+I think are important.
+
+359
+00:23:42,000 --> 00:23:47,000
+Once is that often performance
+measures the line between the
+
+360
+00:23:47,000 --> 00:23:51,000
+feasible and the infeasible.
+We have heard some of these
+
+361
+00:23:51,000 --> 00:23:53,000
+things.
+For example,
+
+362
+00:23:53,000 --> 00:23:56,000
+when there are real-time
+requirements,
+
+363
+00:23:56,000 --> 00:24:02,000
+if it's not fast enough it's
+simply not functional.
+
+364
+00:24:02,000 --> 00:24:05,000
+Or, if it uses too much memory
+it's simply not going to work
+
+365
+00:24:05,000 --> 00:24:07,000
+for you.
+And, as a consequence,
+
+366
+00:24:07,000 --> 00:24:10,000
+what you find is algorithms are
+on the cutting edge of
+
+367
+00:24:10,000 --> 00:24:13,000
+entrepreneurship.
+If you're talking about just
+
+368
+00:24:13,000 --> 00:24:16,000
+re-implementing stuff that
+people did ten years ago,
+
+369
+00:24:16,000 --> 00:24:19,000
+performance isn't that
+important at some level.
+
+370
+00:24:19,000 --> 00:24:23,000
+But, if you're talking about
+doing stuff that nobody has done
+
+371
+00:24:23,000 --> 00:24:27,000
+before, one of the reasons often
+that they haven't done it is
+
+372
+00:24:27,000 --> 00:24:31,000
+because it's too time-consuming.
+Things don't scale and so
+
+373
+00:24:31,000 --> 00:24:34,000
+forth.
+So, that's one reason,
+
+374
+00:24:34,000 --> 00:24:36,000
+is the feasible versus
+infeasible.
+
+375
+00:24:36,000 --> 00:24:40,000
+Another thing is that
+algorithms give you a language
+
+376
+00:24:40,000 --> 00:24:44,000
+for talking about program
+behavior, and that turns out to
+
+377
+00:24:44,000 --> 00:24:48,000
+be a language that has been
+pervasive through computer
+
+378
+00:24:48,000 --> 00:24:53,000
+science, is that the theoretical
+language is what gets adopted by
+
+379
+00:24:53,000 --> 00:24:57,000
+all the practitioners because
+it's a clean way of thinking
+
+380
+00:24:57,000 --> 00:25:02,000
+about things.
+A good way I think about
+
+381
+00:25:02,000 --> 00:25:07,000
+performance, and the reason it's
+on the bottom of the heap,
+
+382
+00:25:07,000 --> 00:25:13,000
+is sort of like performance is
+like money, it's like currency.
+
+383
+00:25:13,000 --> 00:25:18,000
+You say what good does a stack
+of hundred dollar bills do for
+
+384
+00:25:18,000 --> 00:25:21,000
+you?
+Would you rather have food or
+
+385
+00:25:21,000 --> 00:25:27,000
+water or shelter or whatever?
+And you're willing to pay those
+
+386
+00:25:27,000 --> 00:25:31,000
+hundred dollar bills,
+if you have hundred dollar
+
+387
+00:25:31,000 --> 00:25:37,000
+bills, for that commodity.
+Even though water is far more
+
+388
+00:25:37,000 --> 00:25:40,000
+important to your living.
+Well, similarly,
+
+389
+00:25:40,000 --> 00:25:44,000
+performance is what you use to
+pay for user-friendliness.
+
+390
+00:25:44,000 --> 00:25:48,000
+It's what you pay for security.
+And you hear people say,
+
+391
+00:25:48,000 --> 00:25:50,000
+for example,
+that I want greater
+
+392
+00:25:50,000 --> 00:25:53,000
+functionality,
+so people will program in Java,
+
+393
+00:25:53,000 --> 00:25:58,000
+even though it's much slower
+than C, because they'll say it
+
+394
+00:25:58,000 --> 00:26:02,000
+costs me maybe a factor of three
+or something in performance to
+
+395
+00:26:02,000 --> 00:26:06,000
+program in Java.
+But Java is worth it because
+
+396
+00:26:06,000 --> 00:26:10,000
+it's got all these
+object-oriented features and so
+
+397
+00:26:10,000 --> 00:26:12,000
+forth, exception mechanisms and
+so on.
+
+398
+00:26:12,000 --> 00:26:16,000
+And so people are willing to
+pay a factor of three in
+
+399
+00:26:16,000 --> 00:26:18,000
+performance.
+So, that's why you want
+
+400
+00:26:18,000 --> 00:26:22,000
+performance because you can use
+it to pay for these other things
+
+401
+00:26:22,000 --> 00:26:24,000
+that you want.
+And that's why,
+
+402
+00:26:24,000 --> 00:26:27,000
+in some sense,
+it's on the bottom of the heap,
+
+403
+00:26:27,000 --> 00:26:32,000
+because it's the universal
+thing that you quantify.
+
+404
+00:26:32,000 --> 00:26:37,000
+Do you want to spend a factor
+of two on this or spend a factor
+
+405
+00:26:37,000 --> 00:26:39,000
+of three on security,
+et cetera?
+
+406
+00:26:39,000 --> 00:26:43,000
+And, in addition,
+the lessons generalize to other
+
+407
+00:26:43,000 --> 00:26:46,000
+resource measures like
+communication,
+
+408
+00:26:46,000 --> 00:26:50,000
+like memory and so forth.
+And the last reason we study
+
+409
+00:26:50,000 --> 00:26:54,000
+algorithm performance is it's
+tons of fun.
+
+410
+00:26:54,000 --> 00:26:56,000
+Speed is always fun,
+right?
+
+411
+00:26:56,000 --> 00:26:59,000
+Why do people drive fast cars,
+race horses,
+
+412
+00:26:59,000 --> 00:27:03,000
+whatever?
+Rockets, et cetera,
+
+413
+00:27:03,000 --> 00:27:06,000
+why do we do that?
+Because speed is fun.
+
+414
+00:27:06,000 --> 00:27:07,000
+Ski.
+Who likes to ski?
+
+415
+00:27:07,000 --> 00:27:10,000
+I love to ski.
+I like going fast on those
+
+416
+00:27:10,000 --> 00:27:11,000
+skis.
+It's fun.
+
+417
+00:27:11,000 --> 00:27:13,000
+Hockey, fast sports,
+right?
+
+418
+00:27:13,000 --> 00:27:16,000
+We all like the fast sports.
+Not all of us,
+
+419
+00:27:16,000 --> 00:27:18,000
+I mean.
+Some people say he's not
+
+420
+00:27:18,000 --> 00:27:20,000
+talking to me.
+OK, let's move on.
+
+421
+00:27:20,000 --> 00:27:24,000
+That's sort of a little bit of
+a notion as to why we study
+
+422
+00:27:24,000 --> 00:27:27,000
+this, is that it does,
+in some sense,
+
+423
+00:27:27,000 --> 00:27:30,000
+form a common basis for all
+these other things we care
+
+424
+00:27:30,000 --> 00:27:35,000
+about.
+And so we want to understand
+
+425
+00:27:35,000 --> 00:27:40,000
+how can we generate money for
+ourselves in computation?
+
+426
+00:27:40,000 --> 00:27:44,000
+We're going to start out with a
+very simple problem.
+
+427
+00:27:44,000 --> 00:27:49,000
+It's one of the oldest problems
+that has been studied in
+
+428
+00:27:49,000 --> 00:27:52,000
+algorithms, is the problem of
+sorting.
+
+429
+00:27:52,000 --> 00:27:57,000
+We're going to actually study
+this for several lectures
+
+430
+00:27:57,000 --> 00:28:03,000
+because sorting contains many
+algorithmic techniques.
+
+431
+00:28:03,000 --> 00:28:10,000
+The sorting problem is the
+following.
+
+432
+00:28:10,000 --> 00:28:20,000
+We have a sequence a_1,
+a_2 up to a_n of numbers as
+
+433
+00:28:20,000 --> 00:28:28,000
+input.
+And our output is a permutation
+
+434
+00:28:28,000 --> 00:28:33,000
+of those numbers.
+
+435
+00:28:33,000 --> 00:28:42,000
+
+
+436
+00:28:42,000 --> 00:28:47,000
+A permutation is a
+rearrangement of the numbers.
+
+437
+00:28:47,000 --> 00:28:53,000
+Every number appears exactly
+once in the rearrangement such
+
+438
+00:28:53,000 --> 00:28:59,000
+that, I sometimes use a dollar
+sign to mean "such that," a_1 is
+
+439
+00:28:59,000 --> 00:29:06,000
+less than or equal to a_2 prime.
+Such that they are
+
+440
+00:29:06,000 --> 00:29:11,000
+monotonically increasing in
+size.
+
+441
+00:29:11,000 --> 00:29:17,000
+Take a bunch of numbers,
+put them in order.
+
+442
+00:29:17,000 --> 00:29:27,000
+Here's an algorithm to do it.
+It's called insertion sort.
+
+443
+00:29:27,000 --> 00:29:40,000
+
+
+444
+00:29:40,000 --> 00:29:44,000
+And we will write this
+algorithm in what we call
+
+445
+00:29:44,000 --> 00:29:47,000
+pseudocode.
+It's sort of a programming
+
+446
+00:29:47,000 --> 00:29:51,000
+language, except it's got
+English in there often.
+
+447
+00:29:51,000 --> 00:29:57,000
+And it's just a shorthand for
+writing for being precise.
+
+448
+00:29:57,000 --> 00:30:06,000
+So this sorts A from 1 to n.
+And here is the code for it.
+
+449
+00:30:06,000 --> 00:30:59,000
+
+
+450
+00:30:59,000 --> 00:31:01,000
+This is what we call
+pseudocode.
+
+451
+00:31:01,000 --> 00:31:06,000
+And if you don't understand the
+pseudocode then you should ask
+
+452
+00:31:06,000 --> 00:31:09,000
+questions about any of the
+notations.
+
+453
+00:31:09,000 --> 00:31:13,000
+You will start to get used to
+it as we go on.
+
+454
+00:31:13,000 --> 00:31:18,000
+One thing is that in the
+pseudocode we use indentation,
+
+455
+00:31:18,000 --> 00:31:23,000
+where in most languages they
+have some kind of begin-end
+
+456
+00:31:23,000 --> 00:31:27,000
+delimiters like curly braces or
+something in Java or C,
+
+457
+00:31:27,000 --> 00:31:31,000
+for example.
+We just use indentation.
+
+458
+00:31:31,000 --> 00:31:35,000
+The whole idea of the
+pseudocode is to try to get the
+
+459
+00:31:35,000 --> 00:31:39,000
+algorithms as short as possible
+while still understanding what
+
+460
+00:31:39,000 --> 00:31:42,000
+the individual steps are.
+In practice,
+
+461
+00:31:42,000 --> 00:31:46,000
+there actually have been
+languages that use indentation
+
+462
+00:31:46,000 --> 00:31:49,000
+as a means of showing the
+nesting of things.
+
+463
+00:31:49,000 --> 00:31:52,000
+It's generally a bad idea,
+because if things go over one
+
+464
+00:31:52,000 --> 00:31:54,000
+page to another,
+for example,
+
+465
+00:31:54,000 --> 00:31:59,000
+you cannot tell what level of
+nesting it is.
+
+466
+00:31:59,000 --> 00:32:03,000
+Whereas, with explicit braces
+it's much easier to tell.
+
+467
+00:32:03,000 --> 00:32:09,000
+So, there are reasons why this
+is a bad notation if you were
+
+468
+00:32:09,000 --> 00:32:14,000
+doing software engineering.
+But it's a good one for us
+
+469
+00:32:14,000 --> 00:32:19,000
+because it just keeps things
+short and makes fewer things to
+
+470
+00:32:19,000 --> 00:32:23,000
+write down.
+So, this is insertion sort.
+
+471
+00:32:23,000 --> 00:32:29,000
+Let's try to figure out a
+little bit what this does.
+
+472
+00:32:29,000 --> 00:32:36,000
+It basically takes an array A
+and at any point the thing to
+
+473
+00:32:36,000 --> 00:32:42,000
+understand is,
+we're setting basically,
+
+474
+00:32:42,000 --> 00:32:48,000
+we're running the outer loop
+from j is 2 to n,
+
+475
+00:32:48,000 --> 00:32:56,000
+and the inner loop that starts
+at j minus 1 and then goes down
+
+476
+00:32:56,000 --> 00:33:02,000
+until it's zero.
+Basically, if we look at any
+
+477
+00:33:02,000 --> 00:33:06,000
+point in the algorithm,
+we essentially are looking at
+
+478
+00:33:06,000 --> 00:33:10,000
+some element here j.
+A of j, the jth element.
+
+479
+00:33:10,000 --> 00:33:16,000
+And what we do essentially is
+we pull a value out here that we
+
+480
+00:33:16,000 --> 00:33:19,000
+call the key.
+And at this point the important
+
+481
+00:33:19,000 --> 00:33:24,000
+thing to understand,
+and we'll talk more about this
+
+482
+00:33:24,000 --> 00:33:28,000
+in recitation on Friday,
+is that there is an invariant
+
+483
+00:33:28,000 --> 00:33:35,000
+that is being maintained by this
+loop each time through.
+
+484
+00:33:35,000 --> 00:33:40,000
+And the invariant is that this
+part of the array is sorted.
+
+485
+00:33:40,000 --> 00:33:45,000
+And the goal each time through
+the loop is to increase,
+
+486
+00:33:45,000 --> 00:33:51,000
+is to add one to the length of
+the things that are sorted.
+
+487
+00:33:51,000 --> 00:33:56,000
+And the way we do that is we
+pull out the key and we just
+
+488
+00:33:56,000 --> 00:34:02,000
+copy values up like this.
+And keep copying up until we
+
+489
+00:34:02,000 --> 00:34:07,000
+find the place where this key
+goes, and then we insert it in
+
+490
+00:34:07,000 --> 00:34:10,000
+that place.
+And that's why it's called
+
+491
+00:34:10,000 --> 00:34:14,000
+insertion sort.
+We just sort of move the
+
+492
+00:34:14,000 --> 00:34:19,000
+things, copy the things up until
+we find where it goes,
+
+493
+00:34:19,000 --> 00:34:24,000
+and then we put it into place.
+And now we have it from A from
+
+494
+00:34:24,000 --> 00:34:28,000
+one to j is sorted,
+and now we can work on j plus
+
+495
+00:34:28,000 --> 00:34:33,000
+one.
+Let's give an example of that.
+
+496
+00:34:33,000 --> 00:34:38,000
+Imagine we are doing 8,
+2, 4, 9, 3, 6.
+
+497
+00:34:38,000 --> 00:34:45,000
+We start out with j equals 2.
+And we figure out that we want
+
+498
+00:34:45,000 --> 00:34:49,000
+to insert it there.
+Now we have 2,
+
+499
+00:34:49,000 --> 00:34:54,000
+8, 4, 9, 3, 6.
+Then we look at the four and
+
+500
+00:34:54,000 --> 00:35:00,000
+say oh, well,
+that goes over here.
+
+501
+00:35:00,000 --> 00:35:03,000
+We get 2, 4,
+8, 9, 3, 6 after the second
+
+502
+00:35:03,000 --> 00:35:09,000
+iteration of the outer loop.
+Then we look at 9 and discover
+
+503
+00:35:09,000 --> 00:35:12,000
+immediately it just goes right
+there.
+
+504
+00:35:12,000 --> 00:35:15,000
+Very little work to do on that
+step.
+
+505
+00:35:15,000 --> 00:35:20,000
+So, we have exactly the same
+output after that iteration.
+
+506
+00:35:20,000 --> 00:35:26,000
+Then we look at the 3 and
+that's going to be inserted over
+
+507
+00:35:26,000 --> 00:35:30,000
+there.
+2, 3, 4, 8, 9,
+
+508
+00:35:30,000 --> 00:00:06,000
+
+
+509
+00:00:06,000 --> 00:35:34,000
+And finally we look at the 6
+
+510
+00:35:34,000 --> 00:35:39,000
+and that goes in there.
+2, 3, 4, 6, 8,
+
+511
+00:35:39,000 --> 00:00:09,000
+
+
+512
+00:00:09,000 --> 00:35:44,000
+And at that point we are done.
+
+513
+00:35:44,000 --> 00:35:47,000
+Question?
+
+514
+00:35:47,000 --> 00:35:58,000
+
+
+515
+00:35:58,000 --> 00:36:01,000
+The array initially starts at
+one, yes.
+
+516
+00:36:01,000 --> 00:36:05,000
+A[1...n], OK?
+So, this is the insertion sort
+
+517
+00:36:05,000 --> 00:36:09,000
+algorithm.
+And it's the first algorithm
+
+518
+00:36:09,000 --> 00:36:15,000
+that we're going to analyze.
+And we're going to pull out
+
+519
+00:36:15,000 --> 00:36:20,000
+some tools that we have from our
+math background to help to
+
+520
+00:36:20,000 --> 00:36:23,000
+analyze it.
+First of all,
+
+521
+00:36:23,000 --> 00:36:29,000
+let's take a look at the issue
+of running time.
+
+522
+00:36:29,000 --> 00:36:36,000
+The running time depends,
+of this algorithm depends on a
+
+523
+00:36:36,000 --> 00:36:41,000
+lot of things.
+One thing it depends on is the
+
+524
+00:36:41,000 --> 00:36:44,000
+input itself.
+For example,
+
+525
+00:36:44,000 --> 00:36:50,000
+if the input is already sorted
+--
+
+526
+00:36:50,000 --> 00:36:55,000
+
+
+527
+00:36:55,000 --> 00:37:00,000
+-- then insertion sort has very
+little work to do.
+
+528
+00:37:00,000 --> 00:37:04,000
+Because every time through it's
+going to be like this case.
+
+529
+00:37:04,000 --> 00:37:08,000
+It doesn't have to shuffle too
+many guys over because they're
+
+530
+00:37:08,000 --> 00:37:11,000
+already in place.
+Whereas, in some sense,
+
+531
+00:37:11,000 --> 00:37:14,000
+what's the worst case for
+insertion sort?
+
+532
+00:37:14,000 --> 00:37:19,000
+If it is reverse sorted then
+it's going to have to do a lot
+
+533
+00:37:19,000 --> 00:37:23,000
+of work because it's going to
+have to shuffle everything over
+
+534
+00:37:23,000 --> 00:37:29,000
+on each step of the outer loop.
+In addition to the actual input
+
+535
+00:37:29,000 --> 00:37:32,000
+it depends, of course,
+on the input size.
+
+536
+00:37:32,000 --> 00:37:38,000
+
+
+537
+00:37:38,000 --> 00:37:41,000
+Here, for example,
+we did six elements.
+
+538
+00:37:41,000 --> 00:37:46,000
+It's going to take longer if
+we, for example,
+
+539
+00:37:46,000 --> 00:37:50,000
+do six times ten to the ninth
+elements.
+
+540
+00:37:50,000 --> 00:37:56,000
+If we were sorting a lot more
+stuff, it's going to take us a
+
+541
+00:37:56,000 --> 00:38:00,000
+lot longer.
+Typically, the way we handle
+
+542
+00:38:00,000 --> 00:38:06,000
+that is we are going to
+parameterize things in the input
+
+543
+00:38:06,000 --> 00:38:10,000
+size.
+We are going to talk about time
+
+544
+00:38:10,000 --> 00:38:16,000
+as a function of the size of
+things that we are sorting so we
+
+545
+00:38:16,000 --> 00:38:19,000
+can look at what is the behavior
+of that.
+
+546
+00:38:19,000 --> 00:38:24,000
+And the last thing I want to
+say about running time is
+
+547
+00:38:24,000 --> 00:38:30,000
+generally we want upper bonds on
+the running time.
+
+548
+00:38:30,000 --> 00:38:34,000
+We want to know that the time
+is no more than a certain
+
+549
+00:38:34,000 --> 00:38:37,000
+amount.
+And the reason is because that
+
+550
+00:38:37,000 --> 00:38:40,000
+represents a guarantee to the
+user.
+
+551
+00:38:40,000 --> 00:38:43,000
+If I say it's not going to run,
+for example,
+
+552
+00:38:43,000 --> 00:38:48,000
+if I tell you here's a program
+and it won't run more than three
+
+553
+00:38:48,000 --> 00:38:53,000
+seconds, that gives you real
+information about how you could
+
+554
+00:38:53,000 --> 00:38:58,000
+use it, for example,
+in a real-time setting.
+
+555
+00:38:58,000 --> 00:39:02,000
+Whereas, if I said here's a
+program and it goes at least
+
+556
+00:39:02,000 --> 00:39:06,000
+three seconds,
+you don't know if it's going to
+
+557
+00:39:06,000 --> 00:39:10,000
+go for three years.
+It doesn't give you that much
+
+558
+00:39:10,000 --> 00:39:13,000
+guarantee if you are a user of
+it.
+
+559
+00:39:13,000 --> 00:39:17,000
+Generally we want upper bonds
+because it represents a
+
+560
+00:39:17,000 --> 00:39:20,000
+guarantee to the user.
+
+561
+00:39:20,000 --> 00:39:30,000
+
+
+562
+00:39:30,000 --> 00:39:33,000
+There are different kinds of
+analyses that people do.
+
+563
+00:39:33,000 --> 00:39:44,000
+
+
+564
+00:39:44,000 --> 00:39:53,000
+The one we're mostly going to
+focus on is what's called
+
+565
+00:39:53,000 --> 00:40:01,000
+worst-case analysis.
+And this is what we do usually
+
+566
+00:40:01,000 --> 00:40:11,000
+where we define T of n to be the
+maximum time on any input of
+
+567
+00:40:11,000 --> 00:40:15,000
+size n.
+So, it's the maximum input,
+
+568
+00:40:15,000 --> 00:40:19,000
+the maximum it could possibly
+cost us on an input of size n.
+
+569
+00:40:19,000 --> 00:40:22,000
+What that does is,
+if you look at the fact that
+
+570
+00:40:22,000 --> 00:40:26,000
+sometimes the inputs are better
+and sometimes they're worse,
+
+571
+00:40:26,000 --> 00:40:30,000
+we're looking at the worst case
+of those because that's the way
+
+572
+00:40:30,000 --> 00:40:34,000
+we're going to be able to make a
+guarantee.
+
+573
+00:40:34,000 --> 00:40:37,000
+It always does something rather
+than just sometimes does
+
+574
+00:40:37,000 --> 00:40:40,000
+something.
+So, we're looking at the
+
+575
+00:40:40,000 --> 00:40:42,000
+maximum.
+Notice that if I didn't have
+
+576
+00:40:42,000 --> 00:40:46,000
+maximum then T(n) in some sense
+is a relation,
+
+577
+00:40:46,000 --> 00:40:49,000
+not a function,
+because the time on an input of
+
+578
+00:40:49,000 --> 00:40:52,000
+size n depends on which input of
+size n.
+
+579
+00:40:52,000 --> 00:40:56,000
+I could have many different
+times, but by putting the
+
+580
+00:40:56,000 --> 00:40:59,000
+maximum at it,
+it turns that relation into a
+
+581
+00:40:59,000 --> 00:41:03,000
+function because there's only
+one maximum time that it will
+
+582
+00:41:03,000 --> 00:41:11,000
+take.
+Sometimes we will talk about
+
+583
+00:41:11,000 --> 00:41:21,000
+average case.
+Sometimes we will do this.
+
+584
+00:41:21,000 --> 00:41:35,000
+Here T of n is then the
+expected time over all inputs of
+
+585
+00:41:35,000 --> 00:41:39,000
+size n.
+It's the expected time.
+
+586
+00:41:39,000 --> 00:41:45,000
+Now, if I talk about expected
+time, what else do I need to say
+
+587
+00:41:45,000 --> 00:41:47,000
+here?
+What does that mean,
+
+588
+00:41:47,000 --> 00:41:49,000
+expected time?
+I'm sorry.
+
+589
+00:41:49,000 --> 00:41:52,000
+Raise your hand.
+Expected inputs.
+
+590
+00:41:52,000 --> 00:41:56,000
+What does that mean,
+expected inputs?
+
+591
+00:41:56,000 --> 00:42:05,000
+
+
+592
+00:42:05,000 --> 00:42:10,000
+I need more math.
+What do I need by expected time
+
+593
+00:42:10,000 --> 00:42:14,000
+here, math?
+You have to take the time of
+
+594
+00:42:14,000 --> 00:42:18,000
+every input and then average
+them, OK.
+
+595
+00:42:18,000 --> 00:42:22,000
+That's kind of what we mean by
+expected time.
+
+596
+00:42:22,000 --> 00:42:24,000
+Good.
+Not quite.
+
+597
+00:42:24,000 --> 00:42:28,000
+I mean, what you say is
+completely correct,
+
+598
+00:42:28,000 --> 00:42:33,000
+except is not quite enough.
+Yeah?
+
+599
+00:42:33,000 --> 00:42:39,000
+It's the time of every input
+times the probability that it
+
+600
+00:42:39,000 --> 00:42:44,000
+will be that input.
+It's a way of taking a weighted
+
+601
+00:42:44,000 --> 00:42:49,000
+average, exactly right.
+How do I know what the
+
+602
+00:42:49,000 --> 00:42:54,000
+probability of every input is?
+How do I know what the
+
+603
+00:42:54,000 --> 00:43:02,000
+probability a particular input
+occurs is in a given situation?
+
+604
+00:43:02,000 --> 00:43:06,000
+I don't.
+I have to make an assumption.
+
+605
+00:43:06,000 --> 00:43:12,000
+What's that assumption called?
+What kind of assumption do I
+
+606
+00:43:12,000 --> 00:43:17,000
+have to meet?
+I need an assumption --
+
+607
+00:43:17,000 --> 00:43:24,000
+
+
+608
+00:43:24,000 --> 00:43:28,000
+-- of the statistical
+distribution of inputs.
+
+609
+00:43:28,000 --> 00:43:33,000
+Otherwise, expected time
+doesn't mean anything because I
+
+610
+00:43:33,000 --> 00:43:38,000
+don't know what the probability
+of something is.
+
+611
+00:43:38,000 --> 00:43:43,000
+In order to do probability,
+you need some assumptions and
+
+612
+00:43:43,000 --> 00:43:48,000
+you've got to state those
+assumptions clearly.
+
+613
+00:43:48,000 --> 00:43:53,000
+One of the most common
+assumptions is that all inputs
+
+614
+00:43:53,000 --> 00:43:57,000
+are equally likely.
+That's called the uniform
+
+615
+00:43:57,000 --> 00:44:01,000
+distribution.
+Every input of size n is
+
+616
+00:44:01,000 --> 00:44:04,000
+equally likely,
+that kind of thing.
+
+617
+00:44:04,000 --> 00:44:09,000
+But there are other ways that
+you could make that assumption,
+
+618
+00:44:09,000 --> 00:44:14,000
+and they may not all be true.
+This is much more complicated,
+
+619
+00:44:14,000 --> 00:44:16,000
+as you can see.
+Fortunately,
+
+620
+00:44:16,000 --> 00:44:20,000
+all of you have a strong
+probability background.
+
+621
+00:44:20,000 --> 00:44:24,000
+And so we will not have any
+trouble addressing these
+
+622
+00:44:24,000 --> 00:44:30,000
+probabilistic issues of dealing
+with expectations and such.
+
+623
+00:44:30,000 --> 00:44:34,000
+If you don't,
+time to go and say gee,
+
+624
+00:44:34,000 --> 00:44:40,000
+maybe I should take that
+Probability class that is a
+
+625
+00:44:40,000 --> 00:44:46,000
+prerequisite for this class.
+The last one I am going to
+
+626
+00:44:46,000 --> 00:44:53,000
+mention is best-case analysis.
+And this I claim is bogus.
+
+627
+00:44:53,000 --> 00:44:55,000
+Bogus.
+No good.
+
+628
+00:44:55,000 --> 00:45:00,000
+Why is best-case analysis
+bogus?
+
+629
+00:45:00,000 --> 00:45:02,000
+Yeah?
+The best-case probably doesn't
+
+630
+00:45:02,000 --> 00:45:05,000
+ever happen.
+Actually, it's interesting
+
+631
+00:45:05,000 --> 00:45:10,000
+because for the sorting problem,
+the most common things that get
+
+632
+00:45:10,000 --> 00:45:15,000
+sorted are things that are
+already sorted interestingly,
+
+633
+00:45:15,000 --> 00:45:18,000
+or at least almost sorted.
+For example,
+
+634
+00:45:18,000 --> 00:45:23,000
+one of the most common things
+that are sorted is check numbers
+
+635
+00:45:23,000 --> 00:45:25,000
+by banks.
+They tend to come in,
+
+636
+00:45:25,000 --> 00:45:30,000
+in the same order that they are
+written.
+
+637
+00:45:30,000 --> 00:45:36,000
+They're sorting things that are
+almost always sorted.
+
+638
+00:45:36,000 --> 00:45:41,000
+I mean, it's good.
+When upper bond,
+
+639
+00:45:41,000 --> 00:45:46,000
+not lower bound?
+Yeah, you want to make a
+
+640
+00:45:46,000 --> 00:45:50,000
+guarantee.
+And so why is this not a
+
+641
+00:45:50,000 --> 00:45:55,000
+guarantee?
+You're onto something there,
+
+642
+00:45:55,000 --> 00:46:02,000
+but we need a little more
+precision here.
+
+643
+00:46:02,000 --> 00:46:04,000
+How can I cheat?
+Yeah?
+
+644
+00:46:04,000 --> 00:46:07,000
+Yeah, you can cheat.
+You cheat.
+
+645
+00:46:07,000 --> 00:46:14,000
+You take any slow algorithm
+that you want and just check for
+
+646
+00:46:14,000 --> 00:46:19,000
+some particular input,
+and if it's that input,
+
+647
+00:46:19,000 --> 00:46:25,000
+then you say immediately yeah,
+OK, here is the answer.
+
+648
+00:46:25,000 --> 00:46:30,000
+And then it's got a good
+best-case.
+
+649
+00:46:30,000 --> 00:46:37,000
+But I didn't tell you anything
+about the vast majority of what
+
+650
+00:46:37,000 --> 00:46:42,000
+is going on.
+So, you can cheat with a slow
+
+651
+00:46:42,000 --> 00:46:46,000
+algorithm that works fast on
+some input.
+
+652
+00:46:46,000 --> 00:46:53,000
+It doesn't really do much for
+you so we normally don't worry
+
+653
+00:46:53,000 --> 00:46:56,000
+about that.
+Let's see.
+
+654
+00:46:56,000 --> 00:47:02,000
+What is insertion sorts
+worst-case time?
+
+655
+00:47:02,000 --> 00:47:07,000
+Now we get into some sort of
+funny issues.
+
+656
+00:47:07,000 --> 00:47:12,000
+First of all,
+it sort of depends on the
+
+657
+00:47:12,000 --> 00:47:17,000
+computer you're running on.
+Whose computer,
+
+658
+00:47:17,000 --> 00:47:22,000
+right?
+Is it a big supercomputer or is
+
+659
+00:47:22,000 --> 00:47:27,000
+it your wristwatch?
+They have different
+
+660
+00:47:27,000 --> 00:47:34,000
+computational abilities.
+And when we compare algorithms,
+
+661
+00:47:34,000 --> 00:47:37,000
+we compare them typically for
+relative speed.
+
+662
+00:47:37,000 --> 00:47:42,000
+This is if you compared two
+algorithms on the same machine.
+
+663
+00:47:42,000 --> 00:47:45,000
+You could argue,
+well, it doesn't really matter
+
+664
+00:47:45,000 --> 00:47:50,000
+what the machine is because I
+will just look at their relative
+
+665
+00:47:50,000 --> 00:47:52,000
+speed.
+But, of course,
+
+666
+00:47:52,000 --> 00:47:55,000
+I may also be interested in
+absolute speed.
+
+667
+00:47:55,000 --> 00:47:59,000
+Is one algorithm actually
+better no matter what machine
+
+668
+00:47:59,000 --> 00:48:02,000
+it's run on?
+
+669
+00:48:02,000 --> 00:48:08,000
+
+
+670
+00:48:08,000 --> 00:48:13,000
+And so this kind of gets sort
+of confusing as to how I can
+
+671
+00:48:13,000 --> 00:48:18,000
+talk about the worst-case time
+of an algorithm of a piece of
+
+672
+00:48:18,000 --> 00:48:23,000
+software when I am not talking
+about the hardware because,
+
+673
+00:48:23,000 --> 00:48:27,000
+clearly, if I had run on a
+faster machine,
+
+674
+00:48:27,000 --> 00:48:30,000
+my algorithms are going to go
+faster.
+
+675
+00:48:30,000 --> 00:48:36,000
+So, this is where you get the
+big idea of algorithms.
+
+676
+00:48:36,000 --> 00:48:39,000
+Which is why algorithm is such
+a huge field,
+
+677
+00:48:39,000 --> 00:48:43,000
+why it spawns companies like
+Google, like Akamai,
+
+678
+00:48:43,000 --> 00:48:46,000
+like Amazon.
+Why algorithmic analysis,
+
+679
+00:48:46,000 --> 00:48:50,000
+throughout the history of
+computing, has been such a huge
+
+680
+00:48:50,000 --> 00:48:55,000
+success, is our ability to
+master and to be able to take
+
+681
+00:48:55,000 --> 00:49:00,000
+what is apparently a really
+messy, complicated situation and
+
+682
+00:49:00,000 --> 00:49:05,000
+reduce it to being able to do
+some mathematics.
+
+683
+00:49:05,000 --> 00:49:09,000
+And that idea is called
+asymptotic analysis.
+
+684
+00:49:09,000 --> 00:49:17,000
+
+
+685
+00:49:17,000 --> 00:49:21,000
+And the basic idea of
+asymptotic analysis is to ignore
+
+686
+00:49:21,000 --> 00:49:25,000
+machine-dependent constants --
+
+687
+00:49:25,000 --> 00:49:34,000
+
+
+688
+00:49:34,000 --> 00:49:38,000
+-- and, instead of the actual
+running time,
+
+689
+00:49:38,000 --> 00:49:43,000
+look at the growth of the
+running time.
+
+690
+00:49:43,000 --> 00:49:59,000
+
+
+691
+00:49:59,000 --> 00:50:02,000
+So, we don't look at the actual
+running time.
+
+692
+00:50:02,000 --> 00:50:07,000
+We look at the growth.
+Let's see what we mean by that.
+
+693
+00:50:07,000 --> 00:50:10,000
+This is a huge idea.
+It's not a hard idea,
+
+694
+00:50:10,000 --> 00:50:16,000
+otherwise I wouldn't be able to
+teach it in the first lecture,
+
+695
+00:50:16,000 --> 00:50:20,000
+but it's a huge idea.
+We are going to spend a couple
+
+696
+00:50:20,000 --> 00:50:25,000
+of lectures understanding the
+implications of that and will
+
+697
+00:50:25,000 --> 00:50:30,000
+basically be doing it throughout
+the term.
+
+698
+00:50:30,000 --> 00:50:33,000
+And if you go on to be
+practicing engineers,
+
+699
+00:50:33,000 --> 00:50:36,000
+you will be doing it all the
+time.
+
+700
+00:50:36,000 --> 00:50:40,000
+In order to do that,
+we adopt some notations that
+
+701
+00:50:40,000 --> 00:50:43,000
+are going to help us.
+In particular,
+
+702
+00:50:43,000 --> 00:50:46,000
+we will adopt asymptotic
+notation.
+
+703
+00:50:46,000 --> 00:50:51,000
+Most of you have seen some kind
+of asymptotic notation.
+
+704
+00:50:51,000 --> 00:50:55,000
+Maybe a few of you haven't,
+but mostly you should have seen
+
+705
+00:50:55,000 --> 00:50:59,000
+a little bit.
+The one we're going to be using
+
+706
+00:50:59,000 --> 00:51:05,000
+in this class predominantly is
+theta notation.
+
+707
+00:51:05,000 --> 00:51:12,000
+And theta notation is pretty
+easy notation to master because
+
+708
+00:51:12,000 --> 00:51:16,000
+all you do is,
+from a formula,
+
+709
+00:51:16,000 --> 00:51:24,000
+just drop low order terms and
+ignore leading constants.
+
+710
+00:51:24,000 --> 00:51:30,000
+
+
+711
+00:51:30,000 --> 00:51:35,000
+For example,
+if I have a formula like 3n^3 =
+
+712
+00:51:35,000 --> 00:51:39,000
+90n^2 - 5n + 6046,
+I say, well,
+
+713
+00:51:39,000 --> 00:51:48,000
+what low-order terms do I drop?
+Well, n^3 is a bigger term n^2
+
+714
+00:51:48,000 --> 00:51:52,000
+than.
+I am going to drop all these
+
+715
+00:51:52,000 --> 00:52:00,000
+terms and ignore the leading
+constant, so I say that's
+
+716
+00:52:00,000 --> 00:52:04,000
+Theta(n^3).
+That's pretty easy.
+
+717
+00:52:04,000 --> 00:52:09,000
+So, that's theta notation.
+Now, this is an engineering way
+
+718
+00:52:09,000 --> 00:52:13,000
+of manipulating theta notation.
+There is actually a
+
+719
+00:52:13,000 --> 00:52:18,000
+mathematical definition for
+this, which we are going to talk
+
+720
+00:52:18,000 --> 00:52:22,000
+about next time,
+which is a definition in terms
+
+721
+00:52:22,000 --> 00:52:25,000
+of sets of functions.
+And, you are going to be
+
+722
+00:52:25,000 --> 00:52:30,000
+responsible, this is both a math
+and a computer science
+
+723
+00:52:30,000 --> 00:52:34,000
+engineering class.
+Throughout the course you are
+
+724
+00:52:34,000 --> 00:52:39,000
+going to be responsible both for
+mathematical rigor as if it were
+
+725
+00:52:39,000 --> 00:52:43,000
+a math course and engineering
+commonsense because it's an
+
+726
+00:52:43,000 --> 00:52:46,000
+engineering course.
+We are going to be doing both.
+
+727
+00:52:46,000 --> 00:52:50,000
+This is the engineering way of
+understanding what you do,
+
+728
+00:52:50,000 --> 00:52:54,000
+so you're responsible for being
+able to do these manipulations.
+
+729
+00:52:54,000 --> 00:52:57,000
+You're also going to be
+responsible for understanding
+
+730
+00:52:57,000 --> 00:53:01,000
+the mathematical definition of
+theta notion and of its related
+
+731
+00:53:01,000 --> 00:53:07,000
+O notation and omega notation.
+If I take a look as n
+
+732
+00:53:07,000 --> 00:53:14,000
+approached infinity,
+a Theta(n^2) algorithm always
+
+733
+00:53:14,000 --> 00:53:20,000
+beats, eventually,
+a Theta(n^3) algorithm.
+
+734
+00:53:20,000 --> 00:53:26,000
+As n gets bigger,
+it doesn't matter what these
+
+735
+00:53:26,000 --> 00:53:34,000
+other terms were if I were
+describing the absolute precise
+
+736
+00:53:34,000 --> 00:53:41,000
+behavior in terms of a formula.
+If I had a Theta(n^2)
+
+737
+00:53:41,000 --> 00:53:46,000
+algorithm, it would always be
+faster for sufficiently large n
+
+738
+00:53:46,000 --> 00:53:50,000
+than a Theta(n^3) algorithm.
+It wouldn't matter what those
+
+739
+00:53:50,000 --> 00:53:54,000
+low-order terms were.
+It wouldn't matter what the
+
+740
+00:53:54,000 --> 00:53:59,000
+leading constant was.
+This one will always be faster.
+
+741
+00:53:59,000 --> 00:54:05,000
+Even if you ran the Theta(n^2)
+algorithm on a slow computer and
+
+742
+00:54:05,000 --> 00:54:09,000
+the Theta(n^3) algorithm on a
+fast computer.
+
+743
+00:54:09,000 --> 00:54:13,000
+The great thing about
+asymptotic notation is it
+
+744
+00:54:13,000 --> 00:54:19,000
+satisfies our issue of being
+able to compare both relative
+
+745
+00:54:19,000 --> 00:54:24,000
+and absolute speed,
+because we are able to do this
+
+746
+00:54:24,000 --> 00:54:29,000
+no matter what the computer
+platform.
+
+747
+00:54:29,000 --> 00:54:34,000
+On different platforms we may
+get different constants here,
+
+748
+00:54:34,000 --> 00:54:39,000
+machine-dependent constants for
+the actual running time,
+
+749
+00:54:39,000 --> 00:54:45,000
+but if I look at the growth as
+the size of the input gets
+
+750
+00:54:45,000 --> 00:54:49,000
+larger, the asymptotics
+generally won't change.
+
+751
+00:54:49,000 --> 00:54:53,000
+For example,
+I will just draw that as a
+
+752
+00:54:53,000 --> 00:54:57,000
+picture.
+If I have n on this axis and
+
+753
+00:54:57,000 --> 00:55:01,000
+T(n) on this axis.
+This may be,
+
+754
+00:55:01,000 --> 00:55:04,000
+for example,
+a Theta(n^3) algorithm and this
+
+755
+00:55:04,000 --> 00:55:09,000
+may be a Theta(n^2) algorithm.
+There is always going to be
+
+756
+00:55:09,000 --> 00:55:14,000
+some point n_o where for
+everything larger the Theta(n^2)
+
+757
+00:55:14,000 --> 00:55:19,000
+algorithm is going to be cheaper
+than the Theta(n^3) algorithm
+
+758
+00:55:19,000 --> 00:55:24,000
+not matter how much advantage
+you give it at the beginning in
+
+759
+00:55:24,000 --> 00:55:30,000
+terms of the speed of the
+computer you are running on.
+
+760
+00:55:30,000 --> 00:55:34,000
+Now, from an engineering point
+of view, there are some issues
+
+761
+00:55:34,000 --> 00:55:38,000
+we have to deal with because
+sometimes it could be that that
+
+762
+00:55:38,000 --> 00:55:42,000
+n_o is so large that the
+computers aren't big enough to
+
+763
+00:55:42,000 --> 00:55:45,000
+run the problem.
+That's why we,
+
+764
+00:55:45,000 --> 00:55:48,000
+nevertheless,
+are interested in some of the
+
+765
+00:55:48,000 --> 00:55:51,000
+slower algorithms,
+because some of the slower
+
+766
+00:55:51,000 --> 00:55:55,000
+algorithms, even though they may
+not asymptotically be slower,
+
+767
+00:55:55,000 --> 00:56:00,000
+I mean asymptotically they will
+be slower.
+
+768
+00:56:00,000 --> 00:56:03,000
+They may still be faster on
+reasonable sizes of things.
+
+769
+00:56:03,000 --> 00:56:07,000
+And so we have to both balance
+our mathematical understanding
+
+770
+00:56:07,000 --> 00:56:12,000
+with our engineering commonsense
+in order to do good programming.
+
+771
+00:56:12,000 --> 00:56:15,000
+So, just having done analysis
+of algorithms doesn't
+
+772
+00:56:15,000 --> 00:56:18,000
+automatically make you a good
+programmer.
+
+773
+00:56:18,000 --> 00:56:22,000
+You also need to learn how to
+program and use these tools in
+
+774
+00:56:22,000 --> 00:56:26,000
+practice to understand when they
+are relevant and when they are
+
+775
+00:56:26,000 --> 00:56:30,000
+not relevant.
+There is a saying.
+
+776
+00:56:30,000 --> 00:56:34,000
+If you want to be a good
+program, you just program ever
+
+777
+00:56:34,000 --> 00:56:38,000
+day for two years,
+you will be an excellent
+
+778
+00:56:38,000 --> 00:56:42,000
+programmer.
+If you want to be a world-class
+
+779
+00:56:42,000 --> 00:56:46,000
+programmer, you can program
+every day for ten years,
+
+780
+00:56:46,000 --> 00:56:51,000
+or you can program every day
+for two years and take an
+
+781
+00:56:51,000 --> 00:56:55,000
+algorithms class.
+Let's get back to what we were
+
+782
+00:56:55,000 --> 00:57:00,000
+doing, which is analyzing
+insertion sort.
+
+783
+00:57:00,000 --> 00:57:02,000
+We are going to look at the
+worse-case.
+
+784
+00:57:02,000 --> 00:57:16,000
+
+
+785
+00:57:16,000 --> 00:57:21,000
+Which, as we mentioned before,
+is when the input is reverse
+
+786
+00:57:21,000 --> 00:57:24,000
+sorted.
+The biggest element comes first
+
+787
+00:57:24,000 --> 00:57:29,000
+and the smallest last because
+now every time you do the
+
+788
+00:57:29,000 --> 00:57:35,000
+insertion you've got to shuffle
+everything over.
+
+789
+00:57:35,000 --> 00:57:38,000
+You can write down the running
+time by looking at the nesting
+
+790
+00:57:38,000 --> 00:57:40,000
+of loops.
+What we do is we sum up.
+
+791
+00:57:40,000 --> 00:57:43,000
+What we assume is that every
+operation, every elemental
+
+792
+00:57:43,000 --> 00:57:47,000
+operation is going to take some
+constant amount of time.
+
+793
+00:57:47,000 --> 00:57:50,000
+But we don't have to worry
+about what that constant is
+
+794
+00:57:50,000 --> 00:57:53,000
+because we're going to be doing
+asymptotic analysis.
+
+795
+00:57:53,000 --> 00:57:56,000
+As I say, the beautify of the
+method is that it causes all
+
+796
+00:57:56,000 --> 00:58:01,000
+these things that are real
+distinctions to sort of vanish.
+
+797
+00:58:01,000 --> 00:58:05,000
+We sort of look at them from
+30,000 feet rather than from
+
+798
+00:58:05,000 --> 00:58:09,000
+three millimeters or something.
+Each of these operations is
+
+799
+00:58:09,000 --> 00:58:12,000
+going to sort of be a basic
+operation.
+
+800
+00:58:12,000 --> 00:58:16,000
+One way to think about this,
+in terms of counting
+
+801
+00:58:16,000 --> 00:58:19,000
+operations, is counting memory
+references.
+
+802
+00:58:19,000 --> 00:58:23,000
+How many times do you actually
+access some variable?
+
+803
+00:58:23,000 --> 00:58:29,000
+That's another way of sort of
+thinking about this model.
+
+804
+00:58:29,000 --> 00:58:33,000
+When we do that,
+well, we're going to go through
+
+805
+00:58:33,000 --> 00:58:39,000
+this loop, j is going from 2 to
+n, and then we're going to add
+
+806
+00:58:39,000 --> 00:58:43,000
+up the work that we do within
+the loop.
+
+807
+00:58:43,000 --> 00:58:49,000
+We can sort of write that in
+math as summation of j equals 2
+
+808
+00:58:49,000 --> 00:58:53,000
+to n.
+And then what is the work that
+
+809
+00:58:53,000 --> 00:58:58,000
+is going on in this loop?
+Well, the work that is going on
+
+810
+00:58:58,000 --> 00:59:03,000
+in this loop varies,
+but in the worst case how many
+
+811
+00:59:03,000 --> 00:59:10,000
+operations are going on here for
+each value of j?
+
+812
+00:59:10,000 --> 00:59:17,000
+For a given value of j,
+how much work goes on in this
+
+813
+00:59:17,000 --> 00:59:20,000
+loop?
+Can somebody tell me?
+
+814
+00:59:20,000 --> 00:59:26,000
+Asymptotically.
+It's j times some constant,
+
+815
+00:59:26,000 --> 00:59:33,000
+so it's theta j.
+So, there is theta j work going
+
+816
+00:59:33,000 --> 00:59:38,000
+on here because this loop starts
+out with i being j minus 1,
+
+817
+00:59:38,000 --> 00:59:44,000
+and then it's doing just a
+constant amount of stuff for
+
+818
+00:59:44,000 --> 00:59:49,000
+each step of the value of i,
+and i is running from j minus
+
+819
+00:59:49,000 --> 00:59:54,000
+one down to zero.
+So, we can say that is theta j
+
+820
+00:59:54,000 --> 01:00:00,000
+work that is going on.
+Do people follow that?
+
+821
+01:00:00,000 --> 01:00:02,643
+OK.
+And now we have a formula we
+
+822
+01:00:02,643 --> 01:00:05,713
+can evaluate.
+What is the evaluation?
+
+823
+01:00:05,713 --> 01:00:11,000
+If I want to simplify this
+formula, what is that equal to?
+
+824
+01:00:11,000 --> 01:00:20,000
+
+
+825
+01:00:20,000 --> 01:00:22,000
+Sorry. In the back there.
+
+826
+01:00:22,000 --> 01:00:28,000
+
+
+827
+01:00:28,000 --> 01:00:33,705
+Yeah. OK.
+That's just Theta(n^2),
+
+828
+01:00:33,705 --> 01:00:36,227
+good.
+Because when you're saying is
+
+829
+01:00:36,227 --> 01:00:39,564
+the sum of consecutive numbers,
+you mean what?
+
+830
+01:00:39,564 --> 01:00:43,421
+What's the mathematic term we
+have for that so we can
+
+831
+01:00:43,421 --> 01:00:46,610
+communicate?
+You've got to know these things
+
+832
+01:00:46,610 --> 01:00:50,095
+so you can communicate.
+It's called what type of
+
+833
+01:00:50,095 --> 01:00:52,468
+sequence?
+It's actually a series,
+
+834
+01:00:52,468 --> 01:00:55,509
+but that's OK.
+What type of series is this
+
+835
+01:00:55,509 --> 01:00:57,363
+called?
+Arithmetic series,
+
+836
+01:00:57,363 --> 01:00:59,588
+good.
+Wow, we've got some sharp
+
+837
+01:00:59,588 --> 01:01:05,943
+people who can communicate.
+This is an arithmetic series.
+
+838
+01:01:05,943 --> 01:01:11,627
+You're basically summing 1 + 2
++ 3 + 4, some constants in
+
+839
+01:01:11,627 --> 01:01:17,210
+there, but basically it's 1 + 2
++ 3 + 4 + 5 + 6 up to n.
+
+840
+01:01:17,210 --> 01:01:21,879
+That's Theta(n^2).
+If you don't know this math,
+
+841
+01:01:21,879 --> 01:01:27,766
+there is a chapter in the book,
+or you could have taken the
+
+842
+01:01:27,766 --> 01:01:31,390
+prerequisite.
+Erythematic series.
+
+843
+01:01:31,390 --> 01:01:33,951
+People have this vague
+recollection.
+
+844
+01:01:33,951 --> 01:01:34,975
+Oh, yeah.
+Good.
+
+845
+01:01:34,975 --> 01:01:38,048
+Now, you have to learn these
+manipulations.
+
+846
+01:01:38,048 --> 01:01:42,512
+We will talk about a bit next
+time, but you have to learn your
+
+847
+01:01:42,512 --> 01:01:45,804
+theta manipulations for what
+works with theta.
+
+848
+01:01:45,804 --> 01:01:49,756
+And you have to be very careful
+because theta is a weak
+
+849
+01:01:49,756 --> 01:01:52,609
+notation.
+A strong notation is something
+
+850
+01:01:52,609 --> 01:01:56,853
+like Leibniz notation from
+calculus where the chain rule is
+
+851
+01:01:56,853 --> 01:02:01,869
+just canceling two things.
+It's just fabulous that you can
+
+852
+01:02:01,869 --> 01:02:04,885
+cancel in the chain rule.
+And Leibniz notation just
+
+853
+01:02:04,885 --> 01:02:07,599
+expresses that so directly you
+can manipulate.
+
+854
+01:02:07,599 --> 01:02:09,468
+Theta notation is not like
+that.
+
+855
+01:02:09,468 --> 01:02:12,303
+If you think it is like that
+you are in trouble.
+
+856
+01:02:12,303 --> 01:02:15,861
+You really have to think of
+what is going on under the theta
+
+857
+01:02:15,861 --> 01:02:18,274
+notation.
+And it is more of a descriptive
+
+858
+01:02:18,274 --> 01:02:20,867
+notation than it is a
+manipulative notation.
+
+859
+01:02:20,867 --> 01:02:24,305
+There are manipulations you can
+do with it, but unless you
+
+860
+01:02:24,305 --> 01:02:28,044
+understand what is really going
+on under the theta notation you
+
+861
+01:02:28,044 --> 01:02:33,177
+will find yourself in trouble.
+And next time we will talk a
+
+862
+01:02:33,177 --> 01:02:35,977
+little bit more about theta
+notation.
+
+863
+01:02:35,977 --> 01:02:38,000
+Is insertion sort fast?
+
+864
+01:02:38,000 --> 01:02:49,000
+
+
+865
+01:02:49,000 --> 01:02:53,000
+Well, it turns out for small n
+it is moderately fast.
+
+866
+01:02:53,000 --> 01:03:02,000
+
+
+867
+01:03:02,000 --> 01:03:11,000
+But it is not at all for large
+n.
+
+868
+01:03:11,000 --> 01:03:18,000
+
+
+869
+01:03:18,000 --> 01:03:21,626
+So, I am going to give you an
+algorithm that is faster.
+
+870
+01:03:21,626 --> 01:03:24,917
+It's called merge sort.
+I wonder if I should leave
+
+871
+01:03:24,917 --> 01:03:27,000
+insertion sort up.
+Why not.
+
+872
+01:03:27,000 --> 01:03:46,000
+
+
+873
+01:03:46,000 --> 01:03:52,127
+I am going to write on this
+later, so if you are taking
+
+874
+01:03:52,127 --> 01:03:56,099
+notes, leave some space on the
+left.
+
+875
+01:03:56,099 --> 01:04:02,000
+Here is merge sort of an array
+A from 1 up to n.
+
+876
+01:04:02,000 --> 01:04:05,963
+And it is basically three
+steps.
+
+877
+01:04:05,963 --> 01:04:11,844
+If n equals 1 we are done.
+Sorting one element,
+
+878
+01:04:11,844 --> 01:04:15,808
+it is already sorted.
+All right.
+
+879
+01:04:15,808 --> 01:04:21,817
+Recursive algorithm.
+Otherwise, what we do is we
+
+880
+01:04:21,817 --> 01:04:30,000
+recursively sort A from 1 up to
+the ceiling of n over 2.
+
+881
+01:04:30,000 --> 01:04:39,102
+And the array A of the ceiling
+of n over 2 plus one up to n.
+
+882
+01:04:39,102 --> 01:04:44,502
+So, we sort two halves of the
+input.
+
+883
+01:04:44,502 --> 01:04:51,754
+And then, three,
+we take those two lists that we
+
+884
+01:04:51,754 --> 01:04:57,000
+have done and we merge them.
+
+885
+01:04:57,000 --> 01:05:03,000
+
+
+886
+01:05:03,000 --> 01:05:05,892
+And, to do that,
+we use a merge subroutine which
+
+887
+01:05:05,892 --> 01:05:07,000
+I will show you.
+
+888
+01:05:07,000 --> 01:05:14,000
+
+
+889
+01:05:14,000 --> 01:05:20,492
+The key subroutine here is
+merge, and it works like this.
+
+890
+01:05:20,492 --> 01:05:25,710
+I have two lists.
+Let's say one of them is 20.
+
+891
+01:05:25,710 --> 01:05:30,000
+I am doing this in reverse
+order.
+
+892
+01:05:30,000 --> 01:05:35,368
+I have sorted this like this.
+And then I sort another one.
+
+893
+01:05:35,368 --> 01:05:39,795
+I don't know why I do it this
+order, but anyway.
+
+894
+01:05:39,795 --> 01:05:44,786
+Here is my other list.
+I have my two lists that I have
+
+895
+01:05:44,786 --> 01:05:48,083
+sorted.
+So, this is A[1] to A[|n/2|]
+
+896
+01:05:48,083 --> 01:05:53,639
+and A[|n/2|+1] to A[n] for the
+way it will be called in this
+
+897
+01:05:53,639 --> 01:05:56,936
+program.
+And now to merge these two,
+
+898
+01:05:56,936 --> 01:06:04,000
+what I want to do is produce a
+sorted list out of both of them.
+
+899
+01:06:04,000 --> 01:06:08,688
+What I do is first observe
+where is the smallest element of
+
+900
+01:06:08,688 --> 01:06:11,679
+any two lists that are already
+sorted?
+
+901
+01:06:11,679 --> 01:06:16,125
+It's in one of two places,
+the head of the first list or
+
+902
+01:06:16,125 --> 01:06:20,652
+the head of the second list.
+I look at those two elements
+
+903
+01:06:20,652 --> 01:06:24,613
+and say which one is smaller?
+This one is smaller.
+
+904
+01:06:24,613 --> 01:06:29,383
+Then what I do is output into
+my output array the smaller of
+
+905
+01:06:29,383 --> 01:06:32,464
+the two.
+And I cross it off.
+
+906
+01:06:32,464 --> 01:06:35,702
+And now where is the next
+smallest element?
+
+907
+01:06:35,702 --> 01:06:40,482
+And the answer is it's going to
+be the head of one of these two
+
+908
+01:06:40,482 --> 01:06:43,181
+lists.
+Then I cross out this guy and
+
+909
+01:06:43,181 --> 01:06:45,648
+put him here and circle this
+one.
+
+910
+01:06:45,648 --> 01:06:50,274
+Now I look at these two guys.
+This one is smaller so I output
+
+911
+01:06:50,274 --> 01:06:54,437
+that and circle that one.
+Now I look at these two guys,
+
+912
+01:06:54,437 --> 01:06:57,213
+output 9.
+So, every step here is some
+
+913
+01:06:57,213 --> 01:07:01,839
+fixed number of operations that
+is independent of the size of
+
+914
+01:07:01,839 --> 01:07:08,202
+the arrays at each step.
+Each individual step is just me
+
+915
+01:07:08,202 --> 01:07:13,884
+looking at two elements and
+picking out the smallest and
+
+916
+01:07:13,884 --> 01:07:20,288
+advancing some pointers into the
+array so that I know where the
+
+917
+01:07:20,288 --> 01:07:25,144
+current head of that list is.
+And so, therefore,
+
+918
+01:07:25,144 --> 01:07:30,000
+the time is order n on n total
+elements.
+
+919
+01:07:30,000 --> 01:07:34,628
+The time to actually go through
+this and merge two lists is
+
+920
+01:07:34,628 --> 01:07:37,581
+order n.
+We sometimes call this linear
+
+921
+01:07:37,581 --> 01:07:41,012
+time because it's not quadratic
+or whatever.
+
+922
+01:07:41,012 --> 01:07:45,401
+It is proportional to n,
+proportional to the input size.
+
+923
+01:07:45,401 --> 01:07:49,072
+It's linear time.
+I go through and just do this
+
+924
+01:07:49,072 --> 01:07:52,663
+simple operation,
+just working up these lists,
+
+925
+01:07:52,663 --> 01:07:56,733
+and in the end I have done
+essentially n operations,
+
+926
+01:07:56,733 --> 01:08:02,000
+order n operations each of
+which cost constant time.
+
+927
+01:08:02,000 --> 01:08:06,935
+That's a total of order n time.
+Everybody with me?
+
+928
+01:08:06,935 --> 01:08:09,553
+OK.
+So, this is a recursive
+
+929
+01:08:09,553 --> 01:08:13,381
+program.
+We can actually now write what
+
+930
+01:08:13,381 --> 01:08:17,309
+is called a recurrence for this
+program.
+
+931
+01:08:17,309 --> 01:08:23,553
+The way we do that is say let's
+let the time to sort n elements
+
+932
+01:08:23,553 --> 01:08:27,582
+to be T(n).
+Then how long does it take to
+
+933
+01:08:27,582 --> 01:08:30,000
+do step one?
+
+934
+01:08:30,000 --> 01:08:35,000
+
+
+935
+01:08:35,000 --> 01:08:39,228
+That's just constant time.
+We just check to see if n is 1,
+
+936
+01:08:39,228 --> 01:08:43,160
+and if it is we return.
+That's independent of the size
+
+937
+01:08:43,160 --> 01:08:47,611
+of anything that we are doing.
+It just takes a certain number
+
+938
+01:08:47,611 --> 01:08:51,765
+of machine instructions on
+whatever machine and we say it
+
+939
+01:08:51,765 --> 01:08:54,732
+is constant time.
+We call that theta one.
+
+940
+01:08:54,732 --> 01:09:00,000
+This is actually a little bit
+of an abuse if you get into it.
+
+941
+01:09:00,000 --> 01:09:04,464
+And the reason is because
+typically in order to say it you
+
+942
+01:09:04,464 --> 01:09:07,206
+need to say what it is growing
+with.
+
+943
+01:09:07,206 --> 01:09:10,573
+Nevertheless,
+we use this as an abuse of the
+
+944
+01:09:10,573 --> 01:09:13,550
+notation just to mean it is a
+constant.
+
+945
+01:09:13,550 --> 01:09:16,604
+So, that's an abuse just so
+people know.
+
+946
+01:09:16,604 --> 01:09:20,835
+But it simplifies things if I
+can just write theta one.
+
+947
+01:09:20,835 --> 01:09:23,733
+And it basically means the same
+thing.
+
+948
+01:09:23,733 --> 01:09:26,866
+Now we recursively sort these
+two things.
+
+949
+01:09:26,866 --> 01:09:32,542
+How can I describe that?
+The time to do this,
+
+950
+01:09:32,542 --> 01:09:40,550
+I can describe recursively as T
+of ceiling of n over 2 plus T of
+
+951
+01:09:40,550 --> 01:09:48,050
+n minus ceiling of n over 2.
+That is actually kind of messy,
+
+952
+01:09:48,050 --> 01:09:54,915
+so what we will do is just be
+sloppy and write 2T(n/2).
+
+953
+01:09:54,915 --> 01:10:00,000
+So, this is just us being
+sloppy.
+
+954
+01:10:00,000 --> 01:10:04,120
+And we will see on Friday in
+recitation that it is OK to be
+
+955
+01:10:04,120 --> 01:10:06,606
+sloppy.
+That's the great thing about
+
+956
+01:10:06,606 --> 01:10:09,590
+algorithms.
+As long as you are rigorous and
+
+957
+01:10:09,590 --> 01:10:12,502
+precise, you can be as sloppy as
+you want.
+
+958
+01:10:12,502 --> 01:10:16,267
+[LAUGHTER] This is sloppy
+because I didn't worry about
+
+959
+01:10:16,267 --> 01:10:19,748
+what was going on,
+because it turns out it doesn't
+
+960
+01:10:19,748 --> 01:10:23,158
+make any difference.
+And we are going to actually
+
+961
+01:10:23,158 --> 01:10:26,680
+see that that is the case.
+And, finally,
+
+962
+01:10:26,680 --> 01:10:29,767
+I have to merge the two sorted
+lists which have a total of n
+
+963
+01:10:29,767 --> 01:10:31,808
+elements.
+And we just analyze that using
+
+964
+01:10:31,808 --> 01:10:34,372
+the merge subroutine.
+And that takes us to theta n
+
+965
+01:10:34,372 --> 01:10:35,000
+time.
+
+966
+01:10:35,000 --> 01:10:40,000
+
+
+967
+01:10:40,000 --> 01:10:43,933
+That allows us now to write a
+recurrence for the performance
+
+968
+01:10:43,933 --> 01:10:45,000
+of merge sort.
+
+969
+01:10:45,000 --> 01:10:57,000
+
+
+970
+01:10:57,000 --> 01:11:04,888
+Which is to say that T of n is
+equal to theta 1 if n equals 1
+
+971
+01:11:04,888 --> 01:11:12,250
+and 2T of n over 2 plus theta of
+n if n is bigger than 1.
+
+972
+01:11:12,250 --> 01:11:20,402
+Because either I am doing step
+one or I am doing all steps one,
+
+973
+01:11:20,402 --> 01:11:26,187
+two and three.
+Here I am doing step one and I
+
+974
+01:11:26,187 --> 01:11:32,326
+return and I am done.
+Or else I am doing step one,
+
+975
+01:11:32,326 --> 01:11:35,900
+I don't return,
+and then I also do steps two
+
+976
+01:11:35,900 --> 01:11:38,808
+and three.
+So, I add those together.
+
+977
+01:11:38,808 --> 01:11:43,795
+I could say theta n plus theta
+1, but theta n plus theta 1 is
+
+978
+01:11:43,795 --> 01:11:48,947
+just theta n because theta 1 is
+a lower order term than theta n
+
+979
+01:11:48,947 --> 01:11:53,351
+and I can throw it away.
+It is either theta 1 or it is
+
+980
+01:11:53,351 --> 01:11:57,839
+2T of n over 2 plus theta n.
+Now, typically we won't be
+
+981
+01:11:57,839 --> 01:12:01,478
+writing this.
+Usually we omit this.
+
+982
+01:12:01,478 --> 01:12:05,631
+If it makes no difference to
+the solution of the recurrence,
+
+983
+01:12:05,631 --> 01:12:08,446
+we will usually omit constant
+base cases.
+
+984
+01:12:08,446 --> 01:12:11,262
+In algorithms,
+it's not true generally in
+
+985
+01:12:11,262 --> 01:12:15,555
+mathematics, but in algorithms
+if you are running something on
+
+986
+01:12:15,555 --> 01:12:19,145
+a constant size input it takes
+constant time always.
+
+987
+01:12:19,145 --> 01:12:22,172
+So, we don't worry about what
+this value is.
+
+988
+01:12:22,172 --> 01:12:26,043
+And it turns out it has no real
+impact on the asymptotic
+
+989
+01:12:26,043 --> 01:12:31,363
+solution of the recurrence.
+How do we solve a recurrence
+
+990
+01:12:31,363 --> 01:12:34,739
+like this?
+I now have T of n expressed in
+
+991
+01:12:34,739 --> 01:12:39,043
+terms of T of n over 2.
+That's in the book and it is
+
+992
+01:12:39,043 --> 01:12:43,179
+also in Lecture 2.
+We are going to do Lecture 2 to
+
+993
+01:12:43,179 --> 01:12:48,242
+solve that, but in the meantime
+what I am going to do is give
+
+994
+01:12:48,242 --> 01:12:52,378
+you a visual way of
+understanding what this costs,
+
+995
+01:12:52,378 --> 01:12:57,526
+which is one of the techniques
+we will elaborate on next time.
+
+996
+01:12:57,526 --> 01:13:02,000
+It is called a recursion tree
+technique.
+
+997
+01:13:02,000 --> 01:13:07,681
+And I will use it for the
+actual recurrence that is almost
+
+998
+01:13:07,681 --> 01:13:11,966
+the same 2T(n/2),
+but I am going to actually
+
+999
+01:13:11,966 --> 01:13:17,249
+explicitly, because I want you
+to see where it occurs,
+
+1000
+01:13:17,249 --> 01:13:22,730
+plus some constant times n
+where c is a constant greater
+
+1001
+01:13:22,730 --> 01:13:26,418
+than zero.
+So, we are going to look at
+
+1002
+01:13:26,418 --> 01:13:32,000
+this recurrence with a base case
+of order one.
+
+1003
+01:13:32,000 --> 01:13:36,350
+I am just making the constant
+in here, the upper bound on the
+
+1004
+01:13:36,350 --> 01:13:39,322
+constant be explicit rather than
+implicit.
+
+1005
+01:13:39,322 --> 01:13:43,092
+And the way you do a recursion
+tree is the following.
+
+1006
+01:13:43,092 --> 01:13:47,007
+You start out by writing down
+the left-hand side of the
+
+1007
+01:13:47,007 --> 01:13:50,052
+recurrence.
+And then what you do is you say
+
+1008
+01:13:50,052 --> 01:13:53,677
+well, that is equal to,
+and now let's write it as a
+
+1009
+01:13:53,677 --> 01:13:56,215
+tree.
+I do c of n work plus now I am
+
+1010
+01:13:56,215 --> 01:14:01,000
+going to have to do work on each
+of my two children.
+
+1011
+01:14:01,000 --> 00:00:02,000
+T of n over 2 and T of n over
+
+1012
+00:00:02,000 --> 01:14:04,549
+
+
+1013
+01:14:04,549 --> 01:14:11,305
+If I sum up what is in here,
+I get this because that is what
+
+1014
+01:14:11,305 --> 01:14:15,427
+the recurrence says,
+T(n)=2T(n/2)+cn.
+
+1015
+01:14:15,427 --> 01:14:19,664
+I have 2T(n/2)+cn.
+Then I do it again.
+
+1016
+01:14:19,664 --> 01:14:23,786
+I have cn here.
+I now have here cn/2.
+
+1017
+01:14:23,786 --> 01:14:28,824
+And here is cn/2.
+And each of these now has a
+
+1018
+01:14:28,824 --> 01:14:31,000
+T(n/4).
+
+1019
+01:14:31,000 --> 01:14:36,000
+
+
+1020
+01:14:36,000 --> 01:14:43,285
+And these each have a T(n/4).
+And this has a T(n/4).
+
+1021
+01:14:43,285 --> 01:14:49,000
+And I keep doing that,
+the dangerous dot,
+
+1022
+01:14:49,000 --> 01:14:54,142
+dot, dots.
+And, if I keep doing that,
+
+1023
+01:14:54,142 --> 01:15:00,000
+I end up with it looking like
+this.
+
+1024
+01:15:00,000 --> 01:15:18,000
+
+
+1025
+01:15:18,000 --> 01:15:23,318
+And I keep going down until I
+get to a leaf.
+
+1026
+01:15:23,318 --> 01:15:27,896
+And a leaf, I have essentially
+a T(1).
+
+1027
+01:15:27,896 --> 01:15:33,922
+That is T(1).
+And so the first question I ask
+
+1028
+01:15:33,922 --> 01:15:38,983
+here is, what is the height of
+this tree?
+
+1029
+01:15:38,983 --> 01:15:41,008
+Yeah.
+It's log n.
+
+1030
+01:15:41,008 --> 01:15:47,714
+It's actually very close to
+exactly log n because I am
+
+1031
+01:15:47,714 --> 01:15:55,559
+starting out at the top with n
+and then I go to n/2 and n/4 and
+
+1032
+01:15:55,559 --> 00:00:01,000
+all the way down until I get to
+
+1033
+00:00:01,000 --> 01:16:01,000
+
+
+1034
+01:16:01,000 --> 01:16:05,440
+The number of halvings of n
+until I get to 1 is log n so the
+
+1035
+01:16:05,440 --> 01:16:09,354
+height here is log n.
+It's OK if it is constant times
+
+1036
+01:16:09,354 --> 01:16:11,161
+log n.
+It doesn't matter.
+
+1037
+01:16:11,161 --> 01:16:15,000
+How many leaves are in this
+tree, by the way?
+
+1038
+01:16:15,000 --> 01:16:25,000
+
+
+1039
+01:16:25,000 --> 01:16:28,333
+How many leaves does this tree
+have?
+
+1040
+01:16:28,333 --> 01:16:30,809
+Yeah.
+The number of leaves,
+
+1041
+01:16:30,809 --> 01:16:34,238
+once again, is actually pretty
+close.
+
+1042
+01:16:34,238 --> 01:16:38,238
+It's actually n.
+If you took it all the way
+
+1043
+01:16:38,238 --> 01:16:41,285
+down.
+Let's make some simplifying
+
+1044
+01:16:41,285 --> 01:16:44,809
+assumption.
+n is a perfect power of 2,
+
+1045
+01:16:44,809 --> 01:16:50,523
+so it is an integer power of 2.
+Then this is exactly log n to
+
+1046
+01:16:50,523 --> 01:16:54,809
+get down to T(1).
+And then there are exactly n
+
+1047
+01:16:54,809 --> 01:17:00,619
+leaves, because the number of
+leaves here, the number of nodes
+
+1048
+01:17:00,619 --> 01:17:05,000
+at this level is 1,
+2, 4, 8.
+
+1049
+01:17:05,000 --> 01:17:10,643
+And if I go down height h,
+I have 2 to the h leaves,
+
+1050
+01:17:10,643 --> 01:17:13,963
+2 to the log n,
+that is just n.
+
+1051
+01:17:13,963 --> 01:17:17,172
+We are doing math here,
+right?
+
+1052
+01:17:17,172 --> 01:17:23,479
+Now let's figure out how much
+work, if I look at adding up
+
+1053
+01:17:23,479 --> 01:17:28,568
+everything in this tree I am
+going to get T(n),
+
+1054
+01:17:28,568 --> 01:17:35,652
+so let's add that up.
+Well, let's add it up level by
+
+1055
+01:17:35,652 --> 01:17:39,547
+level.
+How much do we have in the
+
+1056
+01:17:39,547 --> 01:17:41,982
+first level?
+Just cn.
+
+1057
+01:17:41,982 --> 01:17:47,826
+If I add up the second level,
+how much do I have?
+
+1058
+01:17:47,826 --> 01:17:51,965
+cn.
+How about if I add up the third
+
+1059
+01:17:51,965 --> 01:17:53,059
+level?
+cn.
+
+1060
+01:17:53,059 --> 01:17:57,443
+How about if I add up all the
+leaves?
+
+1061
+01:17:57,443 --> 01:18:02,855
+Theta n.
+It is not necessarily cn
+
+1062
+01:18:02,855 --> 01:18:09,397
+because the boundary case may
+have a different constant.
+
+1063
+01:18:09,397 --> 01:18:14,988
+It is actually theta n,
+but cn all the way here.
+
+1064
+01:18:14,988 --> 01:18:21,888
+If I add up the total amount,
+that is equal to cn times log
+
+1065
+01:18:21,888 --> 01:18:28,669
+n, because that's the height,
+that is how many cn's I have
+
+1066
+01:18:28,669 --> 01:18:35,724
+here, plus theta n.
+And this is a higher order term
+
+1067
+01:18:35,724 --> 01:18:42,213
+than this, so this goes away,
+get rid of the constants,
+
+1068
+01:18:42,213 --> 01:18:48,341
+that is equal to theta(n lg n).
+And theta(n lg n) is
+
+1069
+01:18:48,341 --> 01:18:52,786
+asymptotically faster than
+theta(n^2).
+
+1070
+01:18:52,786 --> 01:18:58,073
+So, merge sort,
+on a large enough input size,
+
+1071
+01:18:58,073 --> 01:19:03,000
+is going to beat insertion
+sort.
+
+1072
+01:19:03,000 --> 01:19:07,291
+Merge sort is going to be a
+faster algorithm.
+
+1073
+01:19:07,291 --> 01:19:11,682
+Sorry, you guys,
+I didn't realize you couldn't
+
+1074
+01:19:11,682 --> 01:19:15,682
+see over there.
+You should speak up if you
+
+1075
+01:19:15,682 --> 01:19:19,682
+cannot see.
+So, this is a faster algorithm
+
+1076
+01:19:19,682 --> 01:19:25,048
+because theta(n lg n) grows more
+slowly than theta(n^2).
+
+1077
+01:19:25,048 --> 01:19:31,000
+And merge sort asymptotically
+beats insertion sort.
+
+1078
+01:19:31,000 --> 01:19:35,424
+Even if you ran insertion sort
+on a supercomputer,
+
+1079
+01:19:35,424 --> 01:19:40,842
+somebody running on a PC with
+merge sort for sufficient large
+
+1080
+01:19:40,842 --> 01:19:46,441
+input will clobber them because
+actually n^2 is way bigger than
+
+1081
+01:19:46,441 --> 01:19:50,053
+n log n once you get the n's to
+be large.
+
+1082
+01:19:50,053 --> 01:19:54,117
+And, in practice,
+merge sort tends to win here
+
+1083
+01:19:54,117 --> 01:19:58,000
+for n bigger than,
+say, 30 or so.
+
+1084
+01:19:58,000 --> 01:20:02,092
+If you have a very small input
+like 30 elements,
+
+1085
+01:20:02,092 --> 01:20:06,272
+insertion sort is a perfectly
+decent sort to use.
+
+1086
+01:20:06,272 --> 01:20:11,497
+But merge sort is going to be a
+lot faster even for something
+
+1087
+01:20:11,497 --> 01:20:14,370
+that is only a few dozen
+elements.
+
+1088
+01:20:14,370 --> 01:20:18,289
+It is going to actually be a
+faster algorithm.
+
+1089
+01:20:18,289 --> 01:20:20,901
+That's sort of the lessons,
+OK?
+
+1090
+01:20:20,901 --> 01:20:25,342
+Remember that to get your
+recitation assignments and
+
+1091
+01:20:25,342 --> 01:20:31,250
+attend recitation on Friday.
+Because we are going to be
+
+1092
+01:20:31,250 --> 01:20:36,271
+going through a bunch of the
+things that I have left on the
+
+1093
+01:20:36,271 --> 01:20:39,000
+table here.
+And see you next Monday.
