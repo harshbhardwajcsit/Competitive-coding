@@ -1,0 +1,6563 @@
+1
+00:00:08,000 --> 00:00:13,000
+The last lecture of 6.046.
+We are here today to talk more
+
+2
+00:00:13,000 --> 00:00:17,000
+about cache oblivious
+algorithms.
+
+3
+00:00:17,000 --> 00:00:30,000
+
+
+4
+00:00:30,000 --> 00:00:34,000
+Last class, we saw several
+cache oblivious algorithms,
+
+5
+00:00:34,000 --> 00:00:37,000
+although none of them quite too
+difficult.
+
+6
+00:00:37,000 --> 00:00:42,000
+Today we will see two difficult
+cache oblivious algorithms,
+
+7
+00:00:42,000 --> 00:00:46,000
+a little bit more advanced.
+I figure we should do something
+
+8
+00:00:46,000 --> 00:00:51,000
+advanced for the last class just
+to get to some exciting climax.
+
+9
+00:00:51,000 --> 00:00:55,000
+So without further ado,
+let's get started.
+
+10
+00:00:55,000 --> 00:01:00,000
+Last time, we looked at the
+binary search problem.
+
+11
+00:01:00,000 --> 00:01:02,000
+Or, we looked at binary search,
+rather.
+
+12
+00:01:02,000 --> 00:01:06,000
+And so, the binary search did
+not do so well in the cache
+
+13
+00:01:06,000 --> 00:01:10,000
+oblivious context.
+And, some people asked me after
+
+14
+00:01:10,000 --> 00:01:14,000
+class, is it possible to do
+binary search while cache
+
+15
+00:01:14,000 --> 00:01:16,000
+obliviously?
+And, indeed it is with
+
+16
+00:01:16,000 --> 00:01:19,000
+something called static search
+trees.
+
+17
+00:01:19,000 --> 00:01:21,000
+So, this is really binary
+search.
+
+18
+00:01:21,000 --> 00:01:25,000
+So, I mean, the abstract
+problem is I give you N items,
+
+19
+00:01:25,000 --> 00:01:28,000
+say presorted,
+build some static data
+
+20
+00:01:28,000 --> 00:01:34,000
+structure so that you can search
+among those N items quickly.
+
+21
+00:01:34,000 --> 00:01:37,000
+And quickly,
+I claim, means log base B of N.
+
+22
+00:01:37,000 --> 00:01:41,000
+We know that with B trees,
+our goal is to get log base B
+
+23
+00:01:41,000 --> 00:01:44,000
+of N.
+We know that we can achieve
+
+24
+00:01:44,000 --> 00:01:46,000
+that with B trees when we know
+B.
+
+25
+00:01:46,000 --> 00:01:49,000
+We'd like to do that when we
+don't know B.
+
+26
+00:01:49,000 --> 00:01:54,000
+And that's what cache oblivious
+static search trees achieve.
+
+27
+00:01:54,000 --> 00:01:58,000
+So here's what we're going to
+do.
+
+28
+00:01:58,000 --> 00:02:02,000
+As you might suspect,
+we're going to use a tree.
+
+29
+00:02:02,000 --> 00:02:07,000
+So, we're going to store our N
+elements in a complete binary
+
+30
+00:02:07,000 --> 00:02:10,000
+tree.
+We can't use B trees because we
+
+31
+00:02:10,000 --> 00:02:15,000
+don't know what B is.
+So, we'll use a binary tree.
+
+32
+00:02:15,000 --> 00:02:19,000
+And the key is how we lay out a
+binary tree.
+
+33
+00:02:19,000 --> 00:02:22,000
+The binary tree will have N
+nodes.
+
+34
+00:02:22,000 --> 00:02:25,000
+Or, you can put the data in the
+leaves.
+
+35
+00:02:25,000 --> 00:02:30,000
+It doesn't really matter.
+So, here's our tree.
+
+36
+00:02:30,000 --> 00:02:33,000
+There are the N nodes.
+And we're storing them,
+
+37
+00:02:33,000 --> 00:02:35,000
+I didn't say,
+in order, you know,
+
+38
+00:02:35,000 --> 00:02:38,000
+in the usual way,
+in order in a binary tree,
+
+39
+00:02:38,000 --> 00:02:41,000
+which makes it a binary search
+tree.
+
+40
+00:02:41,000 --> 00:02:43,000
+So we now had a search in this
+thing.
+
+41
+00:02:43,000 --> 00:02:47,000
+So, the search will just start
+at the root and a walk down some
+
+42
+00:02:47,000 --> 00:02:51,000
+root-to-leaf path.
+OK, and each point you know
+
+43
+00:02:51,000 --> 00:02:54,000
+whether to go left or to go
+right because things are in
+
+44
+00:02:54,000 --> 00:02:57,000
+order.
+So we're assuming here that we
+
+45
+00:02:57,000 --> 00:03:01,000
+have an ordered universe of
+keys.
+
+46
+00:03:01,000 --> 00:03:04,000
+So that's easy.
+We know that that will take log
+
+47
+00:03:04,000 --> 00:03:07,000
+N time.
+The question is how many memory
+
+48
+00:03:07,000 --> 00:03:10,000
+transfers?
+We'd like a lot of the nodes
+
+49
+00:03:10,000 --> 00:03:13,000
+near the root to be somehow
+closer and one block.
+
+50
+00:03:13,000 --> 00:03:16,000
+But we don't know what the
+block size is.
+
+51
+00:03:16,000 --> 00:03:21,000
+So are going to do is carve the
+tree in the middle level.
+
+52
+00:03:21,000 --> 00:03:25,000
+We're going to use divide and
+conquer for our layout of the
+
+53
+00:03:25,000 --> 00:03:28,000
+tree, how we order the nodes in
+memory.
+
+54
+00:03:28,000 --> 00:03:33,000
+And the divide and conquer is
+based on cutting in the middle,
+
+55
+00:03:33,000 --> 00:03:38,000
+which is a bit weird.
+It's not our usual divide and
+
+56
+00:03:38,000 --> 00:03:42,000
+conquer.
+And we'll see this more than
+
+57
+00:03:42,000 --> 00:03:45,000
+once today.
+So, when you cut on the middle
+
+58
+00:03:45,000 --> 00:03:50,000
+level, if the height of your
+original tree is log N,
+
+59
+00:03:50,000 --> 00:03:55,000
+maybe log N plus one or
+something, it's roughly log N,
+
+60
+00:03:55,000 --> 00:04:00,000
+then the top half will be log N
+over two.
+
+61
+00:04:00,000 --> 00:04:05,000
+And at the height of the bottom
+pieces will be log N over two.
+
+62
+00:04:05,000 --> 00:04:10,000
+How many nodes will there be in
+the top tree?
+
+63
+00:04:10,000 --> 00:04:12,000
+N over two?
+Not quite.
+
+64
+00:04:12,000 --> 00:04:16,000
+Two to the log N over two,
+square root of N.
+
+65
+00:04:16,000 --> 00:04:21,000
+OK, so it would be about root N
+nodes over here.
+
+66
+00:04:21,000 --> 00:04:24,000
+And therefore,
+there will be about root N
+
+67
+00:04:24,000 --> 00:04:28,000
+subtrees down here,
+one for each,
+
+68
+00:04:28,000 --> 00:04:34,000
+or a couple for each leaf.
+OK, so we have these subtrees
+
+69
+00:04:34,000 --> 00:04:38,000
+of root N, and there are about
+root N of them.
+
+70
+00:04:38,000 --> 00:04:42,000
+OK, this is how we are carving
+our tree.
+
+71
+00:04:42,000 --> 00:04:46,000
+Now, we're going to recurse on
+each of the pieces.
+
+72
+00:04:46,000 --> 00:04:50,000
+I'd like to redraw this
+slightly, sorry,
+
+73
+00:04:50,000 --> 00:04:53,000
+just to make it a little bit
+clearer.
+
+74
+00:04:53,000 --> 00:04:58,000
+These triangles are really
+trees, and they are connected by
+
+75
+00:04:58,000 --> 00:05:04,000
+edges to this tree up here.
+So what we are really doing is
+
+76
+00:05:04,000 --> 00:05:08,000
+carving in the middle level of
+edges in the tree.
+
+77
+00:05:08,000 --> 00:05:12,000
+And if N is not exactly a power
+of two, you have to round your
+
+78
+00:05:12,000 --> 00:05:15,000
+level by taking floors or
+ceilings.
+
+79
+00:05:15,000 --> 00:05:19,000
+But you cut roughly in the
+middle level of edges.
+
+80
+00:05:19,000 --> 00:05:23,000
+There is a lot of edges here.
+You conceptually slice there.
+
+81
+00:05:23,000 --> 00:05:27,000
+That gives you a top tree and
+the bottom tree,
+
+82
+00:05:27,000 --> 00:05:32,000
+several bottom trees,
+each of size roughly root N.
+
+83
+00:05:32,000 --> 00:05:39,000
+OK, and then we are going to
+recursively layout these root N
+
+84
+00:05:39,000 --> 00:05:45,000
+plus one subtrees,
+and then concatenate.
+
+85
+00:05:45,000 --> 00:05:50,000
+So, this is the idea of the
+recursive layout.
+
+86
+00:05:50,000 --> 00:05:57,000
+We sought recursive layouts
+with matrices last time.
+
+87
+00:05:57,000 --> 00:06:04,000
+This is doing the same thing
+for a tree.
+
+88
+00:06:04,000 --> 00:06:07,000
+So, I want to recursively
+layout the top tree.
+
+89
+00:06:07,000 --> 00:06:11,000
+So here's the top tree.
+And I imagine it being somehow
+
+90
+00:06:11,000 --> 00:06:14,000
+squashed down into a linear
+array recursively.
+
+91
+00:06:14,000 --> 00:06:18,000
+And then I do the same thing
+for each of the bottom trees.
+
+92
+00:06:18,000 --> 00:06:21,000
+So here are all the bottom
+trees.
+
+93
+00:06:21,000 --> 00:06:25,000
+And I squashed each of them
+down into some linear order.
+
+94
+00:06:25,000 --> 00:06:28,000
+And then I concatenate those
+linear orders.
+
+95
+00:06:28,000 --> 00:06:32,000
+That's the linear order of the
+street.
+
+96
+00:06:32,000 --> 00:06:35,000
+And you need a base case.
+And the base case,
+
+97
+00:06:35,000 --> 00:06:39,000
+just a single node,
+is stored in the only order of
+
+98
+00:06:39,000 --> 00:06:43,000
+a single node there is.
+OK, so that's a recursive
+
+99
+00:06:43,000 --> 00:06:48,000
+layout of a binary search tree.
+It turns out this works really
+
+100
+00:06:48,000 --> 00:06:51,000
+well.
+And let's quickly do a little
+
+101
+00:06:51,000 --> 00:06:56,000
+example just so it's completely
+clear what this layout is
+
+102
+00:06:56,000 --> 00:07:02,000
+because it's a bit bizarre maybe
+the first time you see it.
+
+103
+00:07:02,000 --> 00:07:05,000
+So let me draw my favorite
+picture.
+
+104
+00:07:05,000 --> 00:07:15,000
+
+
+105
+00:07:15,000 --> 00:07:19,000
+So here's a tree of height four
+or three depending on how you
+
+106
+00:07:19,000 --> 00:07:22,000
+count.
+We divide in the middle level,
+
+107
+00:07:22,000 --> 00:07:25,000
+and we say, OK,
+that's the top tree.
+
+108
+00:07:25,000 --> 00:07:27,000
+And then these are the bottom
+trees.
+
+109
+00:07:27,000 --> 00:07:32,000
+So there's four bottom trees.
+So there are four children
+
+110
+00:07:32,000 --> 00:07:36,000
+hanging off the root tree.
+They each have the same size in
+
+111
+00:07:36,000 --> 00:07:39,000
+this case.
+They should all roughly be the
+
+112
+00:07:39,000 --> 00:07:41,000
+same size.
+And the first we layout the top
+
+113
+00:07:41,000 --> 00:07:43,000
+thing where we divide on the
+middle level.
+
+114
+00:07:43,000 --> 00:07:47,000
+We say, OK, this comes first.
+And then, the bottom subtrees
+
+115
+00:07:47,000 --> 00:07:50,000
+come next, two and three.
+So, I'm writing down the order
+
+116
+00:07:50,000 --> 00:07:52,000
+in which these nodes are stored
+in an array.
+
+117
+00:07:52,000 --> 00:07:55,000
+And then, we visit this tree so
+we get four, five,
+
+118
+00:07:55,000 --> 00:07:57,000
+six.
+And then we visit this one so
+
+119
+00:07:57,000 --> 00:08:00,000
+we get seven,
+eight, nine.
+
+120
+00:08:00,000 --> 00:08:03,000
+And then the subtree,
+10, 11, 12, and then the last
+
+121
+00:08:03,000 --> 00:08:06,000
+subtree.
+So that's the order in which
+
+122
+00:08:06,000 --> 00:08:09,000
+you store these 15 nodes.
+And you can build that up
+
+123
+00:08:09,000 --> 00:08:13,000
+recursively.
+OK, so the structure is fairly
+
+124
+00:08:13,000 --> 00:08:17,000
+simple, just a binary structure
+which we know and love,
+
+125
+00:08:17,000 --> 00:08:19,000
+but store it in this funny
+order.
+
+126
+00:08:19,000 --> 00:08:22,000
+This is not depth research
+order or level order,
+
+127
+00:08:22,000 --> 00:08:27,000
+lots of natural things you
+might try, none of which work in
+
+128
+00:08:27,000 --> 00:08:31,000
+cache oblivious context.
+This is pretty much the only
+
+129
+00:08:31,000 --> 00:08:33,000
+thing that works.
+And the intuition as,
+
+130
+00:08:33,000 --> 00:08:36,000
+well, we are trying to mimic
+all kinds of B trees.
+
+131
+00:08:36,000 --> 00:08:39,000
+So, if you want a binary tree,
+well, that's the original tree.
+
+132
+00:08:39,000 --> 00:08:41,000
+It doesn't matter how you store
+things.
+
+133
+00:08:41,000 --> 00:08:44,000
+If you want a tree where the
+branching factor is four,
+
+134
+00:08:44,000 --> 00:08:47,000
+well, then here it is.
+These blocks give you a
+
+135
+00:08:47,000 --> 00:08:50,000
+branching factor of four.
+If we had more leaves down
+
+136
+00:08:50,000 --> 00:08:53,000
+here, there would be four
+children hanging off of that
+
+137
+00:08:53,000 --> 00:08:54,000
+node.
+And these are all clustered
+
+138
+00:08:54,000 --> 00:08:56,000
+together consecutively in
+memory.
+
+139
+00:08:56,000 --> 00:08:59,000
+So, if your block size happens
+to be three, then this is a
+
+140
+00:08:59,000 --> 00:09:04,000
+perfect way to store things for
+a block size of three.
+
+141
+00:09:04,000 --> 00:09:07,000
+If you're block size happens to
+be probably 15,
+
+142
+00:09:07,000 --> 00:09:12,000
+right, if we count the number
+of, right, the number of nodes
+
+143
+00:09:12,000 --> 00:09:16,000
+in here is 15,
+if you're block size happens to
+
+144
+00:09:16,000 --> 00:09:21,000
+be 15, then this recursion will
+give you a perfect blocking in
+
+145
+00:09:21,000 --> 00:09:23,000
+terms of 15.
+And in general,
+
+146
+00:09:23,000 --> 00:09:27,000
+it's actually mimicking block
+sizes of 2^K-1.
+
+147
+00:09:27,000 --> 00:09:32,000
+Think powers of two.
+OK, that's the intuition.
+
+148
+00:09:32,000 --> 00:09:37,000
+Let me give you the formal
+analysis to make it clearer.
+
+149
+00:09:37,000 --> 00:09:42,000
+So, we claim that there are
+order, log base B of N memory
+
+150
+00:09:42,000 --> 00:09:45,000
+transfers.
+That's what we want to prove no
+
+151
+00:09:45,000 --> 00:09:49,000
+matter what B is.
+So here's what we're going to
+
+152
+00:09:49,000 --> 00:09:52,000
+do.
+You may recall last time when
+
+153
+00:09:52,000 --> 00:09:57,000
+we analyzed divide and conquer
+algorithms, we wrote our
+
+154
+00:09:57,000 --> 00:10:03,000
+recurrence, and that the base
+case was the key.
+
+155
+00:10:03,000 --> 00:10:05,000
+Here, in fact,
+we are only going to think
+
+156
+00:10:05,000 --> 00:10:07,000
+about the base case in a certain
+sense.
+
+157
+00:10:07,000 --> 00:10:08,000
+We don't have,
+really, recursion in the
+
+158
+00:10:08,000 --> 00:10:10,000
+algorithm.
+The algorithm is just walking
+
+159
+00:10:10,000 --> 00:10:13,000
+down some root-to-leaf path.
+We only have a recursion in a
+
+160
+00:10:13,000 --> 00:10:16,000
+definition of the layout.
+So, we can be a little bit more
+
+161
+00:10:16,000 --> 00:10:18,000
+flexible.
+We don't have to look at our
+
+162
+00:10:18,000 --> 00:10:20,000
+recurrence.
+We are just going to think
+
+163
+00:10:20,000 --> 00:10:22,000
+about the base case.
+I want to imagine,
+
+164
+00:10:22,000 --> 00:10:24,000
+you start with the big
+triangle.
+
+165
+00:10:24,000 --> 00:10:26,000
+That you cut it in the middle;
+you get smaller triangles.
+
+166
+00:10:26,000 --> 00:10:31,000
+Imagine the point at which you
+keep recursively cutting.
+
+167
+00:10:31,000 --> 00:10:34,000
+So imagine this process.
+Big triangles halve in height
+
+168
+00:10:34,000 --> 00:10:37,000
+each time.
+They're getting smaller and
+
+169
+00:10:37,000 --> 00:10:41,000
+smaller, stop cutting at the
+point where a triangle fits in a
+
+170
+00:10:41,000 --> 00:10:44,000
+block.
+OK, and look at that time.
+
+171
+00:10:44,000 --> 00:10:48,000
+OK, the recursion actually goes
+all the way, but in the analysis
+
+172
+00:10:48,000 --> 00:10:53,000
+let's think about the point
+where the chunk fits in a block
+
+173
+00:10:53,000 --> 00:10:57,000
+in one of these triangles,
+one of these boxes fits in a
+
+174
+00:10:57,000 --> 00:10:59,000
+block.
+So, I'm going to call this a
+
+175
+00:10:59,000 --> 00:11:05,000
+recursive level.
+So, I'm imagining expanding all
+
+176
+00:11:05,000 --> 00:11:10,000
+of the recursions in parallel.
+This is some level of detail,
+
+177
+00:11:10,000 --> 00:11:16,000
+some level of refinement of the
+trees at which the tree you're
+
+178
+00:11:16,000 --> 00:11:19,000
+looking at, the triangle,
+has size.
+
+179
+00:11:19,000 --> 00:11:24,000
+In other words,
+there is a number of nodes in
+
+180
+00:11:24,000 --> 00:11:29,000
+that triangle is less than or
+equal to B.
+
+181
+00:11:29,000 --> 00:11:34,000
+OK, so let me draw a picture.
+So, I want to draw sort of this
+
+182
+00:11:34,000 --> 00:11:39,000
+picture but where instead of
+nodes, I have little triangles
+
+183
+00:11:39,000 --> 00:11:41,000
+of size, at most,
+B.
+
+184
+00:11:41,000 --> 00:11:44,000
+So, the picture looks something
+like this.
+
+185
+00:11:44,000 --> 00:11:48,000
+We have a little triangle of
+size, at most,
+
+186
+00:11:48,000 --> 00:11:50,000
+B.
+It has a bunch of children
+
+187
+00:11:50,000 --> 00:11:55,000
+which are subtrees of size,
+at most, B, the same size.
+
+188
+00:11:55,000 --> 00:12:00,000
+And then, these are in a chunk,
+and then we have other chunks
+
+189
+00:12:00,000 --> 00:12:06,000
+that look like that in recursion
+potentially.
+
+190
+00:12:06,000 --> 00:12:29,000
+
+
+191
+00:12:29,000 --> 00:12:31,000
+OK, so I haven't drawn
+everything.
+
+192
+00:12:31,000 --> 00:12:34,000
+There would be a whole bunch
+of, between B and B^2,
+
+193
+00:12:34,000 --> 00:12:37,000
+in fact, subtrees,
+other squares of this size.
+
+194
+00:12:37,000 --> 00:12:40,000
+So here, I had to refine the
+entire tree here.
+
+195
+00:12:40,000 --> 00:12:44,000
+And then I refined each of the
+subtrees here and here at these
+
+196
+00:12:44,000 --> 00:12:47,000
+levels.
+And then it turned out after
+
+197
+00:12:47,000 --> 00:12:50,000
+these two recursive levels,
+everything fits in a block.
+
+198
+00:12:50,000 --> 00:12:54,000
+Everything has the same size,
+so at some point they will all
+
+199
+00:12:54,000 --> 00:12:57,000
+fit within a block.
+And they might actually be
+
+200
+00:12:57,000 --> 00:12:59,000
+quite a bit smaller than the
+block.
+
+201
+00:12:59,000 --> 00:13:05,000
+How small?
+So, what I'm doing is cutting
+
+202
+00:13:05,000 --> 00:13:09,000
+the number of levels and half at
+each point.
+
+203
+00:13:09,000 --> 00:13:15,000
+And I stop when the height of
+one of these trees is
+
+204
+00:13:15,000 --> 00:13:21,000
+essentially at most log B
+because that's when the number
+
+205
+00:13:21,000 --> 00:13:25,000
+of nodes at there will be B
+roughly.
+
+206
+00:13:25,000 --> 00:13:30,000
+So, how small can the height
+be?
+
+207
+00:13:30,000 --> 00:13:32,000
+I keep dividing at half and
+stopping when it's,
+
+208
+00:13:32,000 --> 00:13:34,000
+at most, log B.
+Log B over two.
+
+209
+00:13:34,000 --> 00:13:37,000
+So it's, at most,
+log B, it's at least half log
+
+210
+00:13:37,000 --> 00:13:39,000
+B.
+Therefore, the number of nodes
+
+211
+00:13:39,000 --> 00:13:42,000
+it here could be between the
+square root of B and B.
+
+212
+00:13:42,000 --> 00:13:46,000
+So, this could be a lot smaller
+and less than a constant factor
+
+213
+00:13:46,000 --> 00:13:49,000
+of a block, a claim that doesn't
+matter.
+
+214
+00:13:49,000 --> 00:13:51,000
+It's OK.
+This could be a small square
+
+215
+00:13:51,000 --> 00:13:53,000
+root of B.
+I'm not even going to write
+
+216
+00:13:53,000 --> 00:13:57,000
+that it could be a small square
+root of B because that doesn't
+
+217
+00:13:57,000 --> 00:14:00,000
+play a role in the analysis.
+It's a worry,
+
+218
+00:14:00,000 --> 00:14:04,000
+but it's OK essentially because
+our bound only involves log B.
+
+219
+00:14:04,000 --> 00:14:09,000
+It doesn't involve B.
+So, here's what we do.
+
+220
+00:14:09,000 --> 00:14:16,000
+We know that each of the height
+of one of these triangles of
+
+221
+00:14:16,000 --> 00:14:20,000
+size, at most,
+B is at least a half log B.
+
+222
+00:14:20,000 --> 00:14:25,000
+And therefore,
+if you look at a search path,
+
+223
+00:14:25,000 --> 00:14:32,000
+so, when we do a search in this
+tree, we're going to start up
+
+224
+00:14:32,000 --> 00:14:36,000
+here.
+And I'm going to mess up the
+
+225
+00:14:36,000 --> 00:14:39,000
+diagram now.
+We're going to follow some
+
+226
+00:14:39,000 --> 00:14:42,000
+path, maybe I should have drawn
+it going down here.
+
+227
+00:14:42,000 --> 00:14:46,000
+We visit through some of these
+triangles, but it's a
+
+228
+00:14:46,000 --> 00:14:51,000
+root-to-node path in the tree.
+So, how many of the triangles
+
+229
+00:14:51,000 --> 00:14:54,000
+could it visit?
+Well, the height of the tree
+
+230
+00:14:54,000 --> 00:14:58,000
+divided by the height of one of
+the triangles.
+
+231
+00:14:58,000 --> 00:15:01,000
+So, this visits,
+at most, log N over half log B
+
+232
+00:15:01,000 --> 00:15:07,000
+triangles, which looks good.
+This is log base B of N,
+
+233
+00:15:07,000 --> 00:15:12,000
+mind you off factor of two.
+Now, what we worry about is how
+
+234
+00:15:12,000 --> 00:15:15,000
+many blocks does a triangle
+occupy?
+
+235
+00:15:15,000 --> 00:15:19,000
+One of these triangles should
+fit in a block.
+
+236
+00:15:19,000 --> 00:15:23,000
+We know by the recursive
+layout, it is stored in a
+
+237
+00:15:23,000 --> 00:15:28,000
+consecutive region in memory.
+So, how many blocks could
+
+238
+00:15:28,000 --> 00:15:32,000
+occupy?
+Two, because of alignment,
+
+239
+00:15:32,000 --> 00:15:35,000
+it might fall across the
+boundary of a block,
+
+240
+00:15:35,000 --> 00:15:37,000
+but at most,
+one boundary.
+
+241
+00:15:37,000 --> 00:15:42,000
+So, it fits in two blocks.
+So, each triangle fits in one
+
+242
+00:15:42,000 --> 00:15:45,000
+block, but is in,
+at most, two blocks,
+
+243
+00:15:45,000 --> 00:15:49,000
+memory blocks,
+size B depending on alignment.
+
+244
+00:15:49,000 --> 00:15:53,000
+So, the number of memory
+transfers, in other words,
+
+245
+00:15:53,000 --> 00:15:57,000
+a number of blocks we read,
+because all we are doing here
+
+246
+00:15:57,000 --> 00:16:01,000
+is reading in a search,
+is at most two blocks per
+
+247
+00:16:01,000 --> 00:16:05,000
+triangle.
+There are this many triangles,
+
+248
+00:16:05,000 --> 00:16:07,000
+so it's at most,
+4 log base B of N,
+
+249
+00:16:07,000 --> 00:16:09,000
+OK, which is order log base B
+of N.
+
+250
+00:16:09,000 --> 00:16:13,000
+And there are papers about
+decreasing this constant 4 with
+
+251
+00:16:13,000 --> 00:16:15,000
+more sophisticated data
+structures.
+
+252
+00:16:15,000 --> 00:16:18,000
+You can get it down to a little
+bit less than two I think.
+
+253
+00:16:18,000 --> 00:16:21,000
+So, there you go.
+So not quite as good as B trees
+
+254
+00:16:21,000 --> 00:16:24,000
+in terms of the constant,
+but pretty good.
+
+255
+00:16:24,000 --> 00:16:27,000
+And what's good is that this
+data structure works for all B
+
+256
+00:16:27,000 --> 00:16:32,000
+at the same time.
+This analysis works for all B.
+
+257
+00:16:32,000 --> 00:16:37,000
+So, we have a multilevel memory
+hierarchy, no problem.
+
+258
+00:16:37,000 --> 00:16:41,000
+Any questions about this data
+structure?
+
+259
+00:16:41,000 --> 00:16:44,000
+This is already pretty
+sophisticated,
+
+260
+00:16:44,000 --> 00:16:48,000
+but we are going to get even
+more sophisticated.
+
+261
+00:16:48,000 --> 00:16:51,000
+Next, OK, good,
+no questions.
+
+262
+00:16:51,000 --> 00:16:56,000
+This is either perfectly clear,
+or a little bit difficult,
+
+263
+00:16:56,000 --> 00:16:59,000
+or both.
+So, now, I debated with myself
+
+264
+00:16:59,000 --> 00:17:05,000
+what exactly I would cover next.
+There are two natural things I
+
+265
+00:17:05,000 --> 00:17:08,000
+could cover, both of which are
+complicated.
+
+266
+00:17:08,000 --> 00:17:11,000
+My first result in the cache
+oblivious world is making this
+
+267
+00:17:11,000 --> 00:17:14,000
+data structure dynamic.
+So, there is a dynamic B tree
+
+268
+00:17:14,000 --> 00:17:18,000
+that's cache oblivious that
+works for all values of B.
+
+269
+00:17:18,000 --> 00:17:20,000
+And it gets log base B of N,
+insert, delete,
+
+270
+00:17:20,000 --> 00:17:23,000
+and search.
+So, this just gets search in
+
+271
+00:17:23,000 --> 00:17:25,000
+log base B of N.
+That data structure,
+
+272
+00:17:25,000 --> 00:17:28,000
+our first paper was damn
+complicated, and then it got
+
+273
+00:17:28,000 --> 00:17:31,000
+simplified.
+It's now not too hard,
+
+274
+00:17:31,000 --> 00:17:35,000
+but it takes a couple of
+lectures in an advanced
+
+275
+00:17:35,000 --> 00:17:40,000
+algorithms class to teach it.
+So, I'm not going to do that.
+
+276
+00:17:40,000 --> 00:17:42,000
+But there you go.
+It exists.
+
+277
+00:17:42,000 --> 00:17:47,000
+Instead, we're going to cover
+our favorite problem sorting in
+
+278
+00:17:47,000 --> 00:17:52,000
+the cache oblivious context.
+And this is quite complicated,
+
+279
+00:17:52,000 --> 00:17:56,000
+more than you'd expect,
+OK, much more complicated than
+
+280
+00:17:56,000 --> 00:18:01,000
+it is in a multithreaded setting
+to get the right answer,
+
+281
+00:18:01,000 --> 00:18:05,000
+anyway.
+Maybe to get the best answer in
+
+282
+00:18:05,000 --> 00:18:08,000
+a multithreaded setting is also
+complicated.
+
+283
+00:18:08,000 --> 00:18:11,000
+The version we got last week
+was pretty easy.
+
+284
+00:18:11,000 --> 00:18:13,000
+But before we go to cache
+oblivious sorting,
+
+285
+00:18:13,000 --> 00:18:18,000
+let me talk about cache aware
+sorting because we need to know
+
+286
+00:18:18,000 --> 00:18:21,000
+what bound we are aiming for.
+And just to warn you,
+
+287
+00:18:21,000 --> 00:18:24,000
+I may not get to the full
+analysis of the full cache
+
+288
+00:18:24,000 --> 00:18:28,000
+oblivious sorting.
+But I want to give you an idea
+
+289
+00:18:28,000 --> 00:18:31,000
+of what goes into it because
+it's pretty cool,
+
+290
+00:18:31,000 --> 00:18:35,000
+I think, a lot of ideas.
+So, how might you sort?
+
+291
+00:18:35,000 --> 00:18:39,000
+So, cache aware,
+we assume we can do everything.
+
+292
+00:18:39,000 --> 00:18:41,000
+Basically, this means we have B
+trees.
+
+293
+00:18:41,000 --> 00:18:44,000
+That's the only other structure
+we know.
+
+294
+00:18:44,000 --> 00:18:49,000
+How would you sort N numbers,
+given that that's the only data
+
+295
+00:18:49,000 --> 00:18:52,000
+structure you have?
+Right, just add them into the B
+
+296
+00:18:52,000 --> 00:18:55,000
+tree, and then do an in-order
+traversal.
+
+297
+00:18:55,000 --> 00:19:00,000
+That's one way to sort,
+perfectly reasonable.
+
+298
+00:19:00,000 --> 00:19:04,000
+We'll call it repeated
+insertion into a B tree.
+
+299
+00:19:04,000 --> 00:19:08,000
+OK, we know in the usual
+setting, and the BST sort,
+
+300
+00:19:08,000 --> 00:19:13,000
+where you use a balanced binary
+search tree, like red-black
+
+301
+00:19:13,000 --> 00:19:17,000
+trees, that takes N log N time,
+log N per operation,
+
+302
+00:19:17,000 --> 00:19:22,000
+and that's an optimal sorting
+algorithm in the comparison
+
+303
+00:19:22,000 --> 00:19:28,000
+model, only thinking about
+comparison model here.
+
+304
+00:19:28,000 --> 00:19:39,000
+So, how many memory transfers
+does this data structure takes?
+
+305
+00:19:39,000 --> 00:19:45,000
+Sorry, this algorithm for
+sorting?
+
+306
+00:19:45,000 --> 00:19:54,000
+The number of memory transfers
+is a function of N,
+
+307
+00:19:54,000 --> 00:20:01,000
+and B_M of N is?
+This is easy.
+
+308
+00:20:01,000 --> 00:20:07,000
+N insertions,
+OK, you have to think about N
+
+309
+00:20:07,000 --> 00:20:13,000
+order traversal.
+You have to remember back your
+
+310
+00:20:13,000 --> 00:20:20,000
+analysis of B trees,
+but this is not too hard.
+
+311
+00:20:20,000 --> 00:20:27,000
+How long does the insertion
+take, the N insertions?
+
+312
+00:20:27,000 --> 00:20:32,000
+N log base B of N.
+How long does the traversal
+
+313
+00:20:32,000 --> 00:20:33,000
+take?
+Less time.
+
+314
+00:20:33,000 --> 00:20:37,000
+If we think about it,
+you can get away with N over B
+
+315
+00:20:37,000 --> 00:20:40,000
+memory transfers,
+so quite a bit less than this.
+
+316
+00:20:40,000 --> 00:20:44,000
+This is bigger than N,
+which is actually pretty bad.
+
+317
+00:20:44,000 --> 00:20:47,000
+N memory transfers means
+essentially you're doing random
+
+318
+00:20:47,000 --> 00:20:51,000
+access, visiting every element
+in some random order.
+
+319
+00:20:51,000 --> 00:20:54,000
+It's even worse.
+There's even a log factor.
+
+320
+00:20:54,000 --> 00:20:57,000
+Now, the log factor goes down
+by this log B factor.
+
+321
+00:20:57,000 --> 00:21:02,000
+But, this is actually a really
+bad sorting bound.
+
+322
+00:21:02,000 --> 00:21:06,000
+So, unlike normal algorithms,
+where using a search tree is a
+
+323
+00:21:06,000 --> 00:21:10,000
+good way to sort,
+in cache oblivious or cache
+
+324
+00:21:10,000 --> 00:21:13,000
+aware sorting it's really,
+really bad.
+
+325
+00:21:13,000 --> 00:21:17,000
+So, what's another natural
+algorithm you might try,
+
+326
+00:21:17,000 --> 00:21:22,000
+given what we know for sorting?
+And, even cache oblivious,
+
+327
+00:21:22,000 --> 00:21:26,000
+all the algorithms we've seen
+are cache oblivious.
+
+328
+00:21:26,000 --> 00:21:30,000
+So, what's a good one to try?
+Merge sort.
+
+329
+00:21:30,000 --> 00:21:34,000
+OK, we did merge sort in
+multithreaded algorithms.
+
+330
+00:21:34,000 --> 00:21:37,000
+Let's try a merge sort,
+a good divide and conquer
+
+331
+00:21:37,000 --> 00:21:40,000
+thing.
+So, I'm going to call it binary
+
+332
+00:21:40,000 --> 00:21:44,000
+merge sort because it splits the
+array into two pieces,
+
+333
+00:21:44,000 --> 00:21:46,000
+and it recurses on the two
+pieces.
+
+334
+00:21:46,000 --> 00:21:49,000
+So, you get a binary recursion
+tree.
+
+335
+00:21:49,000 --> 00:21:52,000
+So, let's analyze it.
+So the number of memory
+
+336
+00:21:52,000 --> 00:21:56,000
+transfers on N elements,
+so I mean it has a pretty good
+
+337
+00:21:56,000 --> 00:21:57,000
+recursive layout,
+right?
+
+338
+00:21:57,000 --> 00:22:02,000
+The two subarrays that we get
+what we partition our array are
+
+339
+00:22:02,000 --> 00:22:05,000
+consecutive.
+So, we're recursing on this,
+
+340
+00:22:05,000 --> 00:22:10,000
+recursing on this.
+So, it's a nice cache oblivious
+
+341
+00:22:10,000 --> 00:22:13,000
+layout.
+And this is even for cache
+
+342
+00:22:13,000 --> 00:22:15,000
+aware.
+This is a pretty good
+
+343
+00:22:15,000 --> 00:22:19,000
+algorithm, a lot better than
+this one, as we'll see.
+
+344
+00:22:19,000 --> 00:22:22,000
+But, what is the recurrence we
+get?
+
+345
+00:22:22,000 --> 00:22:27,000
+So, here we have to go back to
+last lecture when we were
+
+346
+00:22:27,000 --> 00:22:31,000
+thinking about recurrences for
+recursive cache oblivious
+
+347
+00:22:31,000 --> 00:22:34,000
+algorithms.
+
+348
+00:22:34,000 --> 00:22:46,000
+
+
+349
+00:22:46,000 --> 00:22:50,000
+I mean, the first part should
+be pretty easy.
+
+350
+00:22:50,000 --> 00:22:55,000
+There's an O.
+Well, OK, let's put the O at
+
+351
+00:22:55,000 --> 00:23:00,000
+the end, the divide and the
+conquer part at the end.
+
+352
+00:23:00,000 --> 00:23:06,000
+The recursion is 2MT of N over
+two, good.
+
+353
+00:23:06,000 --> 00:23:09,000
+All right, that's just like the
+merge sort recurrence,
+
+354
+00:23:09,000 --> 00:23:12,000
+and that's the additive term
+that you're thinking about.
+
+355
+00:23:12,000 --> 00:23:15,000
+OK, so normally,
+we would pay a linear additive
+
+356
+00:23:15,000 --> 00:23:19,000
+term here, order N because
+merging takes order N time.
+
+357
+00:23:19,000 --> 00:23:22,000
+Now, we are merging,
+which is three parallel scans,
+
+358
+00:23:22,000 --> 00:23:26,000
+the two inputs and the output.
+OK, they're not quite parallel
+
+359
+00:23:26,000 --> 00:23:28,000
+interleaved.
+They're a bit funnily
+
+360
+00:23:28,000 --> 00:23:31,000
+interleaved, but as long as your
+cache stores at least three
+
+361
+00:23:31,000 --> 00:23:35,000
+blocks, this is also linear time
+in this setting,
+
+362
+00:23:35,000 --> 00:23:38,000
+which means you visit each
+block a constant number of
+
+363
+00:23:38,000 --> 00:23:41,000
+times.
+OK, that's the recurrence.
+
+364
+00:23:41,000 --> 00:23:44,000
+Now, we also need a base case,
+of course.
+
+365
+00:23:44,000 --> 00:23:47,000
+We've seen two base cases,
+one MT of B,
+
+366
+00:23:47,000 --> 00:23:50,000
+and the other,
+MT of whatever fits in cache.
+
+367
+00:23:50,000 --> 00:23:53,000
+So, let's look at that one
+because it's better.
+
+368
+00:23:53,000 --> 00:23:56,000
+So, for some constant,
+C, if I have an array of size
+
+369
+00:23:56,000 --> 00:24:00,000
+M, this fits in cache,
+actually, probably C is one
+
+370
+00:24:00,000 --> 00:24:03,000
+here, but I'll just be careful.
+For some constant,
+
+371
+00:24:03,000 --> 00:24:10,000
+this fits in cache.
+A problem of this size fits in
+
+372
+00:24:10,000 --> 00:24:18,000
+cache, and in that case,
+the number of memory transfers
+
+373
+00:24:18,000 --> 00:24:25,000
+is, anyone remember?
+We've used this base case more
+
+374
+00:24:25,000 --> 00:24:31,000
+than once before.
+Do you remember?
+
+375
+00:24:31,000 --> 00:24:32,000
+Sorry?
+CM over B.
+
+376
+00:24:32,000 --> 00:24:33,000
+I've got a big O,
+so M over B.
+
+377
+00:24:33,000 --> 00:24:37,000
+Order M over B because this is
+the size of the data.
+
+378
+00:24:37,000 --> 00:24:40,000
+So, I mean, just to read it all
+in takes M over B.
+
+379
+00:24:40,000 --> 00:24:43,000
+Once it's in cache,
+it doesn't really matter what I
+
+380
+00:24:43,000 --> 00:24:47,000
+do as long as I use linear space
+for the right constant here.
+
+381
+00:24:47,000 --> 00:24:50,000
+As long as I use linear space
+in that algorithm,
+
+382
+00:24:50,000 --> 00:24:53,000
+I'll stay in cache,
+and therefore,
+
+383
+00:24:53,000 --> 00:24:57,000
+not have to write anything out
+until the very end and I spend M
+
+384
+00:24:57,000 --> 00:25:02,000
+over B to write it out.
+OK, so I can't really spend
+
+385
+00:25:02,000 --> 00:25:07,000
+more than M over B almost no
+matter what algorithm I have,
+
+386
+00:25:07,000 --> 00:25:09,000
+so long as it uses linear
+space.
+
+387
+00:25:09,000 --> 00:25:14,000
+So, this is a base case that's
+useful pretty much in any
+
+388
+00:25:14,000 --> 00:25:17,000
+algorithm.
+OK, that's a recurrence.
+
+389
+00:25:17,000 --> 00:25:22,000
+Now we just have to solve it.
+OK, let's see how good binary
+
+390
+00:25:22,000 --> 00:25:24,000
+merge sort is.
+OK, and again,
+
+391
+00:25:24,000 --> 00:25:29,000
+I'm going to just give the
+intuition behind the solution to
+
+392
+00:25:29,000 --> 00:25:33,000
+this recurrence.
+And I won't use the
+
+393
+00:25:33,000 --> 00:25:36,000
+substitution method to prove it
+formally.
+
+394
+00:25:36,000 --> 00:25:38,000
+But this one's actually pretty
+simple.
+
+395
+00:25:38,000 --> 00:25:41,000
+So, we have,
+at the top, actually I'm going
+
+396
+00:25:41,000 --> 00:25:44,000
+to write it over here.
+Otherwise I won't be able to
+
+397
+00:25:44,000 --> 00:25:46,000
+see.
+So, at the top of the
+
+398
+00:25:46,000 --> 00:25:48,000
+recursion, we have N over B
+costs.
+
+399
+00:25:48,000 --> 00:25:52,000
+I'll ignore the constants.
+There is probably also on
+
+400
+00:25:52,000 --> 00:25:55,000
+additive one,
+which I'm ignoring here.
+
+401
+00:25:55,000 --> 00:25:58,000
+Then we split into two problems
+of half the size.
+
+402
+00:25:58,000 --> 00:26:03,000
+So, we get a half N over B,
+and a half N over B.
+
+403
+00:26:03,000 --> 00:26:05,000
+OK, usually this was N,
+half N, half N.
+
+404
+00:26:05,000 --> 00:26:08,000
+You should regard it as from
+lecture one.
+
+405
+00:26:08,000 --> 00:26:10,000
+So, the total on this level is
+N over B.
+
+406
+00:26:10,000 --> 00:26:12,000
+The total on this level is N
+over B.
+
+407
+00:26:12,000 --> 00:26:16,000
+And, you can prove by
+induction, that every level is N
+
+408
+00:26:16,000 --> 00:26:18,000
+over B.
+The question is how many levels
+
+409
+00:26:18,000 --> 00:26:20,000
+are there?
+Well, at the bottom,
+
+410
+00:26:20,000 --> 00:26:23,000
+so, dot, dot,
+dot, at the bottom of this
+
+411
+00:26:23,000 --> 00:26:26,000
+recursion tree we should get
+something of size M,
+
+412
+00:26:26,000 --> 00:26:30,000
+and then we're paying M over B.
+Actually here we're paying M
+
+413
+00:26:30,000 --> 00:26:34,000
+over B.
+So, it's a good thing those
+
+414
+00:26:34,000 --> 00:26:35,000
+match.
+They should.
+
+415
+00:26:35,000 --> 00:26:40,000
+So here, we have a bunch of
+leaves, all the size M over B.
+
+416
+00:26:40,000 --> 00:26:44,000
+You can also compute the number
+of leaves here is N over M.
+
+417
+00:26:44,000 --> 00:26:49,000
+If you want to be extra sure,
+you should always check the
+
+418
+00:26:49,000 --> 00:26:51,000
+leaf level.
+It's a good idea.
+
+419
+00:26:51,000 --> 00:26:55,000
+So we have N over M leaves,
+each costing M over B.
+
+420
+00:26:55,000 --> 00:27:00,000
+This is an M.
+So, this is N over B also.
+
+421
+00:27:00,000 --> 00:27:04,000
+So, every level here is N over
+B memory transfers.
+
+422
+00:27:04,000 --> 00:27:08,000
+And the number of levels is one
+N over B?
+
+423
+00:27:08,000 --> 00:27:11,000
+Log N over B.
+Yep, that's right.
+
+424
+00:27:11,000 --> 00:27:16,000
+I just didn't hear it right.
+OK, we are starting at N.
+
+425
+00:27:16,000 --> 00:27:21,000
+We're getting down to M.
+So, you can think of it as log
+
+426
+00:27:21,000 --> 00:27:26,000
+N, the whole binary tree minus
+the subtrees log M,
+
+427
+00:27:26,000 --> 00:27:31,000
+and that's the same as log N
+over M, OK, or however you want
+
+428
+00:27:31,000 --> 00:27:37,000
+to think about it.
+The point is that this is a log
+
+429
+00:27:37,000 --> 00:27:40,000
+base two.
+That's where we are not doing
+
+430
+00:27:40,000 --> 00:27:42,000
+so great.
+So this is actually a pretty
+
+431
+00:27:42,000 --> 00:27:46,000
+good algorithm.
+So let me write the solution
+
+432
+00:27:46,000 --> 00:27:48,000
+over here.
+So, the number of memory
+
+433
+00:27:48,000 --> 00:27:53,000
+transfers on N items is going to
+be the number of levels times
+
+434
+00:27:53,000 --> 00:27:56,000
+the cost of each level.
+So, this is N over B times log
+
+435
+00:27:56,000 --> 00:28:00,000
+base two of N over M,
+which is a lot better than
+
+436
+00:28:00,000 --> 00:28:04,000
+repeated insertion into a B
+tree.
+
+437
+00:28:04,000 --> 00:28:07,000
+Here, we were getting N times
+log N over log B,
+
+438
+00:28:07,000 --> 00:28:12,000
+OK, so N log N over log B.
+We're getting a log B savings
+
+439
+00:28:12,000 --> 00:28:16,000
+over not proving anything,
+and here we are getting a
+
+440
+00:28:16,000 --> 00:28:19,000
+factor of B savings,
+N log N over B.
+
+441
+00:28:19,000 --> 00:28:24,000
+In fact, we even made it a
+little bit smaller by dividing
+
+442
+00:28:24,000 --> 00:28:28,000
+this N by M.
+That doesn't matter too much.
+
+443
+00:28:28,000 --> 00:28:32,000
+This dividing by B is a big
+one.
+
+444
+00:28:32,000 --> 00:28:35,000
+OK, so we're almost there.
+This is almost an optimal
+
+445
+00:28:35,000 --> 00:28:37,000
+algorithm.
+It's even cache oblivious,
+
+446
+00:28:37,000 --> 00:28:40,000
+which is pretty cool.
+And that extra little step,
+
+447
+00:28:40,000 --> 00:28:43,000
+which is that you should be
+able to get on other log B
+
+448
+00:28:43,000 --> 00:28:46,000
+factor improvement,
+I want to combine these two
+
+449
+00:28:46,000 --> 00:28:48,000
+ideas.
+I want to keep this factor B
+
+450
+00:28:48,000 --> 00:28:51,000
+improvement over N log N,
+and I want to keep this factor
+
+451
+00:28:51,000 --> 00:28:54,000
+log B improvement over N log N,
+and get them together.
+
+452
+00:28:54,000 --> 00:28:57,000
+So, first, before we do that
+cache obliviously,
+
+453
+00:28:57,000 --> 00:29:03,000
+let's do it cache aware.
+So, this is the third cache
+
+454
+00:29:03,000 --> 00:29:07,000
+aware algorithm.
+This one was also cache
+
+455
+00:29:07,000 --> 00:29:11,000
+oblivious.
+So, how should I modify a merge
+
+456
+00:29:11,000 --> 00:29:18,000
+sort in order to do better?
+I mean, I have this log base
+
+457
+00:29:18,000 --> 00:29:22,000
+two, and I want a log base B,
+more or less.
+
+458
+00:29:22,000 --> 00:29:27,000
+So, how would I do that with
+merge sort?
+
+459
+00:29:27,000 --> 00:29:30,000
+Yeah?
+Split into B subarrays,
+
+460
+00:29:30,000 --> 00:29:32,000
+yeah.
+Instead of doing binary merge
+
+461
+00:29:32,000 --> 00:29:35,000
+sort, this is what I was hinting
+at here, instead of splitting it
+
+462
+00:29:35,000 --> 00:29:37,000
+into two pieces,
+and recursing on the two
+
+463
+00:29:37,000 --> 00:29:40,000
+pieces, and then merging them,
+I could split potentially into
+
+464
+00:29:40,000 --> 00:29:42,000
+more pieces.
+OK, and to do that,
+
+465
+00:29:42,000 --> 00:29:45,000
+I'm going to use my cache.
+So the idea is B pieces.
+
+466
+00:29:45,000 --> 00:29:48,000
+This is actually not the best
+thing to do, although B pieces
+
+467
+00:29:48,000 --> 00:29:50,000
+does work.
+And, it's what I was hinting at
+
+468
+00:29:50,000 --> 00:29:52,000
+because I was saying I want a
+log B.
+
+469
+00:29:52,000 --> 00:29:55,000
+It's actually not quite log B.
+It's log M over B.
+
+470
+00:29:55,000 --> 00:29:57,000
+OK, but let's see.
+So, what is the most pieces I
+
+471
+00:29:57,000 --> 00:30:01,000
+could split into?
+Right, well,
+
+472
+00:30:01,000 --> 00:30:06,000
+I could split into N pieces.
+That would be good,
+
+473
+00:30:06,000 --> 00:30:11,000
+wouldn't it,
+at only one recursive level?
+
+474
+00:30:11,000 --> 00:30:14,000
+I can't split into N pieces.
+Why?
+
+475
+00:30:14,000 --> 00:30:19,000
+What happens wrong when I split
+into N pieces?
+
+476
+00:30:19,000 --> 00:30:24,000
+That would be the ultimate.
+You can't merge,
+
+477
+00:30:24,000 --> 00:30:27,000
+exactly.
+So, if I have N pieces,
+
+478
+00:30:27,000 --> 00:30:33,000
+you can't merge in cache.
+I mean, so in order to merge in
+
+479
+00:30:33,000 --> 00:30:37,000
+cache, what I need is to be able
+to store an entire block from
+
+480
+00:30:37,000 --> 00:30:40,000
+each of the lists that I'm
+merging.
+
+481
+00:30:40,000 --> 00:30:43,000
+If I can store an entire block
+in cache for each of the lists,
+
+482
+00:30:43,000 --> 00:30:46,000
+then it's a bunch of parallel
+scans.
+
+483
+00:30:46,000 --> 00:30:49,000
+So this is like testing the
+limit of parallel scanning
+
+484
+00:30:49,000 --> 00:30:52,000
+technology.
+If you have K parallel scans,
+
+485
+00:30:52,000 --> 00:30:55,000
+and you can fit K blocks in
+cache, then all is well because
+
+486
+00:30:55,000 --> 00:30:58,000
+you can scan through each of
+those K arrays,
+
+487
+00:30:58,000 --> 00:31:02,000
+and have one block from each of
+the K arrays in cache at the
+
+488
+00:31:02,000 --> 00:31:05,000
+same time.
+So, that's the idea.
+
+489
+00:31:05,000 --> 00:31:09,000
+Now, how many blocks can I fit
+in cache?
+
+490
+00:31:09,000 --> 00:31:13,000
+M over B.
+That's the biggest I could do.
+
+491
+00:31:13,000 --> 00:31:18,000
+So this will give the best
+running time among these kinds
+
+492
+00:31:18,000 --> 00:31:24,000
+of merge sort algorithms.
+This is an M over B way merge
+
+493
+00:31:24,000 --> 00:31:27,000
+sort.
+OK, so now we get somewhat
+
+494
+00:31:27,000 --> 00:31:31,000
+better recurrence.
+We split into M over B
+
+495
+00:31:31,000 --> 00:31:34,000
+subproblems now,
+each of size,
+
+496
+00:31:34,000 --> 00:31:38,000
+well, it's N divided by M over
+B without thinking.
+
+497
+00:31:38,000 --> 00:31:43,000
+And, the claim is that the
+merge time is still linear
+
+498
+00:31:43,000 --> 00:31:48,000
+because we have barely enough,
+OK, maybe I should describe
+
+499
+00:31:48,000 --> 00:31:50,000
+this algorithm.
+So, we divide,
+
+500
+00:31:50,000 --> 00:31:55,000
+because we've never really done
+non-binary merge sort.
+
+501
+00:31:55,000 --> 00:32:00,000
+We divide into M over B equal
+size subarrays instead of two.
+
+502
+00:32:00,000 --> 00:32:06,000
+Here, we are clearly doing a
+cache aware algorithm.
+
+503
+00:32:06,000 --> 00:32:11,000
+We are assuming we know what M
+over B is.
+
+504
+00:32:11,000 --> 00:32:17,000
+So, then we recursively sort
+each subarray,
+
+505
+00:32:17,000 --> 00:32:21,000
+and then we conquer.
+We merge.
+
+506
+00:32:21,000 --> 00:32:29,000
+And, the reason merge works is
+because we can afford one block
+
+507
+00:32:29,000 --> 00:32:34,000
+in cache.
+So, let's call it one cache
+
+508
+00:32:34,000 --> 00:32:36,000
+block per subarray.
+OK, actually,
+
+509
+00:32:36,000 --> 00:32:40,000
+if you're careful,
+you also need one block for the
+
+510
+00:32:40,000 --> 00:32:44,000
+output of the merged array
+before you write it out.
+
+511
+00:32:44,000 --> 00:32:47,000
+So, it should be M over B minus
+one.
+
+512
+00:32:47,000 --> 00:32:50,000
+But, let's ignore some additive
+constants.
+
+513
+00:32:50,000 --> 00:32:53,000
+OK, so this is the recurrence
+we get.
+
+514
+00:32:53,000 --> 00:32:59,000
+The base case is the same.
+And, what improves here?
+
+515
+00:32:59,000 --> 00:33:02,000
+I mean, the per level cost
+doesn't change,
+
+516
+00:33:02,000 --> 00:33:06,000
+I claim, because at the top we
+get N over B.
+
+517
+00:33:06,000 --> 00:33:09,000
+This does before.
+Then we split into M over B
+
+518
+00:33:09,000 --> 00:33:15,000
+subproblems, each of which costs
+a one over M over B factor times
+
+519
+00:33:15,000 --> 00:33:18,000
+N over B.
+OK, so you add all those up,
+
+520
+00:33:18,000 --> 00:33:23,000
+you still get N over B because
+we are not decreasing the number
+
+521
+00:33:23,000 --> 00:33:26,000
+of elements.
+We're just splitting them.
+
+522
+00:33:26,000 --> 00:33:31,000
+There's now M over B
+subproblems, each of one over M
+
+523
+00:33:31,000 --> 00:33:36,000
+over B the size.
+So, just like before,
+
+524
+00:33:36,000 --> 00:33:39,000
+each level will sum to N over
+B.
+
+525
+00:33:39,000 --> 00:33:44,000
+What changes is the number of
+levels because now we have
+
+526
+00:33:44,000 --> 00:33:49,000
+bigger branching factor.
+Instead of log base two,
+
+527
+00:33:49,000 --> 00:33:53,000
+it's now log base the branching
+factor.
+
+528
+00:33:53,000 --> 00:33:59,000
+So, the height of this tree is
+log base M over B of N over M,
+
+529
+00:33:59,000 --> 00:34:03,000
+I believe.
+Let me make sure that agrees
+
+530
+00:34:03,000 --> 00:34:06,000
+with me.
+Yeah.
+
+531
+00:34:06,000 --> 00:34:12,000
+OK, and if you're careful,
+this counts not quite the
+
+532
+00:34:12,000 --> 00:34:18,000
+number of levels,
+but the number of levels minus
+
+533
+00:34:18,000 --> 00:34:22,000
+one.
+So, I'm going to one plus one
+
+534
+00:34:22,000 --> 00:34:26,000
+here.
+And the reason why is this is
+
+535
+00:34:26,000 --> 00:34:37,000
+not quite the bound that I want.
+So, we have log base M over B.
+
+536
+00:34:37,000 --> 00:34:45,000
+What I really want,
+actually, is N over B.
+
+537
+00:34:45,000 --> 00:34:55,000
+I claim that these are the same
+because we have minus,
+
+538
+00:34:55,000 --> 00:35:01,000
+yeah, that's good.
+OK, this should come as rather
+
+539
+00:35:01,000 --> 00:35:05,000
+mysterious, but it's because I
+know what the sorting bound
+
+540
+00:35:05,000 --> 00:35:07,000
+should be as I'm doing this
+arithmetic.
+
+541
+00:35:07,000 --> 00:35:10,000
+So, I'm taking log base M over
+B of N over M.
+
+542
+00:35:10,000 --> 00:35:12,000
+I'm not changing the base of
+the log.
+
+543
+00:35:12,000 --> 00:35:14,000
+I'm just saying,
+well, N over M,
+
+544
+00:35:14,000 --> 00:35:17,000
+that is N over B divided by M
+over B because then the B's
+
+545
+00:35:17,000 --> 00:35:20,000
+cancel, and the M goes on the
+bottom.
+
+546
+00:35:20,000 --> 00:35:23,000
+So, if I do that in the logs,
+I get log of N over B minus log
+
+547
+00:35:23,000 --> 00:35:26,000
+of M over B minus,
+because I'm dividing.
+
+548
+00:35:26,000 --> 00:35:30,000
+OK, now, log base M over B of M
+over B is one.
+
+549
+00:35:30,000 --> 00:35:33,000
+So, these cancel,
+and I get log base M over B,
+
+550
+00:35:33,000 --> 00:35:36,000
+N over B, which is what I was
+aiming for.
+
+551
+00:35:36,000 --> 00:35:39,000
+Why?
+Because that's the right bound
+
+552
+00:35:39,000 --> 00:35:43,000
+as it's normally written.
+OK, that's what we will be
+
+553
+00:35:43,000 --> 00:35:48,000
+trying to get cache obliviously.
+So, that's the height of the
+
+554
+00:35:48,000 --> 00:35:53,000
+search tree, and at each level
+we are paying N over B memory
+
+555
+00:35:53,000 --> 00:35:56,000
+transfers.
+So, the overall number of
+
+556
+00:35:56,000 --> 00:36:01,000
+memory transfers for this M over
+B way merge sort is the sorting
+
+557
+00:36:01,000 --> 00:36:03,000
+bound.
+
+558
+00:36:03,000 --> 00:36:13,000
+
+
+559
+00:36:13,000 --> 00:36:19,000
+This is, I'll put it in a box.
+This is the sorting bound,
+
+560
+00:36:19,000 --> 00:36:25,000
+and it's very special because
+it is the optimal number of
+
+561
+00:36:25,000 --> 00:36:31,000
+memory transfers for sorting N
+items cache aware.
+
+562
+00:36:31,000 --> 00:36:33,000
+This has been known since,
+like, 1983.
+
+563
+00:36:33,000 --> 00:36:35,000
+OK, this is the best thing to
+do.
+
+564
+00:36:35,000 --> 00:36:38,000
+It's a really weird bound,
+but if you ignore all the
+
+565
+00:36:38,000 --> 00:36:41,000
+divided by B's,
+it's sort of like N times log
+
+566
+00:36:41,000 --> 00:36:44,000
+base M of N.
+So, that's little bit more
+
+567
+00:36:44,000 --> 00:36:46,000
+reasonable.
+But, there's lots of divided by
+
+568
+00:36:46,000 --> 00:36:49,000
+B's.
+So, the number of the blocks in
+
+569
+00:36:49,000 --> 00:36:53,000
+the input times log base the
+number of blocks in the cache of
+
+570
+00:36:53,000 --> 00:36:55,000
+the number of blocks in the
+input.
+
+571
+00:36:55,000 --> 00:36:57,000
+That's a little bit more
+intuitive.
+
+572
+00:36:57,000 --> 00:37:02,000
+That is the bound.
+And that's what we are aiming
+
+573
+00:37:02,000 --> 00:37:04,000
+for.
+So, this algorithm,
+
+574
+00:37:04,000 --> 00:37:08,000
+crucially, assume that we knew
+what M over B was.
+
+575
+00:37:08,000 --> 00:37:12,000
+Now, we are going to try and do
+it without knowing M over B,
+
+576
+00:37:12,000 --> 00:37:17,000
+do it cache obliviously.
+And that is the result of only
+
+577
+00:37:17,000 --> 00:37:19,000
+a few years ago.
+Are you ready?
+
+578
+00:37:19,000 --> 00:37:23,000
+Everything clear so far?
+It's a pretty natural
+
+579
+00:37:23,000 --> 00:37:26,000
+algorithm.
+We were going to try to mimic
+
+580
+00:37:26,000 --> 00:37:31,000
+it essentially and do a merge
+sort, but not M over B way merge
+
+581
+00:37:31,000 --> 00:37:36,000
+sort because we don't know how.
+We're going to try and do it
+
+582
+00:37:36,000 --> 00:37:39,000
+essentially a square root of N
+way merge sort.
+
+583
+00:37:39,000 --> 00:37:43,000
+If you play around,
+that's the natural thing to do.
+
+584
+00:37:43,000 --> 00:37:46,000
+The tricky part is that it's
+hard to merge square root of N
+
+585
+00:37:46,000 --> 00:37:50,000
+lists at the same time,
+in a cache efficient way.
+
+586
+00:37:50,000 --> 00:37:54,000
+We know that if the square root
+of N is bigger than M over B,
+
+587
+00:37:54,000 --> 00:37:57,000
+you're hosed if you just do a
+straightforward merge.
+
+588
+00:37:57,000 --> 00:38:02,000
+So, we need a fancy merge.
+We are going to do a divide and
+
+589
+00:38:02,000 --> 00:38:05,000
+conquer merge.
+It's a lot like the
+
+590
+00:38:05,000 --> 00:38:10,000
+multithreaded algorithms of last
+week, try and do a divide and
+
+591
+00:38:10,000 --> 00:38:14,000
+conquer merge so that no matter
+how many lists are merging,
+
+592
+00:38:14,000 --> 00:38:18,000
+as long as it's less than the
+square root of N,
+
+593
+00:38:18,000 --> 00:38:23,000
+or actually cubed root of N,
+we can do it cache efficiently,
+
+594
+00:38:23,000 --> 00:38:24,000
+OK?
+So, we'll do this,
+
+595
+00:38:24,000 --> 00:38:28,000
+we need a bit of setup.
+But that's where we're going,
+
+596
+00:38:28,000 --> 00:38:33,000
+cache oblivious sorting.
+So, we want to get the sorting
+
+597
+00:38:33,000 --> 00:38:36,000
+bound, and, yeah.
+It turns out,
+
+598
+00:38:36,000 --> 00:38:40,000
+to do cache oblivious sorting,
+you need an assumption about
+
+599
+00:38:40,000 --> 00:38:42,000
+the cache size.
+This is kind of annoying,
+
+600
+00:38:42,000 --> 00:38:45,000
+because we said,
+well, cache oblivious
+
+601
+00:38:45,000 --> 00:38:49,000
+algorithms should work for all
+values of B and all values of M.
+
+602
+00:38:49,000 --> 00:38:53,000
+But, you can actually prove you
+need an additional assumption in
+
+603
+00:38:53,000 --> 00:38:55,000
+order to get this bound cache
+obliviously.
+
+604
+00:38:55,000 --> 00:38:58,000
+That's the result of,
+like, last year by Garrett
+
+605
+00:38:58,000 --> 00:39:01,000
+Brodel.
+So, and the assumption is,
+
+606
+00:39:01,000 --> 00:39:04,000
+well, the assumption is fairly
+weak.
+
+607
+00:39:04,000 --> 00:39:07,000
+That's the good news.
+OK, we've actually made an
+
+608
+00:39:07,000 --> 00:39:10,000
+assumption several times.
+We said, well,
+
+609
+00:39:10,000 --> 00:39:13,000
+assuming the cache can store at
+least three blocks,
+
+610
+00:39:13,000 --> 00:39:17,000
+or assuming the cache can store
+at least four blocks,
+
+611
+00:39:17,000 --> 00:39:21,000
+yeah, it's reasonable to say
+the cache can store at least
+
+612
+00:39:21,000 --> 00:39:25,000
+four blocks, or at least any
+constant number of blocks.
+
+613
+00:39:25,000 --> 00:39:29,000
+This is that the number of
+blocks that your cache can store
+
+614
+00:39:29,000 --> 00:39:33,000
+is at least B to the epsilon
+blocks.
+
+615
+00:39:33,000 --> 00:39:36,000
+This is saying your cache
+isn't, like, really narrow.
+
+616
+00:39:36,000 --> 00:39:37,000
+It's about as tall as it is
+wide.
+
+617
+00:39:37,000 --> 00:39:40,000
+This actually gives you a lot
+of sloth.
+
+618
+00:39:40,000 --> 00:39:42,000
+And, we're going to use a
+simple version of this
+
+619
+00:39:42,000 --> 00:39:44,000
+assumption that M is at least
+B^2.
+
+620
+00:39:44,000 --> 00:39:48,000
+OK, this is pretty natural.
+It's saying that your cache is
+
+621
+00:39:48,000 --> 00:39:51,000
+at least as tall as it is wide
+where these are the blocks.
+
+622
+00:39:51,000 --> 00:39:54,000
+OK, the number of blocks is it
+least the size of a block.
+
+623
+00:39:54,000 --> 00:39:57,000
+That's a pretty reasonable
+assumption, and if you look at
+
+624
+00:39:57,000 --> 00:40:00,000
+caches these days,
+they all satisfy this,
+
+625
+00:40:00,000 --> 00:40:04,000
+at least for some epsilon.
+Pretty much universally,
+
+626
+00:40:04,000 --> 00:40:08,000
+M is at least B^2 or so.
+OK, and in fact,
+
+627
+00:40:08,000 --> 00:40:12,000
+if you think from our speed of
+light arguments from last time,
+
+628
+00:40:12,000 --> 00:40:16,000
+B^2 or B^3 is actually the
+right thing to do.
+
+629
+00:40:16,000 --> 00:40:18,000
+As you go out,
+I guess in 3-D,
+
+630
+00:40:18,000 --> 00:40:23,000
+B^2 would be the surface area
+of the sphere out there.
+
+631
+00:40:23,000 --> 00:40:27,000
+OK, so this is actually the
+natural thing of how much space
+
+632
+00:40:27,000 --> 00:40:32,000
+you should have at a particular
+distance.
+
+633
+00:40:32,000 --> 00:40:35,000
+Assuming we live in a constant
+dimensional space,
+
+634
+00:40:35,000 --> 00:40:40,000
+that assumption would be true.
+This even allows going up to 42
+
+635
+00:40:40,000 --> 00:40:43,000
+dimensions or whatever,
+OK, so a pretty reasonable
+
+636
+00:40:43,000 --> 00:40:44,000
+assumption.
+Good.
+
+637
+00:40:44,000 --> 00:40:47,000
+Now, we are going to achieve
+this bound.
+
+638
+00:40:47,000 --> 00:40:52,000
+And what we are going to try to
+do is use an N to the epsilon
+
+639
+00:40:52,000 --> 00:40:56,000
+way merge sort for some epsilon.
+And, if we assume that M is at
+
+640
+00:40:56,000 --> 00:41:02,000
+least B^2, the epsilon will be
+one third, it turns out.
+
+641
+00:41:02,000 --> 00:41:08,000
+So, we are going to do the
+cubed root of N way merge sort.
+
+642
+00:41:08,000 --> 00:41:14,000
+I'll start by giving you and
+analyzing the sorting
+
+643
+00:41:14,000 --> 00:41:20,000
+algorithms, assuming that we
+know how to do merge in a
+
+644
+00:41:20,000 --> 00:41:25,000
+particular bound.
+OK, then we'll do the merge.
+
+645
+00:41:25,000 --> 00:41:31,000
+The merge is the hard part.
+OK, so the merge,
+
+646
+00:41:31,000 --> 00:41:34,000
+I'm going to give you the black
+box first of all.
+
+647
+00:41:34,000 --> 00:41:36,000
+First of all,
+what does merge do?
+
+648
+00:41:36,000 --> 00:41:40,000
+The K way merger is called the
+K funnel just because it looks
+
+649
+00:41:40,000 --> 00:41:42,000
+like a funnel,
+which you'll see.
+
+650
+00:41:42,000 --> 00:41:45,000
+So, a K funnel is a data
+structure, or is an algorithm,
+
+651
+00:41:45,000 --> 00:41:48,000
+let's say, that looks like a
+data structure.
+
+652
+00:41:48,000 --> 00:41:52,000
+And it merges K sorted lists.
+So, supposing you already have
+
+653
+00:41:52,000 --> 00:41:56,000
+K lists, and they're sorted,
+and assuming that the lists are
+
+654
+00:41:56,000 --> 00:41:59,000
+relatively long,
+so we need some additional
+
+655
+00:41:59,000 --> 00:42:03,000
+assumptions for this black box
+to work, and we'll be able to
+
+656
+00:42:03,000 --> 00:42:09,000
+get them as we sort.
+We want the total size of those
+
+657
+00:42:09,000 --> 00:42:12,000
+lists.
+You add up all the elements,
+
+658
+00:42:12,000 --> 00:42:17,000
+and all the lists should have
+size at least K^3 is the
+
+659
+00:42:17,000 --> 00:42:21,000
+assumption.
+Then, it merges these lists
+
+660
+00:42:21,000 --> 00:42:25,000
+using essentially the sorting
+bound.
+
+661
+00:42:25,000 --> 00:42:30,000
+Actually, I should really say
+theta K^3.
+
+662
+00:42:30,000 --> 00:42:36,000
+I also don't want to be too
+much bigger than K^3.
+
+663
+00:42:36,000 --> 00:42:42,000
+Sorry about that.
+So, the number of memory
+
+664
+00:42:42,000 --> 00:42:50,000
+transfers that this funnel
+merger uses is the sorting bound
+
+665
+00:42:50,000 --> 00:42:57,000
+on K^3, so K^3 over B,
+log base M over B of K^3 over
+
+666
+00:42:57,000 --> 00:43:03,000
+B, plus another K memory
+transfers.
+
+667
+00:43:03,000 --> 00:43:06,000
+Now, K memory transfers is
+pretty reasonable.
+
+668
+00:43:06,000 --> 00:43:09,000
+You've got to at least start
+reading each list,
+
+669
+00:43:09,000 --> 00:43:12,000
+so you got to pay one memory
+transfer per list.
+
+670
+00:43:12,000 --> 00:43:16,000
+OK, but our challenge in some
+sense will be getting rid of
+
+671
+00:43:16,000 --> 00:43:19,000
+this plus K.
+This is how fast we can merge.
+
+672
+00:43:19,000 --> 00:43:22,000
+We'll do that after.
+Now, assuming we have this,
+
+673
+00:43:22,000 --> 00:43:26,000
+let me tell you how to sort.
+This is, eventually enough,
+
+674
+00:43:26,000 --> 00:43:31,000
+called funnel sort.
+But in a certain sense,
+
+675
+00:43:31,000 --> 00:43:36,000
+it's really cubed root of N way
+merge sort.
+
+676
+00:43:36,000 --> 00:43:41,000
+OK, but we'll analyze it using
+this.
+
+677
+00:43:41,000 --> 00:43:47,000
+OK, so funnel sort,
+we are going to define K to be
+
+678
+00:43:47,000 --> 00:43:52,000
+N to the one third,
+and apply this merger.
+
+679
+00:43:52,000 --> 00:43:56,000
+So, what do we do?
+It's just like here.
+
+680
+00:43:56,000 --> 00:44:05,000
+We're going to divide our array
+into N to the one third.
+
+681
+00:44:05,000 --> 00:44:09,000
+I mean, it they should be
+consecutive subarrays.
+
+682
+00:44:09,000 --> 00:44:13,000
+I'll call them segments of the
+array.
+
+683
+00:44:13,000 --> 00:44:18,000
+OK, for cache oblivious,
+it's really crucial how these
+
+684
+00:44:18,000 --> 00:44:22,000
+things are laid out.
+We're going to cut and get
+
+685
+00:44:22,000 --> 00:44:28,000
+consecutive chunks of the array,
+N to the one third of them.
+
+686
+00:44:28,000 --> 00:44:34,000
+Then I'm going to recursively
+sort them, and then I'm going to
+
+687
+00:44:34,000 --> 00:44:37,000
+merge.
+OK, and I'm going to merge
+
+688
+00:44:37,000 --> 00:44:41,000
+using the K funnel,
+the N to the one third funnel
+
+689
+00:44:41,000 --> 00:44:43,000
+because, now,
+why do I use one third?
+
+690
+00:44:43,000 --> 00:44:48,000
+Well, because of this three.
+OK, in order to use the N to
+
+691
+00:44:48,000 --> 00:44:51,000
+the one third funnel,
+I need to guarantee that the
+
+692
+00:44:51,000 --> 00:44:55,000
+total number of elements that
+I'm merging is at least the cube
+
+693
+00:44:55,000 --> 00:44:57,000
+of this number,
+K^3.
+
+694
+00:44:57,000 --> 00:45:01,000
+The cube of this number is N.
+That's exactly how many
+
+695
+00:45:01,000 --> 00:45:05,000
+elements I have in total.
+OK, so this is exactly what I
+
+696
+00:45:05,000 --> 00:45:08,000
+can apply the funnel.
+It's going to require that I
+
+697
+00:45:08,000 --> 00:45:11,000
+have it least K^3 elements,
+so that I can only use an N to
+
+698
+00:45:11,000 --> 00:45:14,000
+the one third funnel.
+I mean, if it didn't have this
+
+699
+00:45:14,000 --> 00:45:17,000
+requirement, I could just say,
+well, I have N lists each of
+
+700
+00:45:17,000 --> 00:45:20,000
+size one.
+OK, that's clearly not going to
+
+701
+00:45:20,000 --> 00:45:23,000
+work very well for our merger,
+I mean, intuitively because
+
+702
+00:45:23,000 --> 00:45:26,000
+this plus K will kill you.
+That will be a plus M which is
+
+703
+00:45:26,000 --> 00:45:30,000
+way too big.
+But we can use an N to the one
+
+704
+00:45:30,000 --> 00:45:35,000
+third funnel,
+and this is how we would sort.
+
+705
+00:45:35,000 --> 00:45:38,000
+So, let's analyze this
+algorithm.
+
+706
+00:45:38,000 --> 00:45:42,000
+Hopefully, it will give the
+sorting bound if I did
+
+707
+00:45:42,000 --> 00:45:47,000
+everything correctly.
+OK, this is pretty easy.
+
+708
+00:45:47,000 --> 00:45:52,000
+The only thing that makes this
+messy as I have to write the
+
+709
+00:45:52,000 --> 00:45:58,000
+sorting bound over and over.
+OK, this is the cost of the
+
+710
+00:45:58,000 --> 00:46:02,000
+merge.
+So that's at the root.
+
+711
+00:46:02,000 --> 00:46:07,000
+But K^3 in this case is N.
+So at the root of the
+
+712
+00:46:07,000 --> 00:46:11,000
+recursion, let me write the
+recurrence first.
+
+713
+00:46:11,000 --> 00:46:15,000
+Sorry.
+So, we have memory transfers on
+
+714
+00:46:15,000 --> 00:46:19,000
+N elements is N to the one
+third.
+
+715
+00:46:19,000 --> 00:46:24,000
+Let me get this right.
+Yeah, N to the one third
+
+716
+00:46:24,000 --> 00:46:28,000
+recursions, each of size N to
+the two thirds,
+
+717
+00:46:28,000 --> 00:46:34,000
+OK, plus this time,
+except K^3 is N.
+
+718
+00:46:34,000 --> 00:46:40,000
+So, this is plus N over B,
+log base M over B of N over B
+
+719
+00:46:40,000 --> 00:46:46,000
+plus cubed root of M.
+This is additive plus K term.
+
+720
+00:46:46,000 --> 00:46:52,000
+OK, so that's my recurrence.
+The base case will be the
+
+721
+00:46:52,000 --> 00:46:57,000
+usual.
+MT is some constant times M is
+
+722
+00:46:57,000 --> 00:47:02,000
+order M over B.
+So, we sort of know what we
+
+723
+00:47:02,000 --> 00:47:06,000
+should get here.
+Well, not really.
+
+724
+00:47:06,000 --> 00:47:09,000
+So, in all the previous
+recurrence is,
+
+725
+00:47:09,000 --> 00:47:15,000
+we have the same costs at every
+level, and that's where we got
+
+726
+00:47:15,000 --> 00:47:20,000
+our log factor.
+Now, we already have a log
+
+727
+00:47:20,000 --> 00:47:24,000
+factor, so we better not get
+another one.
+
+728
+00:47:24,000 --> 00:47:28,000
+Right, this is the bound we
+want to prove.
+
+729
+00:47:28,000 --> 00:47:33,000
+So, let me cheat here for a
+second.
+
+730
+00:47:33,000 --> 00:47:36,000
+All right, indeed.
+You may already be wondering,
+
+731
+00:47:36,000 --> 00:47:39,000
+this N to the one third seems
+rather large.
+
+732
+00:47:39,000 --> 00:47:43,000
+If it's bigger than this,
+we are already in trouble at
+
+733
+00:47:43,000 --> 00:47:45,000
+the very top level of the
+recursion.
+
+734
+00:47:45,000 --> 00:47:49,000
+So, I claim that that's OK.
+Let's look at N to the one
+
+735
+00:47:49,000 --> 00:47:51,000
+third.
+OK, there is a base case here
+
+736
+00:47:51,000 --> 00:47:54,000
+which covers all values of N
+that are, at most,
+
+737
+00:47:54,000 --> 00:47:58,000
+some constant times N.
+So, if I'm in this case,
+
+738
+00:47:58,000 --> 00:48:02,000
+I know that N is at least as
+big as the cache up to some
+
+739
+00:48:02,000 --> 00:48:06,000
+constant.
+OK, now the cache is it least
+
+740
+00:48:06,000 --> 00:48:10,000
+B^2, we've assumed.
+And you can do this with B to
+
+741
+00:48:10,000 --> 00:48:13,000
+the one plus epsilon if you're
+more careful.
+
+742
+00:48:13,000 --> 00:48:15,000
+So, N is at least B^2,
+OK?
+
+743
+00:48:15,000 --> 00:48:19,000
+And then, I always have trouble
+with these.
+
+744
+00:48:19,000 --> 00:48:23,000
+So this means that N divided by
+B is omega root N.
+
+745
+00:48:23,000 --> 00:48:26,000
+OK, there's many things you
+could say here,
+
+746
+00:48:26,000 --> 00:48:30,000
+and only one of them is right.
+So, why?
+
+747
+00:48:30,000 --> 00:48:34,000
+So this says that the square
+root of N is at least B,
+
+748
+00:48:34,000 --> 00:48:38,000
+and so N divided by B is at
+most N divided by square root of
+
+749
+00:48:38,000 --> 00:48:41,000
+N.
+So that's at least the square
+
+750
+00:48:41,000 --> 00:48:43,000
+root of N if you check that all
+out.
+
+751
+00:48:43,000 --> 00:48:48,000
+I'm going to go through this
+arithmetic relatively quickly
+
+752
+00:48:48,000 --> 00:48:50,000
+because it's tedious but
+necessary.
+
+753
+00:48:50,000 --> 00:48:54,000
+OK, the square root of N is
+strictly bigger than cubed root
+
+754
+00:48:54,000 --> 00:48:57,000
+of N.
+OK, so that means that N over B
+
+755
+00:48:57,000 --> 00:49:02,000
+is strictly bigger than N to the
+one third.
+
+756
+00:49:02,000 --> 00:49:05,000
+Here we have N over B times
+something that's bigger than
+
+757
+00:49:05,000 --> 00:49:07,000
+one.
+So this term definitely
+
+758
+00:49:07,000 --> 00:49:10,000
+dominates this term in this
+case.
+
+759
+00:49:10,000 --> 00:49:14,000
+As long as I'm not in the base
+case, I know N is at least order
+
+760
+00:49:14,000 --> 00:49:16,000
+M.
+This term disappears from my
+
+761
+00:49:16,000 --> 00:49:18,000
+recurrence.
+OK, so, good.
+
+762
+00:49:18,000 --> 00:49:21,000
+That was a bit close.
+Now, what we want to get is
+
+763
+00:49:21,000 --> 00:49:25,000
+this running time overall.
+So, the recursive cost better
+
+764
+00:49:25,000 --> 00:49:29,000
+be small, better be less than
+the constant factor increase
+
+765
+00:49:29,000 --> 00:49:35,000
+over this.
+So, let's write the recurrence.
+
+766
+00:49:35,000 --> 00:49:39,000
+So, we get N over B,
+log base M over B,
+
+767
+00:49:39,000 --> 00:49:44,000
+N over B at the root.
+Then, we split into a lot of
+
+768
+00:49:44,000 --> 00:49:49,000
+subproblems, N to the one third
+subproblems here,
+
+769
+00:49:49,000 --> 00:49:55,000
+and each one costs essentially
+this but with N replaced by N to
+
+770
+00:49:55,000 --> 00:50:00,000
+the two thirds.
+OK, so N to the two thirds log
+
+771
+00:50:00,000 --> 00:50:04,000
+base M over B,
+oops I forgot to divide it by B
+
+772
+00:50:04,000 --> 00:50:11,000
+out here, of N to the two thirds
+divided by B.
+
+773
+00:50:11,000 --> 00:50:14,000
+That's the cost of one of these
+nodes, N to the one third of
+
+774
+00:50:14,000 --> 00:50:17,000
+them.
+What should they add up to?
+
+775
+00:50:17,000 --> 00:50:20,000
+Well, there is N to the one
+third, and there's an N to the
+
+776
+00:50:20,000 --> 00:50:23,000
+two thirds here that multiplies
+out to N.
+
+777
+00:50:23,000 --> 00:50:25,000
+So, we get N over B.
+This looks bad.
+
+778
+00:50:25,000 --> 00:50:28,000
+This looks the same.
+And we don't want to lose
+
+779
+00:50:28,000 --> 00:50:31,000
+another log factor.
+But the good news is we have
+
+780
+00:50:31,000 --> 00:50:35,000
+two thirds in here.
+OK, this is what we get in
+
+781
+00:50:35,000 --> 00:50:38,000
+total at this level.
+It looks like the sorting
+
+782
+00:50:38,000 --> 00:50:41,000
+bound, but in the log there's
+still a two thirds.
+
+783
+00:50:41,000 --> 00:50:45,000
+Now, a power of two thirds and
+a log comes out as a multiple of
+
+784
+00:50:45,000 --> 00:50:48,000
+two thirds.
+So, this is in fact two thirds
+
+785
+00:50:48,000 --> 00:50:51,000
+times N over B,
+log base M over B of N over B,
+
+786
+00:50:51,000 --> 00:50:54,000
+the sorting bound.
+So, this is two thirds of the
+
+787
+00:50:54,000 --> 00:50:57,000
+sorting bound.
+And this is the sorting bound,
+
+788
+00:50:57,000 --> 00:51:01,000
+one times the sorting bound.
+So, it's going down
+
+789
+00:51:01,000 --> 00:51:02,000
+geometrically,
+yea!
+
+790
+00:51:02,000 --> 00:51:05,000
+OK, I'm not going to prove it,
+but it's true.
+
+791
+00:51:05,000 --> 00:51:08,000
+This went down by a factor of
+two thirds.
+
+792
+00:51:08,000 --> 00:51:12,000
+The next one will also go down
+by a factor of two thirds by
+
+793
+00:51:12,000 --> 00:51:14,000
+induction.
+OK, if you prove it at one
+
+794
+00:51:14,000 --> 00:51:17,000
+level, it should be true at all
+of them.
+
+795
+00:51:17,000 --> 00:51:19,000
+And I'm going to skip the
+details there.
+
+796
+00:51:19,000 --> 00:51:23,000
+So, we could check the leaf
+level just to make sure.
+
+797
+00:51:23,000 --> 00:51:25,000
+That's always a good sanity
+check.
+
+798
+00:51:25,000 --> 00:51:30,000
+At the leaves,
+we know our cost is M over B.
+
+799
+00:51:30,000 --> 00:51:32,000
+OK, and how many leaves are
+there?
+
+800
+00:51:32,000 --> 00:51:34,000
+Just like before,
+in some sense,
+
+801
+00:51:34,000 --> 00:51:38,000
+we have N/M leaves.
+OK, so in fact the total cost
+
+802
+00:51:38,000 --> 00:51:41,000
+at the bottom is N over B.
+And it turns out that that's
+
+803
+00:51:41,000 --> 00:51:44,000
+what you get.
+So, you essentially,
+
+804
+00:51:44,000 --> 00:51:47,000
+it looks funny,
+because you'd think that this
+
+805
+00:51:47,000 --> 00:51:51,000
+would actually be smaller than
+this at some intuitive level.
+
+806
+00:51:51,000 --> 00:51:54,000
+It's not.
+In fact, what's happening is
+
+807
+00:51:54,000 --> 00:51:57,000
+you have this N over B times
+this log thing,
+
+808
+00:51:57,000 --> 00:52:00,000
+whatever the log thing is.
+We don't care too much.
+
+809
+00:52:00,000 --> 00:52:05,000
+Let's just call it log.
+What you are taking at the next
+
+810
+00:52:05,000 --> 00:52:08,000
+level is two thirds times that
+log.
+
+811
+00:52:08,000 --> 00:52:11,000
+And at the next level,
+it's four ninths times that log
+
+812
+00:52:11,000 --> 00:52:13,000
+and so on.
+So, it's geometrically
+
+813
+00:52:13,000 --> 00:52:16,000
+decreasing until the log gets
+down to one.
+
+814
+00:52:16,000 --> 00:52:17,000
+And then you stop the
+recursion.
+
+815
+00:52:17,000 --> 00:52:21,000
+And that's what you get N over
+B here with no log.
+
+816
+00:52:21,000 --> 00:52:23,000
+So, what you're doing is
+decreasing the log,
+
+817
+00:52:23,000 --> 00:52:27,000
+not the N over B stuff.
+The two thirds should really be
+
+818
+00:52:27,000 --> 00:52:29,000
+over here.
+In fact, the number of levels
+
+819
+00:52:29,000 --> 00:52:34,000
+here is log, log N.
+It's the number of times you
+
+820
+00:52:34,000 --> 00:52:39,000
+have to divide a log by three
+halves before you get down to
+
+821
+00:52:39,000 --> 00:52:42,000
+one, OK?
+So, we don't actually need
+
+822
+00:52:42,000 --> 00:52:45,000
+that.
+We don't care how many levels
+
+823
+00:52:45,000 --> 00:52:49,000
+are because it's geometrically
+decreasing.
+
+824
+00:52:49,000 --> 00:52:52,000
+It could be infinitely many
+levels.
+
+825
+00:52:52,000 --> 00:52:58,000
+It's geometrically decreasing,
+and we get this as our running
+
+826
+00:52:58,000 --> 00:53:01,000
+time.
+MT of N is the sorting bound
+
+827
+00:53:01,000 --> 00:53:05,000
+for funnel sort.
+So, this is great.
+
+828
+00:53:05,000 --> 00:53:09,000
+As long as we can get a funnel
+that merges this quickly,
+
+829
+00:53:09,000 --> 00:53:14,000
+we get a sorting algorithm that
+sorts as fast as it possibly
+
+830
+00:53:14,000 --> 00:53:17,000
+can.
+I didn't write that on the
+
+831
+00:53:17,000 --> 00:53:20,000
+board that this is
+asymptotically optimal.
+
+832
+00:53:20,000 --> 00:53:25,000
+Even if you knew what B and M
+were, this is the best that you
+
+833
+00:53:25,000 --> 00:53:28,000
+could hope to do.
+And here, we are doing it no
+
+834
+00:53:28,000 --> 00:53:32,000
+matter what, B and M are.
+Good.
+
+835
+00:53:32,000 --> 00:53:35,000
+Get ready for the funnel.
+The funnel will be another
+
+836
+00:53:35,000 --> 00:53:37,000
+recursion.
+So, this is a recursive
+
+837
+00:53:37,000 --> 00:53:39,000
+algorithm in a recursive
+algorithm.
+
+838
+00:53:39,000 --> 00:53:43,000
+It's another divide and
+conquer, kind of like the static
+
+839
+00:53:43,000 --> 00:53:46,000
+search trees we saw at the
+beginning of this lecture.
+
+840
+00:53:46,000 --> 00:53:49,000
+So, these all tie together.
+
+841
+00:53:49,000 --> 00:54:03,000
+
+
+842
+00:54:03,000 --> 00:54:06,000
+All right, the K funnel,
+so, I'm calling it K funnel
+
+843
+00:54:06,000 --> 00:54:10,000
+because I want to think of it at
+some recursive level,
+
+844
+00:54:10,000 --> 00:54:14,000
+not just N to the one third.
+OK, we're going to recursively
+
+845
+00:54:14,000 --> 00:54:17,000
+use, in fact,
+the square root of K funnel.
+
+846
+00:54:17,000 --> 00:54:21,000
+So, here's, and I need to
+achieve that bound.
+
+847
+00:54:21,000 --> 00:54:24,000
+So, the recursion is like the
+static search tree,
+
+848
+00:54:24,000 --> 00:54:27,000
+and a little bit hard to draw
+on one board,
+
+849
+00:54:27,000 --> 00:54:34,000
+but here we go.
+So, we have a square root of K
+
+850
+00:54:34,000 --> 00:54:37,000
+funnel.
+Recursively,
+
+851
+00:54:37,000 --> 00:54:44,000
+we have a buffer up here.
+This is called the output
+
+852
+00:54:44,000 --> 00:54:50,000
+buffer, and it has size K^3,
+and just for kicks,
+
+853
+00:54:50,000 --> 00:54:57,000
+let's suppose it that filled up
+a little bit.
+
+854
+00:54:57,000 --> 00:55:06,000
+And, we have some more buffers.
+And, let's suppose they've been
+
+855
+00:55:06,000 --> 00:55:13,000
+filled up by different amounts.
+And each of these has size K to
+
+856
+00:55:13,000 --> 00:55:16,000
+the three halves,
+of course.
+
+857
+00:55:16,000 --> 00:55:21,000
+Halves, these are called
+buffers, let's say,
+
+858
+00:55:21,000 --> 00:55:28,000
+with the intermediate buffers.
+And, then hanging off of them,
+
+859
+00:55:28,000 --> 00:55:34,000
+we have more funnels,
+the square root of K funnel
+
+860
+00:55:34,000 --> 00:55:40,000
+here, and a square root of K
+funnel here, one for each
+
+861
+00:55:40,000 --> 00:55:47,000
+buffer, one for each child of
+this funnel.
+
+862
+00:55:47,000 --> 00:55:53,000
+OK, and then hanging off of
+these funnels are the input
+
+863
+00:55:53,000 --> 00:55:54,000
+arrays.
+
+864
+00:55:54,000 --> 00:56:07,000
+
+
+865
+00:56:07,000 --> 00:56:12,000
+OK, I'm not going to draw all K
+of them, but there are K input
+
+866
+00:56:12,000 --> 00:56:16,000
+arrays, input lists let's call
+them down at the bottom.
+
+867
+00:56:16,000 --> 00:56:21,000
+OK, so the idea is we are going
+to merge bottom-up in this
+
+868
+00:56:21,000 --> 00:56:23,000
+picture.
+We start with our K input
+
+869
+00:56:23,000 --> 00:56:26,000
+arrays of total size at least
+K^3.
+
+870
+00:56:26,000 --> 00:56:31,000
+That's what we're assuming we
+have up here.
+
+871
+00:56:31,000 --> 00:56:34,000
+We are clustering them into
+groups of size square root of K,
+
+872
+00:56:34,000 --> 00:56:37,000
+so, the square root of K
+groups, throw each of them into
+
+873
+00:56:37,000 --> 00:56:40,000
+a square root of K funnel that
+recursively merges those square
+
+874
+00:56:40,000 --> 00:56:43,000
+root of K lists.
+The output of those funnels we
+
+875
+00:56:43,000 --> 00:56:46,000
+are putting into a buffer to
+sort of accumulate what the
+
+876
+00:56:46,000 --> 00:56:49,000
+answer should be.
+These buffers have besides
+
+877
+00:56:49,000 --> 00:56:52,000
+exactly K to the three halves,
+which might not be perfect
+
+878
+00:56:52,000 --> 00:56:55,000
+because we know that on average,
+there should be K to the three
+
+879
+00:56:55,000 --> 00:56:59,000
+halves elements in each of these
+because there's K^3 total,
+
+880
+00:56:59,000 --> 00:57:02,000
+and the square root of K
+groups.
+
+881
+00:57:02,000 --> 00:57:05,000
+So, it should be K^3 divided by
+the square root of K,
+
+882
+00:57:05,000 --> 00:57:07,000
+which is K to the three halves
+on average.
+
+883
+00:57:07,000 --> 00:57:09,000
+But some of these will be
+bigger.
+
+884
+00:57:09,000 --> 00:57:12,000
+Some of them will be smaller.
+I've drawn it here.
+
+885
+00:57:12,000 --> 00:57:15,000
+Some of them had emptied a bit
+more depending on how you merge
+
+886
+00:57:15,000 --> 00:57:16,000
+things.
+But on average,
+
+887
+00:57:16,000 --> 00:57:18,000
+these will all fill at the same
+time.
+
+888
+00:57:18,000 --> 00:57:22,000
+And then, we plug them into a
+square root of K funnel,
+
+889
+00:57:22,000 --> 00:57:24,000
+and that we get the output of
+size K^3.
+
+890
+00:57:24,000 --> 00:57:28,000
+So, that is roughly what we
+should have happen.
+
+891
+00:57:28,000 --> 00:57:31,000
+OK, but in fact,
+some of these might fill first,
+
+892
+00:57:31,000 --> 00:57:36,000
+and we have to do some merging
+in order to empty a buffer,
+
+893
+00:57:36,000 --> 00:57:39,000
+make room for more stuff coming
+up.
+
+894
+00:57:39,000 --> 00:57:43,000
+That's the picture.
+Now, before I actually tell you
+
+895
+00:57:43,000 --> 00:57:47,000
+what the algorithm is,
+or analyze the algorithm,
+
+896
+00:57:47,000 --> 00:57:51,000
+let's first just think about
+space, a very simple warm-up
+
+897
+00:57:51,000 --> 00:57:54,000
+analysis.
+So, let's look at the space
+
+898
+00:57:54,000 --> 00:58:00,000
+excluding the inputs and
+outputs, those buffers.
+
+899
+00:58:00,000 --> 00:58:02,000
+OK, why do I want to exclude
+input and output buffers?
+
+900
+00:58:02,000 --> 00:58:05,000
+Well, because I want to only
+count each buffer once,
+
+901
+00:58:05,000 --> 00:58:09,000
+and this buffer is actually the
+input to this one and the output
+
+902
+00:58:09,000 --> 00:58:11,000
+to this one.
+So, in order to recursively
+
+903
+00:58:11,000 --> 00:58:14,000
+count all the buffers exactly
+once, I'm only going to count
+
+904
+00:58:14,000 --> 00:58:16,000
+these middle buffers.
+And then separately,
+
+905
+00:58:16,000 --> 00:58:20,000
+I'm going to have to think of
+the overall output and input
+
+906
+00:58:20,000 --> 00:58:22,000
+buffers.
+But those are sort of given.
+
+907
+00:58:22,000 --> 00:58:23,000
+I mean, I need K^3 for the
+output.
+
+908
+00:58:23,000 --> 00:58:26,000
+I need K^3 for the input.
+So ignore those overall.
+
+909
+00:58:26,000 --> 00:58:29,000
+And that if I count the middle
+buffers recursively,
+
+910
+00:58:29,000 --> 00:58:34,000
+I'll get all the buffers.
+So, then we get a very simple
+
+911
+00:58:34,000 --> 00:58:39,000
+recurrence for space.
+S of K is roughly square root
+
+912
+00:58:39,000 --> 00:58:45,000
+of K plus one times S of square
+root of K plus order K^2,
+
+913
+00:58:45,000 --> 00:58:51,000
+K^2 because we have the square
+root of K of these buffers,
+
+914
+00:58:51,000 --> 00:58:54,000
+each of size K to the three
+halves.
+
+915
+00:58:54,000 --> 00:58:58,000
+Work that out,
+does that sound right?
+
+916
+00:58:58,000 --> 00:59:02,000
+That sounds an awful lot like
+K^3, but maybe,
+
+917
+00:59:02,000 --> 00:59:06,000
+all right.
+Oh, no, that's right.
+
+918
+00:59:06,000 --> 00:59:09,000
+It's K to the three halves
+times the square root of K,
+
+919
+00:59:09,000 --> 00:59:13,000
+which is K to the three halves
+plus a half, which is K to the
+
+920
+00:59:13,000 --> 00:59:16,000
+four halves, which is K^2.
+Phew, OK, good.
+
+921
+00:59:16,000 --> 00:59:18,000
+I'm just bad with my arithmetic
+here.
+
+922
+00:59:18,000 --> 00:59:20,000
+OK, so K^2 total buffering
+here.
+
+923
+00:59:20,000 --> 00:59:23,000
+You add them up for each level,
+each recursion,
+
+924
+00:59:23,000 --> 00:59:27,000
+and the plus one here is to
+take into account the top guy,
+
+925
+00:59:27,000 --> 00:59:31,000
+the square root of K bottom
+guys, so the square root of K
+
+926
+00:59:31,000 --> 00:59:33,000
+plus one.
+If this were,
+
+927
+00:59:33,000 --> 00:59:36,000
+well, let me just draw the
+recurrence tree.
+
+928
+00:59:36,000 --> 00:59:39,000
+There's many ways you could
+solve this recurrence.
+
+929
+00:59:39,000 --> 00:59:41,000
+A natural one is instead of
+looking at K,
+
+930
+00:59:41,000 --> 00:59:44,000
+you look at log K,
+because here at log K is
+
+931
+00:59:44,000 --> 00:59:47,000
+getting divided by two.
+I just going to draw the
+
+932
+00:59:47,000 --> 00:59:50,000
+recursion trees,
+so you can see the intuition.
+
+933
+00:59:50,000 --> 00:59:53,000
+But if you are going to solve
+it, you should probably take the
+
+934
+00:59:53,000 --> 00:59:57,000
+logs, substitute by log.
+So, we have the square root of
+
+935
+00:59:57,000 --> 01:00:00,000
+K.
+plus one branching factor.
+
+936
+01:00:00,000 --> 01:00:03,729
+And then, the problem is size
+square root of K,
+
+937
+01:00:03,729 --> 01:00:08,108
+so this is going to be K,
+I believe, for each of these.
+
+938
+01:00:08,108 --> 01:00:12,324
+This is square root of K
+squared is the cost of these
+
+939
+01:00:12,324 --> 01:00:14,513
+levels.
+And, you keep going.
+
+940
+01:00:14,513 --> 01:00:19,540
+I don't particularly care what
+the bottom looks like because at
+
+941
+01:00:19,540 --> 01:00:23,351
+the top we have K^2.
+That we have K times root K
+
+942
+01:00:23,351 --> 01:00:28,297
+plus one cost at the next level.
+This is K to the three halves
+
+943
+01:00:28,297 --> 01:00:32,664
+plus K.
+OK, so we go from K^2 to K to
+
+944
+01:00:32,664 --> 01:00:37,257
+the three halves plus K.
+This is a super-geometric.
+
+945
+01:00:37,257 --> 01:00:41,207
+It's like an exponential
+geometric decrease.
+
+946
+01:00:41,207 --> 01:00:45,800
+This is decreasing really fast.
+So, it's order K^2.
+
+947
+01:00:45,800 --> 01:00:51,220
+That's my hand-waving argument.
+OK, so the cost is basically
+
+948
+01:00:51,220 --> 01:00:56,456
+the size of the buffers at the
+top level, the total space.
+
+949
+01:00:56,456 --> 01:01:01,601
+We're going to need this.
+It's actually theta K^2 because
+
+950
+01:01:01,601 --> 01:01:06,398
+I have a theta K^2 here.
+We are going to be this in
+
+951
+01:01:06,398 --> 01:01:09,249
+order to analyze the time.
+That's why it mentioned it.
+
+952
+01:01:09,249 --> 01:01:12,368
+It's not just a good feeling
+that the space is not too big.
+
+953
+01:01:12,368 --> 01:01:15,595
+In fact, the funnel is a lot
+smaller than a total input size.
+
+954
+01:01:15,595 --> 01:01:18,177
+The input size is K^3.
+But that's not so crucial.
+
+955
+01:01:18,177 --> 01:01:21,243
+What's crucial is that it's
+K^2, and we'll use that in the
+
+956
+01:01:21,243 --> 01:01:22,480
+analysis.
+OK, naturally,
+
+957
+01:01:22,480 --> 01:01:24,308
+this thing is laid out
+recursively.
+
+958
+01:01:24,308 --> 01:01:26,675
+You recursively store the
+funnel, top funnel.
+
+959
+01:01:26,675 --> 01:01:29,256
+Then, for example,
+you write out each buffer as a
+
+960
+01:01:29,256 --> 01:01:32,000
+consecutive array,
+in this case.
+
+961
+01:01:32,000 --> 01:01:34,748
+There's no recursion there.
+So just write them all out one
+
+962
+01:01:34,748 --> 01:01:36,243
+by one.
+Don't interleave them or
+
+963
+01:01:36,243 --> 01:01:37,642
+anything.
+Store them in order.
+
+964
+01:01:37,642 --> 01:01:40,005
+And that, you write out
+recursively these funnels,
+
+965
+01:01:40,005 --> 01:01:41,934
+the bottom funnels.
+OK, any way you do it
+
+966
+01:01:41,934 --> 01:01:44,634
+recursively, as long as each
+funnel remains a consecutive
+
+967
+01:01:44,634 --> 01:01:46,418
+chunk of memory,
+each buffer remains a
+
+968
+01:01:46,418 --> 01:01:49,167
+consecutive chuck of memory,
+the time analysis that we are
+
+969
+01:01:49,167 --> 01:01:51,000
+about to do will work.
+
+970
+01:01:51,000 --> 01:02:14,000
+
+
+971
+01:02:14,000 --> 01:02:18,062
+OK, let me actually give you
+the algorithm that we're
+
+972
+01:02:18,062 --> 01:02:21,265
+analyzing.
+In order to make the funnel go,
+
+973
+01:02:21,265 --> 01:02:25,015
+what we do is say,
+initially, all the buffers are
+
+974
+01:02:25,015 --> 01:02:27,671
+empty.
+Everything is at the bottom.
+
+975
+01:02:27,671 --> 01:02:32,125
+And what we are going to do is,
+say, fill the root buffer.
+
+976
+01:02:32,125 --> 01:02:36,040
+Fill this one.
+And, that's a recursive
+
+977
+01:02:36,040 --> 01:02:41,542
+algorithm, which I'll define in
+a second, how to fill a buffer.
+
+978
+01:02:41,542 --> 01:02:45,713
+Once it's filled,
+that means everything has been
+
+979
+01:02:45,713 --> 01:02:50,682
+pulled up, and then it's merged.
+OK, so that's how we get
+
+980
+01:02:50,682 --> 01:02:53,522
+started.
+So, merge means to merge
+
+981
+01:02:53,522 --> 01:02:58,402
+algorithm is fill the topmost
+buffer, the topmost output
+
+982
+01:02:58,402 --> 01:03:01,002
+buffer.
+OK, and now,
+
+983
+01:03:01,002 --> 01:03:04,678
+here's how you fill a buffer.
+So, in general,
+
+984
+01:03:04,678 --> 01:03:08,355
+if you expand out this
+recursion all the way,
+
+985
+01:03:08,355 --> 01:03:12,114
+in the base case,
+I didn't mention you sort of
+
+986
+01:03:12,114 --> 01:03:16,710
+get a little node there.
+So, if you look at an arbitrary
+
+987
+01:03:16,710 --> 01:03:20,386
+buffer in this picture that you
+want to fill,
+
+988
+01:03:20,386 --> 01:03:23,979
+so this one's empty and you
+want to fill it,
+
+989
+01:03:23,979 --> 01:03:28,407
+then immediately below it will
+be a vertex who has two
+
+990
+01:03:28,407 --> 01:03:34,434
+children, two other buffers.
+OK, maybe they look like this.
+
+991
+01:03:34,434 --> 01:03:39,141
+You have no idea how big they
+are, except they are the same
+
+992
+01:03:39,141 --> 01:03:41,981
+size.
+It could be a lot smaller than
+
+993
+01:03:41,981 --> 01:03:44,984
+this one, a lot bigger,
+we don't know.
+
+994
+01:03:44,984 --> 01:03:48,554
+But in the end,
+you do get a binary structure
+
+995
+01:03:48,554 --> 01:03:53,261
+out of this just like we did
+with the binary search tree at
+
+996
+01:03:53,261 --> 01:03:56,913
+the beginning.
+So, how do we fill this buffer?
+
+997
+01:03:56,913 --> 01:04:03,000
+Well, we just merge these two
+child buffers as long as we can.
+
+998
+01:04:03,000 --> 01:04:08,854
+So, we merge the two children
+buffers as long as they are both
+
+999
+01:04:08,854 --> 01:04:11,253
+non-empty.
+So, in general,
+
+1000
+01:04:11,253 --> 01:04:16,820
+the invariant will be that this
+buffer, let me write down a
+
+1001
+01:04:16,820 --> 01:04:19,795
+sentence.
+As long as a buffer is
+
+1002
+01:04:19,795 --> 01:04:25,170
+non-empty, or whatever is in
+that buffer, and hasn't been
+
+1003
+01:04:25,170 --> 01:04:29,009
+used already,
+it's a prefix of the merged
+
+1004
+01:04:29,009 --> 01:04:34,000
+output of the entire subtree
+beneath it.
+
+1005
+01:04:34,000 --> 01:04:37,567
+OK, so this is a partially
+merged subsequence of everything
+
+1006
+01:04:37,567 --> 01:04:39,781
+down here.
+This is a partially merged
+
+1007
+01:04:39,781 --> 01:04:41,933
+subsequence of everything down
+here.
+
+1008
+01:04:41,933 --> 01:04:44,824
+I can just merge element by
+element off the top,
+
+1009
+01:04:44,824 --> 01:04:48,453
+and that will give me outputs
+to put there until one of them
+
+1010
+01:04:48,453 --> 01:04:51,096
+gets emptied.
+And, we have no idea which one
+
+1011
+01:04:51,096 --> 01:04:54,357
+will empty first just because it
+depends on the order.
+
+1012
+01:04:54,357 --> 01:04:57,801
+OK, whenever one of them
+empties, we recursively fill it,
+
+1013
+01:04:57,801 --> 01:05:01,000
+and that's it.
+That's the algorithm.
+
+1014
+01:05:01,000 --> 01:05:05,000
+Whenever one empties --
+
+1015
+01:05:05,000 --> 01:05:16,000
+
+
+1016
+01:05:16,000 --> 01:05:20,391
+-- we recursively fill it.
+And at the base case at the
+
+1017
+01:05:20,391 --> 01:05:23,456
+leaves, there's sort of nothing
+to do.
+
+1018
+01:05:23,456 --> 01:05:27,846
+I believe you just sort of
+directly read from an input
+
+1019
+01:05:27,846 --> 01:05:30,167
+list.
+So, at the very bottom,
+
+1020
+01:05:30,167 --> 01:05:34,807
+if you have some note here
+that's trying to merge between
+
+1021
+01:05:34,807 --> 01:05:39,198
+these two, that's just a
+straightforward merge between
+
+1022
+01:05:39,198 --> 01:05:42,595
+two lists.
+We know how to do that with two
+
+1023
+01:05:42,595 --> 01:05:44,832
+parallel scans.
+So, in fact,
+
+1024
+01:05:44,832 --> 01:05:49,886
+we can merge the entire thing
+here and just spit it out to the
+
+1025
+01:05:49,886 --> 01:05:52,786
+buffer.
+Well, it depends how big the
+
+1026
+01:05:52,786 --> 01:05:56,100
+buffer is.
+We can only merge it until the
+
+1027
+01:05:56,100 --> 01:06:01,445
+buffer fills.
+Whenever a buffer is full,
+
+1028
+01:06:01,445 --> 01:06:05,394
+we stop and we pop up the
+recursive layers.
+
+1029
+01:06:05,394 --> 01:06:11,131
+OK, so we keep doing this merge
+until the buffer we are trying
+
+1030
+01:06:11,131 --> 01:06:14,047
+to fill fills,
+and that we stop,
+
+1031
+01:06:14,047 --> 01:06:17,338
+pop up.
+OK, that's the algorithm for
+
+1032
+01:06:17,338 --> 01:06:20,724
+merging.
+Now, we just have to analyze
+
+1033
+01:06:20,724 --> 01:06:24,579
+the algorithm.
+It's actually not too hard,
+
+1034
+01:06:24,579 --> 01:06:29,000
+but it's a pretty clever
+analysis.
+
+1035
+01:06:29,000 --> 01:06:31,898
+And, to top it off,
+it's an amortization,
+
+1036
+01:06:31,898 --> 01:06:35,159
+your favorite.
+OK, so we get one last practice
+
+1037
+01:06:35,159 --> 01:06:39,072
+at amortized analysis in the
+context of cache oblivious
+
+1038
+01:06:39,072 --> 01:06:41,971
+algorithms.
+So, this is going to be a bit
+
+1039
+01:06:41,971 --> 01:06:45,231
+sophisticated.
+We are going to combine all the
+
+1040
+01:06:45,231 --> 01:06:48,492
+ideas we've seen.
+The main analysis idea we've
+
+1041
+01:06:48,492 --> 01:06:52,840
+seen is that we are doing this
+recursion in the construction,
+
+1042
+01:06:52,840 --> 01:06:55,666
+and if we imagine,
+we take our K funnel,
+
+1043
+01:06:55,666 --> 01:06:59,507
+we split it in the middle
+level, make a whole bunch of
+
+1044
+01:06:59,507 --> 01:07:03,202
+square root of K funnels,
+and so on, and then we cut
+
+1045
+01:07:03,202 --> 01:07:07,188
+those in the middle level,
+get fourth root of K funnels,
+
+1046
+01:07:07,188 --> 01:07:10,666
+and so on, and so on,
+at some point the funnel we
+
+1047
+01:07:10,666 --> 01:07:15,816
+look at fits in cache.
+OK, before we said if it's in a
+
+1048
+01:07:15,816 --> 01:07:17,984
+block.
+Now, we're going to say that at
+
+1049
+01:07:17,984 --> 01:07:20,913
+some point, one of these funnels
+will fit in cache.
+
+1050
+01:07:20,913 --> 01:07:24,253
+Each of the funnels at that
+recursive level of detail will
+
+1051
+01:07:24,253 --> 01:07:26,656
+fit in cache.
+We are going to analyze that
+
+1052
+01:07:26,656 --> 01:07:29,000
+level.
+We'll call that level J.
+
+1053
+01:07:29,000 --> 01:07:37,266
+So, consider the first
+recursive level of detail,
+
+1054
+01:07:37,266 --> 01:07:45,877
+and I'll call it J,
+at which every J funnel we have
+
+1055
+01:07:45,877 --> 01:07:53,800
+fits, let's say,
+not only does it fit in cache,
+
+1056
+01:07:53,800 --> 01:08:02,337
+but four of them fit in cache.
+It fits in one quarter of the
+
+1057
+01:08:02,337 --> 01:08:05,158
+cache.
+OK, but we need to leave some
+
+1058
+01:08:05,158 --> 01:08:07,899
+cache extra for doing other
+things.
+
+1059
+01:08:07,899 --> 01:08:11,607
+But I want to make sure that
+the J funnel fits.
+
+1060
+01:08:11,607 --> 01:08:16,040
+OK, now what does that mean?
+Well, we've analyzed space.
+
+1061
+01:08:16,040 --> 01:08:19,988
+We know that the space of a J
+funnel is about J^2,
+
+1062
+01:08:19,988 --> 01:08:24,020
+some constant times J^2.
+We'll call it C times J^2.
+
+1063
+01:08:24,020 --> 01:08:27,969
+OK, so this is saying that C
+times J^2 is at most,
+
+1064
+01:08:27,969 --> 01:08:32,000
+M over 4, one quarter of the
+cache.
+
+1065
+01:08:32,000 --> 01:08:35,915
+OK, that means a J funnel that
+happens at the size sits in the
+
+1066
+01:08:35,915 --> 01:08:38,803
+quarter of the cache.
+OK, at some point in the
+
+1067
+01:08:38,803 --> 01:08:41,884
+recursion, we'll have this big
+tree of J funnels,
+
+1068
+01:08:41,884 --> 01:08:44,515
+with all sorts of buffers in
+between them,
+
+1069
+01:08:44,515 --> 01:08:46,697
+and each of the J funnels will
+fit.
+
+1070
+01:08:46,697 --> 01:08:49,520
+So, let's think about one of
+those J funnels.
+
+1071
+01:08:49,520 --> 01:08:51,960
+Suppose J is like the square
+root of K.
+
+1072
+01:08:51,960 --> 01:08:55,618
+So, this is the picture because
+otherwise I have to draw a
+
+1073
+01:08:55,618 --> 01:08:58,314
+bigger one.
+So, suppose this is a J funnel.
+
+1074
+01:08:58,314 --> 01:09:03,000
+It has a bunch of input
+buffers, has one output buffer.
+
+1075
+01:09:03,000 --> 01:09:06,366
+So, we just want to think about
+how the J funnel executes.
+
+1076
+01:09:06,366 --> 01:09:09,259
+And, for a long time,
+as long as these buffers are
+
+1077
+01:09:09,259 --> 01:09:12,330
+all full, this is just a merger.
+It's doing something
+
+1078
+01:09:12,330 --> 01:09:14,515
+recursively, but we don't really
+care.
+
+1079
+01:09:14,515 --> 01:09:17,468
+As soon as this whole thing
+swaps in, and actually,
+
+1080
+01:09:17,468 --> 01:09:20,243
+I should be drawing this,
+as soon as the funnel,
+
+1081
+01:09:20,243 --> 01:09:23,019
+the output buffer,
+and the input buffer swap in,
+
+1082
+01:09:23,019 --> 01:09:25,676
+in other words,
+you bring all those blocks in,
+
+1083
+01:09:25,676 --> 01:09:28,452
+you can just merge,
+and you can go on your merry
+
+1084
+01:09:28,452 --> 01:09:33,000
+way merging until something
+empties or you fill the output.
+
+1085
+01:09:33,000 --> 01:09:36,323
+So, let's analyze that.
+Suppose everything is in
+
+1086
+01:09:36,323 --> 01:09:40,707
+memory, because we know it fits.
+OK, well I have to be a little
+
+1087
+01:09:40,707 --> 01:09:43,676
+bit careful.
+The input buffers are actually
+
+1088
+01:09:43,676 --> 01:09:48,202
+pretty big in total size because
+the total size is K to the three
+
+1089
+01:09:48,202 --> 01:09:50,747
+halves here versus K to the one
+half.
+
+1090
+01:09:50,747 --> 01:09:54,848
+Actually, this is of size K.
+Let me draw a general picture.
+
+1091
+01:09:54,848 --> 01:09:57,676
+We have a J funnel,
+because otherwise the
+
+1092
+01:09:57,676 --> 01:10:01,000
+arithmetic is going to get
+messy.
+
+1093
+01:10:01,000 --> 01:10:04,854
+We have a J funnel.
+Its size is C times J^2,
+
+1094
+01:10:04,854 --> 01:10:08,619
+we're supposing.
+The number of inputs is J,
+
+1095
+01:10:08,619 --> 01:10:11,666
+and the size of them is pretty
+big.
+
+1096
+01:10:11,666 --> 01:10:15,610
+Where did we define that?
+We have a K funnel.
+
+1097
+01:10:15,610 --> 01:10:20,719
+The total input size is K^3.
+So, the total input size here
+
+1098
+01:10:20,719 --> 01:10:24,663
+would be J^3.
+We can't afford to put all that
+
+1099
+01:10:24,663 --> 01:10:27,980
+in cache.
+That's an extra factor of J.
+
+1100
+01:10:27,980 --> 01:10:33,000
+But, we can afford to one block
+per input.
+
+1101
+01:10:33,000 --> 01:10:35,035
+And for merging,
+that's all we need.
+
+1102
+01:10:35,035 --> 01:10:38,176
+I claim that I can fit the
+first block of each of these
+
+1103
+01:10:38,176 --> 01:10:41,724
+input arrays in cash at the same
+time along with the J funnel.
+
+1104
+01:10:41,724 --> 01:10:44,864
+And so, for that duration,
+as long as all of that is in
+
+1105
+01:10:44,864 --> 01:10:48,238
+cache, this thing can merge at
+full speed just like we were
+
+1106
+01:10:48,238 --> 01:10:51,204
+doing parallel scans.
+You use up all the blocks down
+
+1107
+01:10:51,204 --> 01:10:54,752
+here, and one of them empties.
+You go to the next block in the
+
+1108
+01:10:54,752 --> 01:10:57,602
+input buffer and so on,
+just like the normal merge
+
+1109
+01:10:57,602 --> 01:11:00,859
+analysis of parallel arrays,
+at this point we assume that
+
+1110
+01:11:00,859 --> 01:11:04,000
+everything here is fitting in
+cache.
+
+1111
+01:11:04,000 --> 01:11:08,485
+So, it's just like before.
+Of course, in fact,
+
+1112
+01:11:08,485 --> 01:11:13,668
+it's recursive but we are
+analyzing it at this level.
+
+1113
+01:11:13,668 --> 01:11:19,250
+OK, I need to prove that you
+can fit one block per input.
+
+1114
+01:11:19,250 --> 01:11:22,839
+It's not hard.
+It's just computation.
+
+1115
+01:11:22,839 --> 01:11:28,720
+And, it's basically the way
+that these funnels were designed
+
+1116
+01:11:28,720 --> 01:11:35,000
+was so that you could fit one
+block per input buffer.
+
+1117
+01:11:35,000 --> 01:11:41,607
+And, here's the argument.
+So, the claim is you can also
+
+1118
+01:11:41,607 --> 01:11:47,725
+fit one memory block in the
+cache per input buffer.
+
+1119
+01:11:47,725 --> 01:11:52,497
+So, this is in addition to one
+J funnel.
+
+1120
+01:11:52,497 --> 01:11:59,594
+You could also fit one block
+for each of its input buffers.
+
+1121
+01:11:59,594 --> 01:12:06,230
+OK, this is of the J funnel.
+It's not any funnel because
+
+1122
+01:12:06,230 --> 01:12:10,938
+bigger funnels are way too big.
+OK, so here's how we prove
+
+1123
+01:12:10,938 --> 01:12:13,581
+that.
+J^2 is at most a quarter M.
+
+1124
+01:12:13,581 --> 01:12:16,967
+That's what we assumed here,
+actually CJ2.
+
+1125
+01:12:16,967 --> 01:12:21,675
+I'm not going to bother with
+the C because that's going to
+
+1126
+01:12:21,675 --> 01:12:25,887
+make my life even harder.
+OK, I think this is even a
+
+1127
+01:12:25,887 --> 01:12:29,522
+weaker constraint.
+So, the size of our funnel
+
+1128
+01:12:29,522 --> 01:12:35,110
+proves about J^2.
+That's at most a quarter of the
+
+1129
+01:12:35,110 --> 01:12:37,719
+cache.
+That implies that J,
+
+1130
+01:12:37,719 --> 01:12:43,941
+if we take square roots of both
+sides, is at most a half square
+
+1131
+01:12:43,941 --> 01:12:47,955
+root of M.
+OK, also, we know that B is at
+
+1132
+01:12:47,955 --> 01:12:53,273
+most square root of M because M
+is at least B squared.
+
+1133
+01:12:53,273 --> 01:12:58,993
+So, we put these together,
+and we get J times B is at most
+
+1134
+01:12:58,993 --> 01:13:02,611
+a half M.
+OK, now I claim that what we
+
+1135
+01:13:02,611 --> 01:13:05,718
+are asking for here is J times B
+because in a J funnel,
+
+1136
+01:13:05,718 --> 01:13:08,825
+there are J input arrays.
+And so, if you want one block
+
+1137
+01:13:08,825 --> 01:13:10,781
+each, that costs a space of B
+each.
+
+1138
+01:13:10,781 --> 01:13:13,831
+So, for each input buffer we
+have one block of size B,
+
+1139
+01:13:13,831 --> 01:13:16,938
+and the claim is that that
+whole thing fits in half the
+
+1140
+01:13:16,938 --> 01:13:19,009
+cache.
+And, we've only used a quarter
+
+1141
+01:13:19,009 --> 01:13:20,448
+of the cache.
+So in total,
+
+1142
+01:13:20,448 --> 01:13:23,843
+we use three quarters of the
+cache and that's all we'll use.
+
+1143
+01:13:23,843 --> 01:13:26,950
+OK, so that's good news.
+We can also fit one more block
+
+1144
+01:13:26,950 --> 01:13:30,000
+to the output.
+Not too big a deal.
+
+1145
+01:13:30,000 --> 01:13:33,401
+So now, as long as this J
+funnel is running,
+
+1146
+01:13:33,401 --> 01:13:36,012
+if it's all in cache,
+all is well.
+
+1147
+01:13:36,012 --> 01:13:39,889
+What does that mean?
+Let me first analyze how long
+
+1148
+01:13:39,889 --> 01:13:42,895
+it takes for us to swap in this
+funnel.
+
+1149
+01:13:42,895 --> 01:13:47,563
+OK, so how long does it take
+for us to read all the stuff in
+
+1150
+01:13:47,563 --> 01:13:50,806
+a J funnel and one block per
+input buffer?
+
+1151
+01:13:50,806 --> 01:13:55,000
+That's what it would take to
+get started.
+
+1152
+01:13:55,000 --> 01:14:02,344
+So, this is swapping in a J
+funnel, which means reading the
+
+1153
+01:14:02,344 --> 01:14:09,434
+J funnel in its entirety,
+and reading one block per input
+
+1154
+01:14:09,434 --> 01:14:14,120
+buffer.
+OK, the cost of the swap in is
+
+1155
+01:14:14,120 --> 01:14:19,818
+pretty natural.
+The size of the buffer divided
+
+1156
+01:14:19,818 --> 01:14:27,542
+by B, because that's just sort
+of a linear scan to read it in,
+
+1157
+01:14:27,542 --> 01:14:34,000
+and we need to read one block
+per buffer.
+
+1158
+01:14:34,000 --> 01:14:38,463
+These buffers could be all over
+the place because they're pretty
+
+1159
+01:14:38,463 --> 01:14:40,942
+big.
+So, let's say we pay one memory
+
+1160
+01:14:40,942 --> 01:14:45,264
+transfer for each input buffer
+just to get started to read the
+
+1161
+01:14:45,264 --> 01:14:47,318
+first block.
+OK, the claim is,
+
+1162
+01:14:47,318 --> 01:14:50,365
+and here we need to do some
+more arithmetic.
+
+1163
+01:14:50,365 --> 01:14:52,348
+This is, at most,
+J^3 over B.
+
+1164
+01:14:52,348 --> 01:14:54,757
+OK, why is it,
+at most, J^3 over B?
+
+1165
+01:14:54,757 --> 01:15:00,000
+Well, this was the first level
+at which things fit in cache.
+
+1166
+01:15:00,000 --> 01:15:04,119
+That means the next level
+bigger, which is J^2,
+
+1167
+01:15:04,119 --> 01:15:08,327
+which has size J^4,
+should be bigger than cache.
+
+1168
+01:15:08,327 --> 01:15:11,552
+Otherwise we would have stopped
+then.
+
+1169
+01:15:11,552 --> 01:15:14,686
+OK, so this is just more
+arithmetic.
+
+1170
+01:15:14,686 --> 01:15:19,164
+You can either believe me or
+follow the arithmetic.
+
+1171
+01:15:19,164 --> 01:15:23,731
+We know that J^4 is at least M.
+So, this means that,
+
+1172
+01:15:23,731 --> 01:15:26,776
+and we know that M is at least
+B^2.
+
+1173
+01:15:26,776 --> 01:15:29,462
+Therefore, J^2,
+instead of J^4,
+
+1174
+01:15:29,462 --> 01:15:36,000
+we take the square root of both
+sides, J^2 is at least B.
+
+1175
+01:15:36,000 --> 01:15:39,379
+OK, so certainly J^2 over B is
+at most J^3 over B.
+
+1176
+01:15:39,379 --> 01:15:43,379
+But also J is at most J^3 over
+B because J^2 is at least B.
+
+1177
+01:15:43,379 --> 01:15:46,896
+Hopefully that should be clear.
+That's just algebra.
+
+1178
+01:15:46,896 --> 01:15:50,965
+OK, so we're not going to use
+this bound because that's kind
+
+1179
+01:15:50,965 --> 01:15:53,655
+of complicated.
+We're just going to say,
+
+1180
+01:15:53,655 --> 01:15:56,689
+well, it causes J^3 over B to
+get swapped in.
+
+1181
+01:15:56,689 --> 01:16:00,000
+Now, why is J^3 over B a good
+thing?
+
+1182
+01:16:00,000 --> 01:16:03,972
+Because we know the total size
+of inputs to the J funnel is
+
+1183
+01:16:03,972 --> 01:16:06,232
+J^3.
+So, to read all of the inputs
+
+1184
+01:16:06,232 --> 01:16:08,424
+to the J funnel takes J^3 over
+B.
+
+1185
+01:16:08,424 --> 01:16:12,054
+So, this is really just a
+linear extra cost to get the
+
+1186
+01:16:12,054 --> 01:16:14,657
+whole thing swapped in.
+It sounds good.
+
+1187
+01:16:14,657 --> 01:16:17,671
+To do the merging would also
+cost J^3 over B.
+
+1188
+01:16:17,671 --> 01:16:21,438
+So, the swap-in causes J^3 over
+B to merge all these J^3
+
+1189
+01:16:21,438 --> 01:16:24,041
+elements.
+If they were all there in the
+
+1190
+01:16:24,041 --> 01:16:28,013
+inputs, it would take J^3 over B
+because once everything is
+
+1191
+01:16:28,013 --> 01:16:31,780
+there, you're merging at full
+speed, one per B items per
+
+1192
+01:16:31,780 --> 01:16:36,859
+memory transfer on average.
+OK, the problem is you're going
+
+1193
+01:16:36,859 --> 01:16:39,260
+to swap out, which you may have
+imagined.
+
+1194
+01:16:39,260 --> 01:16:41,899
+As soon as one of your input
+buffers empties,
+
+1195
+01:16:41,899 --> 01:16:45,199
+let's say this one's almost
+gone, as soon as it empties,
+
+1196
+01:16:45,199 --> 01:16:48,439
+you're going to totally
+obliterate that funnel and swap
+
+1197
+01:16:48,439 --> 01:16:51,380
+in this one in order to merge
+all the stuff there,
+
+1198
+01:16:51,380 --> 01:16:54,920
+and fill this buffer back up.
+This is where the amortization
+
+1199
+01:16:54,920 --> 01:16:56,960
+comes in.
+And this is where the log
+
+1200
+01:16:56,960 --> 01:17:00,680
+factor comes in because so far
+it we've basically paid a linear
+
+1201
+01:17:00,680 --> 01:17:07,034
+cost.
+We are almost done.
+
+1202
+01:17:07,034 --> 01:17:17,897
+So, we charge,
+sorry, I'm jumping ahead of
+
+1203
+01:17:17,897 --> 01:17:26,111
+myself.
+So, when an input buffer
+
+1204
+01:17:26,111 --> 01:17:35,169
+empties, we swap out.
+And we recursively fill that
+
+1205
+01:17:35,169 --> 01:17:37,881
+buffer.
+OK, I'm going to assume that
+
+1206
+01:17:37,881 --> 01:17:42,065
+there is absolutely no reuse,
+that is recursive filling
+
+1207
+01:17:42,065 --> 01:17:46,481
+completely swapped everything
+out and I have to start from
+
+1208
+01:17:46,481 --> 01:17:50,046
+scratch for this funnel.
+So, when that happens,
+
+1209
+01:17:50,046 --> 01:17:53,920
+I feel this buffer,
+and then I come back and I say,
+
+1210
+01:17:53,920 --> 01:17:58,026
+well, I go swap it back in.
+So when the recursive call
+
+1211
+01:17:58,026 --> 01:18:01,978
+finishes, I swap back in.
+OK, so I recursively fill,
+
+1212
+01:18:01,978 --> 01:18:08,031
+and then I swap back in.
+And, at the swapping back in
+
+1213
+01:18:08,031 --> 01:18:13,012
+costs J^3 over B.
+I'm going to charge that cost
+
+1214
+01:18:13,012 --> 01:18:16,910
+to the elements that just got
+filled.
+
+1215
+01:18:16,910 --> 01:18:22,000
+So this is an amortized
+charging argument.
+
+1216
+01:18:22,000 --> 01:18:48,000
+
+
+1217
+01:18:48,000 --> 01:18:51,322
+How many are there?
+It's the only question.
+
+1218
+01:18:51,322 --> 01:18:54,169
+It turns out,
+things are really good,
+
+1219
+01:18:54,169 --> 01:18:59,073
+like here, for the square root
+of K funnel, we have each buffer
+
+1220
+01:18:59,073 --> 01:19:04,063
+has size K to the three halves.
+OK, so this is a bit
+
+1221
+01:19:04,063 --> 01:19:08,395
+complicated.
+But I claim that the number of
+
+1222
+01:19:08,395 --> 01:19:12,624
+elements here that fill the
+buffer is J^3.
+
+1223
+01:19:12,624 --> 01:19:18,401
+So, if you have a J funnel,
+each of the input buffers has
+
+1224
+01:19:18,401 --> 01:19:22,114
+size J^3.
+It should be correct if you
+
+1225
+01:19:22,114 --> 01:19:26,137
+work it out.
+So, we're charging this J^3
+
+1226
+01:19:26,137 --> 01:19:31,501
+over B cost to J^3 elements,
+which sounds like you're
+
+1227
+01:19:31,501 --> 01:19:38,000
+charging, essentially,
+one over B to each element.
+
+1228
+01:19:38,000 --> 01:19:39,951
+Sounds great.
+That means that,
+
+1229
+01:19:39,951 --> 01:19:43,718
+so you're thinking overall,
+I mean, there are N elements,
+
+1230
+01:19:43,718 --> 01:19:46,678
+and to each one you charge a
+one over B cost.
+
+1231
+01:19:46,678 --> 01:19:50,110
+That sounds like the total
+running time is N over B.
+
+1232
+01:19:50,110 --> 01:19:52,195
+It's a bit too fast for
+sorting.
+
+1233
+01:19:52,195 --> 01:19:55,559
+We lost the log factor.
+So, what's going on is that
+
+1234
+01:19:55,559 --> 01:20:00,000
+we're actually charging to one
+element more than once.
+
+1235
+01:20:00,000 --> 01:20:02,729
+And, this is something that we
+don't normally do,
+
+1236
+01:20:02,729 --> 01:20:05,913
+never done it in this class,
+but you can do it as long as
+
+1237
+01:20:05,913 --> 01:20:08,471
+you bound that the number of
+times you charge.
+
+1238
+01:20:08,471 --> 01:20:10,916
+OK, and wherever you do a
+charging argument,
+
+1239
+01:20:10,916 --> 01:20:13,304
+you say, well,
+this doesn't happen too many
+
+1240
+01:20:13,304 --> 01:20:16,090
+times because whenever this
+happens, this happens.
+
+1241
+01:20:16,090 --> 01:20:18,705
+You should say,
+you should prove that the thing
+
+1242
+01:20:18,705 --> 01:20:21,775
+that you're charging to,
+Ito charged to that think very
+
+1243
+01:20:21,775 --> 01:20:24,107
+many times.
+So here, I have a quantifiable
+
+1244
+01:20:24,107 --> 01:20:26,153
+thing that I'm charging to:
+elements.
+
+1245
+01:20:26,153 --> 01:20:29,394
+So, I'm saying that for each
+element that happened to come
+
+1246
+01:20:29,394 --> 01:20:31,952
+into this buffer,
+I'm going to charge it a one
+
+1247
+01:20:31,952 --> 01:20:35,992
+over B cost.
+How many times does one element
+
+1248
+01:20:35,992 --> 01:20:38,755
+get charged?
+Well, each time it gets charged
+
+1249
+01:20:38,755 --> 01:20:40,812
+to, it's moved into a new
+buffer.
+
+1250
+01:20:40,812 --> 01:20:43,254
+How many buffers could it move
+through?
+
+1251
+01:20:43,254 --> 01:20:45,632
+Well, it's just going up all
+the time.
+
+1252
+01:20:45,632 --> 01:20:49,102
+Merging always goes up.
+So, we start here and you go to
+
+1253
+01:20:49,102 --> 01:20:52,059
+the next buffer,
+and you go to the next buffer.
+
+1254
+01:20:52,059 --> 01:20:55,143
+The number of buffers you visit
+is the right log,
+
+1255
+01:20:55,143 --> 01:20:59,000
+it turns out.
+I don't know which log that is.
+
+1256
+01:20:59,000 --> 01:21:05,199
+So, the number of charges of a
+one over B cost to each element
+
+1257
+01:21:05,199 --> 01:21:11,196
+is the number of buffers it
+visits, and that's a log factor.
+
+1258
+01:21:11,196 --> 01:21:17,193
+That's where we get an extra
+log factor on the running time.
+
+1259
+01:21:17,193 --> 01:21:23,291
+It is, this is the number of
+levels of J funnels that you can
+
+1260
+01:21:23,291 --> 01:21:26,849
+visit.
+So, it's log K divided by log
+
+1261
+01:21:26,849 --> 01:21:33,228
+J, if I got it right.
+OK, and we're almost done.
+
+1262
+01:21:33,228 --> 01:21:38,442
+Let's wrap up a bit.
+Just a little bit more
+
+1263
+01:21:38,442 --> 01:21:44,278
+arithmetic, unfortunately.
+So, log K over log J.
+
+1264
+01:21:44,278 --> 01:21:47,630
+Now, J^2 is like M,
+roughly.
+
+1265
+01:21:47,630 --> 01:21:54,956
+It might be square root of M.
+But, log J is basically log M.
+
+1266
+01:21:54,956 --> 01:22:02,281
+There's some constants there.
+So, the number of charges here
+
+1267
+01:22:02,281 --> 01:22:08,299
+is theta, log K over log M.
+So, now this is a bit,
+
+1268
+01:22:08,299 --> 01:22:11,135
+we haven't seen this in
+amortization necessarily,
+
+1269
+01:22:11,135 --> 01:22:14,265
+but we just need to count up
+total amount of charging.
+
+1270
+01:22:14,265 --> 01:22:17,219
+All work gets charged to
+somebody, except we didn't
+
+1271
+01:22:17,219 --> 01:22:20,054
+charge the very initial swapping
+in to everybody.
+
+1272
+01:22:20,054 --> 01:22:23,244
+But, every time we do some
+swapping in, we charge it to
+
+1273
+01:22:23,244 --> 01:22:25,075
+someone.
+So, how many times does
+
+1274
+01:22:25,075 --> 01:22:27,970
+everything it charged?
+Well, there are N elements.
+
+1275
+01:22:27,970 --> 01:22:31,632
+Each gets charged to a one over
+B cost, and the number of times
+
+1276
+01:22:31,632 --> 01:22:35,000
+it gets charged is its log K
+over log M.
+
+1277
+01:22:35,000 --> 01:22:39,246
+So therefore,
+the total cost is number of
+
+1278
+01:22:39,246 --> 01:22:44,342
+elements times a one over B
+times this log thing.
+
+1279
+01:22:44,342 --> 01:22:49,650
+OK, it's actually plus K.
+We forgot about a plus K,
+
+1280
+01:22:49,650 --> 01:22:55,171
+but that's just to get started
+in the very beginning,
+
+1281
+01:22:55,171 --> 01:22:58,886
+and start on all of the input
+lists.
+
+1282
+01:22:58,886 --> 01:23:06,000
+OK, this is an amortization
+analysis to prove this bound.
+
+1283
+01:23:06,000 --> 01:23:10,914
+Sorry, what was N here?
+I assumed that I started out
+
+1284
+01:23:10,914 --> 01:23:14,286
+with K cubed elements at the
+bottom.
+
+1285
+01:23:14,286 --> 01:23:19,682
+The total number of elements in
+the bottom was K^3 theta.
+
+1286
+01:23:19,682 --> 01:23:23,343
+OK, so I should have written
+K^3 not M.
+
+1287
+01:23:23,343 --> 01:23:28,835
+This should be almost the same
+as this, OK, but not quite.
+
+1288
+01:23:28,835 --> 01:23:34,039
+This is log based M of K,
+and if you do a little bit of
+
+1289
+01:23:34,039 --> 01:23:39,820
+arithmetic, this should be K^3
+over B times log base M over B
+
+1290
+01:23:39,820 --> 01:23:45,747
+of K over B plus K.
+That's what I want to prove.
+
+1291
+01:23:45,747 --> 01:23:49,867
+Actually there's a K^3 here
+instead of a K,
+
+1292
+01:23:49,867 --> 01:23:53,105
+but that's just a factor of
+three.
+
+1293
+01:23:53,105 --> 01:23:58,600
+And this follows because we
+assume we are not in the base
+
+1294
+01:23:58,600 --> 01:24:01,052
+case.
+So, K is at least M,
+
+1295
+01:24:01,052 --> 01:24:06,252
+which is at least B^2,
+and therefore K over B is omega
+
+1296
+01:24:06,252 --> 01:24:10,716
+square root of K.
+OK, so K over B is basically
+
+1297
+01:24:10,716 --> 01:24:13,045
+the same as K when you put it in
+a log.
+
+1298
+01:24:13,045 --> 01:24:16,354
+So here we have log base M.
+I turned it into log base M
+
+1299
+01:24:16,354 --> 01:24:17,887
+over B.
+That's even worse.
+
+1300
+01:24:17,887 --> 01:24:20,277
+It doesn't matter.
+And, I have log of K.
+
+1301
+01:24:20,277 --> 01:24:23,525
+I replaced it with K over B,
+but K over B is basically
+
+1302
+01:24:23,525 --> 01:24:25,303
+square root of K.
+So in a log,
+
+1303
+01:24:25,303 --> 01:24:30,261
+that's just a factor of a half.
+So that concludes the analysis
+
+1304
+01:24:30,261 --> 01:24:33,654
+of the funnel.
+We get this crazy running time,
+
+1305
+01:24:33,654 --> 01:24:37,424
+which is basically sorting
+bound plus a little bit.
+
+1306
+01:24:37,424 --> 01:24:40,817
+We plug that into our funnel
+sort, and we get,
+
+1307
+01:24:40,817 --> 01:24:44,964
+magically, optimal cache
+oblivious sorting just in time.
+
+1308
+01:24:44,964 --> 01:24:48,809
+Tuesday is the final.
+The final is more in the style
+
+1309
+01:24:48,809 --> 01:24:53,107
+of quiz one, so not too much
+creativity, mostly mastery of
+
+1310
+01:24:53,107 --> 01:24:55,369
+material.
+It covers everything.
+
+1311
+01:24:55,369 --> 01:24:59,591
+You don't have to worry about
+the details of funnel sort,
+
+1312
+01:24:59,591 --> 01:25:03,285
+but everything else.
+So it's like quiz one but for
+
+1313
+01:25:03,285 --> 01:25:07,664
+the entire class.
+It's three hours long,
+
+1314
+01:25:07,664 --> 01:25:10,766
+and good luck.
+It's been a pleasure having
+
+1315
+01:25:10,766 --> 01:25:14,247
+you, all the students.
+I'm sure Charles agrees,
+
+1316
+01:25:14,247 --> 01:25:17,000
+so thanks everyone.
+It was a lot of fun.

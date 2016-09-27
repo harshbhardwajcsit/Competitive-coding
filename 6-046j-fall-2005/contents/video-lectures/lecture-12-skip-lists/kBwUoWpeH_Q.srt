@@ -1,0 +1,6536 @@
+1
+00:00:07,000 --> 00:00:10,000
+Good morning.
+Today we're going to talk about
+
+2
+00:00:10,000 --> 00:00:14,000
+it a balanced search structure,
+so a data structure that
+
+3
+00:00:14,000 --> 00:00:18,000
+maintains a dynamic set subject
+to insertion,
+
+4
+00:00:18,000 --> 00:00:21,000
+deletion, and search called
+skip lists.
+
+5
+00:00:21,000 --> 00:00:25,000
+So, I'll call this a dynamic
+search structure because it's a
+
+6
+00:00:25,000 --> 00:00:28,000
+data structure.
+It supports search,
+
+7
+00:00:28,000 --> 00:00:33,000
+and it's dynamic,
+meaning insert and delete.
+
+8
+00:00:33,000 --> 00:00:39,000
+So, what other dynamic search
+structures do we know,
+
+9
+00:00:39,000 --> 00:00:45,000
+just for sake of comparison,
+and to wake everyone up?
+
+10
+00:00:45,000 --> 00:00:50,000
+Shut them out,
+efficient, I should say,
+
+11
+00:00:50,000 --> 00:00:55,000
+also good, logarithmic time per
+operation.
+
+12
+00:00:55,000 --> 00:01:01,000
+So, this is a really easy
+question to get us off the
+
+13
+00:01:01,000 --> 00:01:05,000
+ground.
+You've seen them all in the
+
+14
+00:01:05,000 --> 00:01:08,000
+last week, so it shouldn't be so
+hard.
+
+15
+00:01:08,000 --> 00:01:11,000
+Treap, good.
+On the problems that we saw
+
+16
+00:01:11,000 --> 00:01:13,000
+treaps.
+That's, in some sense,
+
+17
+00:01:13,000 --> 00:01:17,000
+the simplest dynamic search
+structure you can get from first
+
+18
+00:01:17,000 --> 00:01:21,000
+principles because all we needed
+was a bound on a randomly
+
+19
+00:01:21,000 --> 00:01:26,000
+constructed binary search tree.
+And then treaps did well.
+
+20
+00:01:26,000 --> 00:01:30,000
+So, that was sort of the first
+one you saw depending on when
+
+21
+00:01:30,000 --> 00:01:34,000
+you did your problem set.
+What else?
+
+22
+00:01:34,000 --> 00:01:36,000
+Charles?
+Red black trees,
+
+23
+00:01:36,000 --> 00:01:40,000
+good answer.
+So, that was exactly one week
+
+24
+00:01:40,000 --> 00:01:44,000
+ago.
+I hope you still remember it.
+
+25
+00:01:44,000 --> 00:01:48,000
+They have guaranteed log n
+performance.
+
+26
+00:01:48,000 --> 00:01:55,000
+So, this was an expected bound.
+This was a worst-case order log
+
+27
+00:01:55,000 --> 00:01:58,000
+n per operation,
+insert, delete,
+
+28
+00:01:58,000 --> 00:02:02,000
+and search.
+And, there was one more for
+
+29
+00:02:02,000 --> 00:02:07,000
+those who want to recitation on
+Friday: B trees,
+
+30
+00:02:07,000 --> 00:02:10,000
+good.
+And, by B trees,
+
+31
+00:02:10,000 --> 00:02:14,000
+I also include two-three trees,
+two-three-four trees,
+
+32
+00:02:14,000 --> 00:02:16,000
+and all those guys.
+So, if B is a constant,
+
+33
+00:02:16,000 --> 00:02:19,000
+or if you want your B trees
+knows a little bit cleverly,
+
+34
+00:02:19,000 --> 00:02:22,000
+that these have guaranteed
+order log n performance,
+
+35
+00:02:22,000 --> 00:02:24,000
+so, worst case,
+order log n.
+
+36
+00:02:24,000 --> 00:02:27,000
+So, you should know this.
+These are all balanced search
+
+37
+00:02:27,000 --> 00:02:29,000
+structures.
+They are dynamic.
+
+38
+00:02:29,000 --> 00:02:31,000
+They support insertions and
+deletions.
+
+39
+00:02:31,000 --> 00:02:34,000
+They support searches,
+finding a given key.
+
+40
+00:02:34,000 --> 00:02:37,000
+And if you don't find the key,
+you find its predecessor and
+
+41
+00:02:37,000 --> 00:02:42,000
+successor pretty easily in all
+of these structures.
+
+42
+00:02:42,000 --> 00:02:44,000
+If you want to augment some
+data structure,
+
+43
+00:02:44,000 --> 00:02:48,000
+you should think about which
+one of these is easiest to
+
+44
+00:02:48,000 --> 00:02:53,000
+augment, as in Monday's lecture.
+So, the question I want to pose
+
+45
+00:02:53,000 --> 00:02:56,000
+to you is supposed I gave you
+all a laptop right now,
+
+46
+00:02:56,000 --> 00:02:59,000
+which would be great.
+Then I asked you,
+
+47
+00:02:59,000 --> 00:03:03,000
+in order to keep this laptop
+you have to implement one of
+
+48
+00:03:03,000 --> 00:03:06,000
+these data structures,
+let's say, within this class
+
+49
+00:03:06,000 --> 00:03:09,000
+hour.
+Do you think you could do it?
+
+50
+00:03:09,000 --> 00:03:12,000
+How many people think you could
+do it?
+
+51
+00:03:12,000 --> 00:03:13,000
+A couple people,
+a few people,
+
+52
+00:03:13,000 --> 00:03:15,000
+OK, all front row people,
+good.
+
+53
+00:03:15,000 --> 00:03:19,000
+I could probably do it.
+My preference would be B trees.
+
+54
+00:03:19,000 --> 00:03:21,000
+They're sort of the simplest in
+my mind.
+
+55
+00:03:21,000 --> 00:03:23,000
+This is without using the
+textbook.
+
+56
+00:03:23,000 --> 00:03:25,000
+This would be a closed book
+exam.
+
+57
+00:03:25,000 --> 00:03:30,000
+I don't have enough laptops to
+do it, unfortunately.
+
+58
+00:03:30,000 --> 00:03:32,000
+So, B trees are pretty
+reasonable.
+
+59
+00:03:32,000 --> 00:03:35,000
+Deletion, you have to remember
+stealing from a sibling and
+
+60
+00:03:35,000 --> 00:03:37,000
+whatnot.
+So, deletions are a bit tricky.
+
+61
+00:03:37,000 --> 00:03:40,000
+Red black trees,
+I can never remember it.
+
+62
+00:03:40,000 --> 00:03:43,000
+I'd have to look it up,
+or re-derive the three cases.
+
+63
+00:03:43,000 --> 00:03:46,000
+treaps are a bit fancy.
+So, that would take a little
+
+64
+00:03:46,000 --> 00:03:49,000
+while to remember exactly how
+those work.
+
+65
+00:03:49,000 --> 00:03:51,000
+You'd have to solve your
+problem set again,
+
+66
+00:03:51,000 --> 00:03:55,000
+if you don't have it memorized.
+Skip lists, on the other hand,
+
+67
+00:03:55,000 --> 00:03:57,000
+are a data structure you will
+never forget,
+
+68
+00:03:57,000 --> 00:04:00,000
+and something you can implement
+within an hour,
+
+69
+00:04:00,000 --> 00:04:03,000
+no problem.
+I've made this claim a couple
+
+70
+00:04:03,000 --> 00:04:05,000
+times before,
+and I always felt bad because I
+
+71
+00:04:05,000 --> 00:04:10,000
+had never actually done it.
+So, this morning,
+
+72
+00:04:10,000 --> 00:04:13,000
+I implemented skip lists,
+and it took me ten minutes to
+
+73
+00:04:13,000 --> 00:04:17,000
+implement a linked list,
+and 30 minutes to implement
+
+74
+00:04:17,000 --> 00:04:19,000
+skip lists.
+And another 30 minutes
+
+75
+00:04:19,000 --> 00:04:21,000
+debugging them.
+There you go.
+
+76
+00:04:21,000 --> 00:04:24,000
+It can be done.
+Skip lists are really simple.
+
+77
+00:04:24,000 --> 00:04:27,000
+And, at no point writing the
+code did I have to think,
+
+78
+00:04:27,000 --> 00:04:32,000
+whereas every other structure I
+would have to think.
+
+79
+00:04:32,000 --> 00:04:36,000
+There was one moment when I
+thought, ah, how do I flip a
+
+80
+00:04:36,000 --> 00:04:38,000
+coin?
+That was the entire amount of
+
+81
+00:04:38,000 --> 00:04:41,000
+thinking.
+So, skip lists are a randomized
+
+82
+00:04:41,000 --> 00:04:44,000
+structure.
+Let's add in another adjective
+
+83
+00:04:44,000 --> 00:04:46,000
+here, and let's also add in
+simple.
+
+84
+00:04:46,000 --> 00:04:49,000
+So, we have a simple,
+efficient, dynamic,
+
+85
+00:04:49,000 --> 00:04:53,000
+randomized search structure:
+all those things together.
+
+86
+00:04:53,000 --> 00:04:57,000
+So, it's sort of like treaps
+and that the bound is only a
+
+87
+00:04:57,000 --> 00:05:01,000
+randomized bound.
+But today, we're going to see a
+
+88
+00:05:01,000 --> 00:05:06,000
+much stronger bound than an
+expectation bound.
+
+89
+00:05:06,000 --> 00:05:11,000
+So, in particular,
+skip lists will run in order
+
+90
+00:05:11,000 --> 00:05:17,000
+log n expected time.
+So, the running time for each
+
+91
+00:05:17,000 --> 00:05:22,000
+operation will be order log n in
+expectation.
+
+92
+00:05:22,000 --> 00:05:28,000
+But, we're going to prove a
+much stronger result that their
+
+93
+00:05:28,000 --> 00:05:34,000
+order log n, with high
+probability.
+
+94
+00:05:34,000 --> 00:05:37,000
+So, this is a very strong
+claim.
+
+95
+00:05:37,000 --> 00:05:42,000
+And it means that the running
+time of each operation,
+
+96
+00:05:42,000 --> 00:05:48,000
+the running time of every
+operation is order log n almost
+
+97
+00:05:48,000 --> 00:05:54,000
+always in a certain sense.
+Why don't I foreshadow that?
+
+98
+00:05:54,000 --> 00:05:59,000
+So, it's something like,
+the probability that it's order
+
+99
+00:05:59,000 --> 00:06:05,000
+log n is at least one minus one
+over some polynomial,
+
+100
+00:06:05,000 --> 00:06:08,000
+and n.
+And, you get to set the
+
+101
+00:06:08,000 --> 00:06:10,000
+polynomial however large you
+like.
+
+102
+00:06:10,000 --> 00:06:13,000
+So, what this basically means
+is that almost all the time,
+
+103
+00:06:13,000 --> 00:06:16,000
+you take your skip lists,
+you do a polynomial number of
+
+104
+00:06:16,000 --> 00:06:18,000
+operations on it,
+because presumably you are
+
+105
+00:06:18,000 --> 00:06:21,000
+running a polynomial time
+algorithm that using this data
+
+106
+00:06:21,000 --> 00:06:23,000
+structure.
+Do polynomial numbers of
+
+107
+00:06:23,000 --> 00:06:26,000
+inserts, delete searches,
+every single one of them will
+
+108
+00:06:26,000 --> 00:06:30,000
+take order log n time,
+almost guaranteed.
+
+109
+00:06:30,000 --> 00:06:33,000
+So this is a really strong
+bound on the tail of the
+
+110
+00:06:33,000 --> 00:06:36,000
+distribution.
+The mean is order log n.
+
+111
+00:06:36,000 --> 00:06:39,000
+That's not so exciting.
+But, in fact,
+
+112
+00:06:39,000 --> 00:06:43,000
+almost all of the weight of
+this probability distribution is
+
+113
+00:06:43,000 --> 00:06:47,000
+right around the log n,
+just tiny little epsilons,
+
+114
+00:06:47,000 --> 00:06:51,000
+very tiny probabilities you
+could be bigger than log n.
+
+115
+00:06:51,000 --> 00:06:55,000
+So that's where we are going.
+This is a data structure by
+
+116
+00:06:55,000 --> 00:07:00,000
+Pugh] in 1989.
+This is the most recent.
+
+117
+00:07:00,000 --> 00:07:03,000
+Actually, no,
+sorry, treaps are more recent.
+
+118
+00:07:03,000 --> 00:07:06,000
+They were like '93 or so,
+but a fairly recent data
+
+119
+00:07:06,000 --> 00:07:09,000
+structure for just insert,
+delete, search.
+
+120
+00:07:09,000 --> 00:07:13,000
+And, it's very simple.
+You can derive it if you don't
+
+121
+00:07:13,000 --> 00:07:16,000
+know anything about data
+structures, well,
+
+122
+00:07:16,000 --> 00:07:19,000
+almost nothing.
+Now, analyzing that the
+
+123
+00:07:19,000 --> 00:07:21,000
+performance is log n,
+that, of course,
+
+124
+00:07:21,000 --> 00:07:25,000
+takes our sophistication.
+But the data structure itself
+
+125
+00:07:25,000 --> 00:07:30,000
+is very simple.
+We're going to start from
+
+126
+00:07:30,000 --> 00:07:34,000
+scratch.
+Suppose you don't know what a
+
+127
+00:07:34,000 --> 00:07:38,000
+red black tree is.
+You don't know what a B tree
+
+128
+00:07:38,000 --> 00:07:41,000
+is.
+Suppose you don't even know
+
+129
+00:07:41,000 --> 00:07:45,000
+what a tree is.
+What is the simplest data
+
+130
+00:07:45,000 --> 00:07:51,000
+structure for storing a bunch of
+items for storing a dynamic set?
+
+131
+00:07:51,000 --> 00:07:54,000
+A list, good,
+a linked list.
+
+132
+00:07:54,000 --> 00:07:58,000
+Now, suppose that it's a sorted
+linked list.
+
+133
+00:07:58,000 --> 00:08:05,000
+So, I'm going to be a little
+bit fancier there.
+
+134
+00:08:05,000 --> 00:08:10,000
+So, if you have a linked list
+of items, here it is,
+
+135
+00:08:10,000 --> 00:08:16,000
+maybe we'll make it doubly
+linked just for kicks,
+
+136
+00:08:16,000 --> 00:08:22,000
+how long does it take to search
+in a sorted linked list?
+
+137
+00:08:22,000 --> 00:08:26,000
+Log n is one answer.
+n is the other answer.
+
+138
+00:08:26,000 --> 00:08:31,000
+Which one is right?
+n is the right answer.
+
+139
+00:08:31,000 --> 00:08:35,000
+So, even though it's sorted,
+we can't do binary search
+
+140
+00:08:35,000 --> 00:08:38,000
+because we don't have
+random-access into a linked
+
+141
+00:08:38,000 --> 00:08:40,000
+list.
+So, suppose I'm only given a
+
+142
+00:08:40,000 --> 00:08:44,000
+pointer to the head.
+Otherwise, I'm assuming it's an
+
+143
+00:08:44,000 --> 00:08:46,000
+array.
+So, in a sorted array you can
+
+144
+00:08:46,000 --> 00:08:48,000
+search in log n.
+Sorted linked list:
+
+145
+00:08:48,000 --> 00:08:51,000
+you've still got to scan
+through the darn thing.
+
+146
+00:08:51,000 --> 00:08:53,000
+So, theta n,
+worst case search.
+
+147
+00:08:53,000 --> 00:08:56,000
+Not so good,
+but if we just try to improve
+
+148
+00:08:56,000 --> 00:08:59,000
+it a little bit,
+we will discover skip lists
+
+149
+00:08:59,000 --> 00:09:03,000
+automatically.
+So, this is our starting point:
+
+150
+00:09:03,000 --> 00:09:06,000
+sorted linked lists,
+data n time.
+
+151
+00:09:06,000 --> 00:09:09,000
+And, I'm not going to think too
+much about insertions and
+
+152
+00:09:09,000 --> 00:09:12,000
+deletions for the moment.
+Let's just get search better,
+
+153
+00:09:12,000 --> 00:09:15,000
+and then we'll worry about
+dates.
+
+154
+00:09:15,000 --> 00:09:17,000
+Updates are where randomization
+will come in.
+
+155
+00:09:17,000 --> 00:09:21,000
+Search: pretty easy idea.
+So, how can we make a linked
+
+156
+00:09:21,000 --> 00:09:23,000
+list better?
+Suppose all we know about our
+
+157
+00:09:23,000 --> 00:09:26,000
+linked lists.
+What can I do to make it
+
+158
+00:09:26,000 --> 00:09:28,000
+faster?
+This is where you need a little
+
+159
+00:09:28,000 --> 00:09:32,000
+bit of innovation,
+some creativity.
+
+160
+00:09:32,000 --> 00:09:37,000
+More links: that's a good idea.
+So, I do try to maybe add
+
+161
+00:09:37,000 --> 00:09:40,000
+pointers to go a couple steps
+ahead.
+
+162
+00:09:40,000 --> 00:09:45,000
+If I had log n pointers,
+I could do all powers of two
+
+163
+00:09:45,000 --> 00:09:48,000
+ahead.
+That's a pretty good search
+
+164
+00:09:48,000 --> 00:09:51,000
+structure.
+Some people use that;
+
+165
+00:09:51,000 --> 00:09:56,000
+like, some peer-to-peer
+networks use that idea.
+
+166
+00:09:56,000 --> 00:10:01,000
+But that's a little too fancy
+for me.
+
+167
+00:10:01,000 --> 00:10:03,000
+Ah, good.
+You could try to build a tree
+
+168
+00:10:03,000 --> 00:10:07,000
+on this linear structure.
+That's essentially where we're
+
+169
+00:10:07,000 --> 00:10:09,000
+going.
+So, you could try to put
+
+170
+00:10:09,000 --> 00:10:12,000
+pointers to, like,
+the middle of the list from the
+
+171
+00:10:12,000 --> 00:10:14,000
+roots.
+So, you search between either
+
+172
+00:10:14,000 --> 00:10:16,000
+here.
+You point to the median,
+
+173
+00:10:16,000 --> 00:10:20,000
+so you can compare against the
+median, and know whether you
+
+174
+00:10:20,000 --> 00:10:23,000
+should go in the first half or
+the second half that's
+
+175
+00:10:23,000 --> 00:10:27,000
+definitely on the right track,
+also a bit too sophisticated.
+
+176
+00:10:27,000 --> 00:10:29,000
+Another list:
+yes.
+
+177
+00:10:29,000 --> 00:10:32,000
+Yes, good.
+So, we are going to use two
+
+178
+00:10:32,000 --> 00:10:34,000
+lists.
+That's sort of the next
+
+179
+00:10:34,000 --> 00:10:38,000
+simplest thing you could do.
+OK, and as you suggested,
+
+180
+00:10:38,000 --> 00:10:41,000
+we could maybe have pointers
+between them.
+
+181
+00:10:41,000 --> 00:10:46,000
+So, maybe we have some elements
+down here, some of the elements
+
+182
+00:10:46,000 --> 00:10:48,000
+up here.
+We want to have pointers
+
+183
+00:10:48,000 --> 00:10:51,000
+between the lists.
+OK, it gets a little bit crazy
+
+184
+00:10:51,000 --> 00:10:54,000
+in how exactly you might do
+that.
+
+185
+00:10:54,000 --> 00:10:56,000
+But somehow,
+this feels good.
+
+186
+00:10:56,000 --> 00:10:58,000
+So this is one linked list:
+L_1.
+
+187
+00:10:58,000 --> 00:11:02,000
+This is another linked list:
+L_2.
+
+188
+00:11:02,000 --> 00:11:12,000
+And, to give you some
+inspiration, I want to give you,
+
+189
+00:11:12,000 --> 00:11:19,000
+so let's play a game.
+The game is,
+
+190
+00:11:19,000 --> 00:11:29,000
+what is this sequence?
+So, the sequence is 14.
+
+191
+00:11:29,000 --> 00:11:38,000
+If you know the answer,
+shout it out.
+
+192
+00:11:38,000 --> 00:11:42,000
+Anyone yet? OK, it's tricky.
+
+193
+00:11:42,000 --> 00:11:54,000
+
+
+194
+00:11:54,000 --> 00:11:58,000
+It's a bit of a small class,
+so I hope someone knows the
+
+195
+00:11:58,000 --> 00:11:59,000
+answer.
+
+196
+00:11:59,000 --> 00:12:10,000
+
+
+197
+00:12:10,000 --> 00:12:14,000
+How many TA's know the answer?
+Just a couple,
+
+198
+00:12:14,000 --> 00:12:19,000
+OK, if you're looking at the
+slides, probably you know the
+
+199
+00:12:19,000 --> 00:12:21,000
+answer.
+That's cheating.
+
+200
+00:12:21,000 --> 00:12:26,000
+OK, I'll give you a hint.
+It is not a mathematical
+
+201
+00:12:26,000 --> 00:12:29,000
+sequence.
+This is a real-life sequence.
+
+202
+00:12:29,000 --> 00:12:32,000
+Yeah?
+Yeah, and what city?
+
+203
+00:12:32,000 --> 00:12:36,000
+New York, yeah,
+this is the 7th Ave line.
+
+204
+00:12:36,000 --> 00:12:40,000
+This is my favorite subway line
+in New York.
+
+205
+00:12:40,000 --> 00:12:46,000
+But, what's a cool feature of
+the New York City subway?
+
+206
+00:12:46,000 --> 00:12:49,000
+OK, it's a skip list.
+Good answer.
+
+207
+00:12:49,000 --> 00:12:54,000
+[LAUGHTER] Indeed it is.
+Skip lists are so practical.
+
+208
+00:12:54,000 --> 00:13:00,000
+They've been implemented in the
+subway system.
+
+209
+00:13:00,000 --> 00:13:03,000
+How cool is that?
+OK, Boston subway is pretty
+
+210
+00:13:03,000 --> 00:13:08,000
+cool because it's the oldest
+subway definitely in the United
+
+211
+00:13:08,000 --> 00:13:11,000
+States, maybe in the world.
+New York is close,
+
+212
+00:13:11,000 --> 00:13:16,000
+and it has other nice features
+like it's open 24 hours.
+
+213
+00:13:16,000 --> 00:13:20,000
+That's a definite plus,
+but it also has this feature of
+
+214
+00:13:20,000 --> 00:13:23,000
+express lines.
+So, it's a bit of an
+
+215
+00:13:23,000 --> 00:13:26,000
+abstraction,
+but the 7th Ave line has
+
+216
+00:13:26,000 --> 00:13:29,000
+essentially two kinds of cars.
+These are street numbers by the
+
+217
+00:13:29,000 --> 00:13:31,000
+way.
+This is, Penn Station,
+
+218
+00:13:31,000 --> 00:13:33,000
+Times Square,
+and so on.
+
+219
+00:13:33,000 --> 00:13:36,000
+So, there are essentially two
+lines.
+
+220
+00:13:36,000 --> 00:13:39,000
+There's the express line which
+goes 14, to 34,
+
+221
+00:13:39,000 --> 00:13:41,000
+to 42, to 72,
+to 96.
+
+222
+00:13:41,000 --> 00:13:45,000
+And then, there's the local
+line which stops at every stop.
+
+223
+00:13:45,000 --> 00:13:49,000
+And, they accomplish this with
+four sets of tracks.
+
+224
+00:13:49,000 --> 00:13:54,000
+So, I mean, the express lines
+have their own dedicated track.
+
+225
+00:13:54,000 --> 00:13:57,000
+If you want to go to stop 59
+from, let's say,
+
+226
+00:13:57,000 --> 00:14:00,000
+Penn Station,
+well, let's say from lower west
+
+227
+00:14:00,000 --> 00:14:05,000
+side, you get on the express
+line.
+
+228
+00:14:05,000 --> 00:14:10,000
+You jump to 42 pretty quickly,
+and then you switch over to the
+
+229
+00:14:10,000 --> 00:14:16,000
+local line, and go on to 59 or
+wherever I said I was going.
+
+230
+00:14:16,000 --> 00:14:21,000
+OK, so this is express and
+local lines, and we can
+
+231
+00:14:21,000 --> 00:14:25,000
+represent that with a couple of
+lists.
+
+232
+00:14:25,000 --> 00:14:29,000
+We have one list,
+sure, we have one list on the
+
+233
+00:14:29,000 --> 00:14:34,000
+bottom, so leave some space up
+here.
+
+234
+00:14:34,000 --> 00:14:48,000
+This is the local line,
+L_2, 34, 42,
+
+235
+00:14:48,000 --> 00:15:02,000
+50, 59, 66, 72,
+79, and so on.
+
+236
+00:15:02,000 --> 00:15:08,000
+And then we had the express
+line on top, which only stops at
+
+237
+00:15:08,000 --> 00:15:11,000
+14, 34, 42, 72,
+and so on.
+
+238
+00:15:11,000 --> 00:15:16,000
+I'm not going to redraw the
+whole list.
+
+239
+00:15:16,000 --> 00:15:21,000
+You get the idea.
+And so, what we're going to do
+
+240
+00:15:21,000 --> 00:15:27,000
+is put links between in the
+local and express lines,
+
+241
+00:15:27,000 --> 00:15:34,000
+wherever they happen to meet.
+And, that's our two linked list
+
+242
+00:15:34,000 --> 00:15:38,000
+structure.
+So, that's what I actually
+
+243
+00:15:38,000 --> 00:15:42,000
+meant what I was trying to draw
+some picture.
+
+244
+00:15:42,000 --> 00:15:47,000
+Now, this has a property that
+in one list, the bottom list,
+
+245
+00:15:47,000 --> 00:15:52,000
+every element occurs.
+And the top list just copies
+
+246
+00:15:52,000 --> 00:15:56,000
+some of those elements.
+And we're going to preserve
+
+247
+00:15:56,000 --> 00:16:00,000
+that property.
+So, L_2 stores all the
+
+248
+00:16:00,000 --> 00:16:05,000
+elements, and L_1 stores some
+subset.
+
+249
+00:16:05,000 --> 00:16:10,000
+And, it's still open which ones
+we should store.
+
+250
+00:16:10,000 --> 00:16:16,000
+That's the one thing we need to
+think about.
+
+251
+00:16:16,000 --> 00:16:23,000
+But, our inspiration is from
+the New York subway system.
+
+252
+00:16:23,000 --> 00:16:30,000
+OK, there, that the idea.
+Of course, we're also going to
+
+253
+00:16:30,000 --> 00:16:36,000
+use more than two lists.
+OK, we also have links.
+
+254
+00:16:36,000 --> 00:16:44,000
+Let's say it links between
+equal keys in L_1 and L_2.
+
+255
+00:16:44,000 --> 00:16:46,000
+Good.
+So, just for the sake of
+
+256
+00:16:46,000 --> 00:16:50,000
+completeness,
+and because we will need this
+
+257
+00:16:50,000 --> 00:16:55,000
+later, let's talk about searches
+before we worry about how these
+
+258
+00:16:55,000 --> 00:17:00,000
+lists are actually constructed.
+Of course, if I wanted that
+
+259
+00:17:00,000 --> 00:17:04,000
+board.
+So, if you want to search for
+
+260
+00:17:04,000 --> 00:17:06,000
+an element, x,
+what do you do?
+
+261
+00:17:06,000 --> 00:17:09,000
+Well, this is the taking the
+subway algorithm.
+
+262
+00:17:09,000 --> 00:17:14,000
+And, suppose you always start
+in the upper left corner of the
+
+263
+00:17:14,000 --> 00:17:17,000
+subway system,
+if you're always in the lower
+
+264
+00:17:17,000 --> 00:17:21,000
+west side, 14th St,
+and I don't know exactly where
+
+265
+00:17:21,000 --> 00:17:25,000
+that is, but more or less,
+somewhere down at the bottom of
+
+266
+00:17:25,000 --> 00:17:27,000
+Manhattan.
+And, you want to go to a
+
+267
+00:17:27,000 --> 00:17:33,000
+particular station like 59.
+Well, you'd stay on the express
+
+268
+00:17:33,000 --> 00:17:37,000
+line as long as you can because
+it happens that we started on
+
+269
+00:17:37,000 --> 00:17:39,000
+the express line.
+And then, you go down.
+
+270
+00:17:39,000 --> 00:17:43,000
+And then you take the local
+line the rest of the way.
+
+271
+00:17:43,000 --> 00:17:47,000
+That's clearly the right thing
+to do if you always start in the
+
+272
+00:17:47,000 --> 00:17:50,000
+top left corner.
+So, I'm going to write that
+
+273
+00:17:50,000 --> 00:17:54,000
+down in some kind of an
+algorithm because we will be
+
+274
+00:17:54,000 --> 00:17:56,000
+generalizing it.
+It's pretty obvious at this
+
+275
+00:17:56,000 --> 00:18:00,000
+point.
+It will remain obvious.
+
+276
+00:18:00,000 --> 00:18:06,000
+So, I want to walk right in the
+top list until that would go too
+
+277
+00:18:06,000 --> 00:18:09,000
+far.
+So, you imagine giving someone
+
+278
+00:18:09,000 --> 00:18:14,000
+directions on the subway system
+they've never been on.
+
+279
+00:18:14,000 --> 00:18:17,000
+So, you say,
+OK, you start at 14th.
+
+280
+00:18:17,000 --> 00:18:22,000
+Take the express line,
+and when you get to 72nd,
+
+281
+00:18:22,000 --> 00:18:25,000
+you've gone too far.
+Go back one,
+
+282
+00:18:25,000 --> 00:18:30,000
+and then go down to the local
+line.
+
+283
+00:18:30,000 --> 00:18:32,000
+It's really annoying
+directions.
+
+284
+00:18:32,000 --> 00:18:37,000
+But this is what an algorithm
+has to do because it's never
+
+285
+00:18:37,000 --> 00:18:41,000
+taken the subway before.
+So, it's going to check,
+
+286
+00:18:41,000 --> 00:18:45,000
+so let's do it here.
+So, suppose I'm aiming for 59.
+
+287
+00:18:45,000 --> 00:18:49,000
+So, I started 14,
+say the first thing I do is go
+
+288
+00:18:49,000 --> 00:18:51,000
+to 34.
+Then from there,
+
+289
+00:18:51,000 --> 00:18:54,000
+I go to 42.
+Still good because 59 is bigger
+
+290
+00:18:54,000 --> 00:18:56,000
+than 42.
+I go right again.
+
+291
+00:18:56,000 --> 00:18:59,000
+I say, oops,
+72 is too big.
+
+292
+00:18:59,000 --> 00:19:04,000
+That was too far.
+So, I go back to where it just
+
+293
+00:19:04,000 --> 00:19:07,000
+was.
+Then I go down and then I keep
+
+294
+00:19:07,000 --> 00:19:12,000
+going right until I find the
+element that I want,
+
+295
+00:19:12,000 --> 00:19:17,000
+or discover that it's not in
+the bottom list because bottom
+
+296
+00:19:17,000 --> 00:19:21,000
+list has everyone.
+So, that's the algorithm.
+
+297
+00:19:21,000 --> 00:19:27,000
+Stop when going right would go
+too far, and you discover that
+
+298
+00:19:27,000 --> 00:19:31,000
+with a comparison.
+Then you walk down to L_2.
+
+299
+00:19:31,000 --> 00:19:35,000
+And then you walk right in L_2
+until you find x,
+
+300
+00:19:35,000 --> 00:19:40,000
+or you find something greater
+than x, in which case x is
+
+301
+00:19:40,000 --> 00:19:46,000
+definitely not on your list.
+And you found the predecessor
+
+302
+00:19:46,000 --> 00:19:49,000
+and successor,
+which may be your goal.
+
+303
+00:19:49,000 --> 00:19:52,000
+If you didn't find where x was,
+you should find where it would
+
+304
+00:19:52,000 --> 00:19:55,000
+go if it were there,
+because then maybe you could
+
+305
+00:19:55,000 --> 00:19:58,000
+insert there.
+We're going to use this
+
+306
+00:19:58,000 --> 00:20:00,000
+algorithm in insertion.
+OK, but that search:
+
+307
+00:20:00,000 --> 00:20:05,000
+pretty easy at this point.
+Now, what we haven't discussed
+
+308
+00:20:05,000 --> 00:20:08,000
+is how fast the search algorithm
+is, and it depends,
+
+309
+00:20:08,000 --> 00:20:12,000
+of course, which elements we're
+going to store in L_1,
+
+310
+00:20:12,000 --> 00:20:14,000
+which subset of elements should
+go in L_1.
+
+311
+00:20:14,000 --> 00:20:18,000
+Now, in the subway system,
+you probably put all the
+
+312
+00:20:18,000 --> 00:20:21,000
+popular stations in L_1.
+But here, we want worst-case
+
+313
+00:20:21,000 --> 00:20:24,000
+performance.
+So, we don't have some
+
+314
+00:20:24,000 --> 00:20:26,000
+probability distribution on the
+nodes.
+
+315
+00:20:26,000 --> 00:20:30,000
+We just like every node to be
+accessed sort of as quickly as
+
+316
+00:20:30,000 --> 00:20:35,000
+possible, uniformly.
+So, we want to minimize the
+
+317
+00:20:35,000 --> 00:20:39,000
+maximum time over all queries.
+So, any ideas what we should do
+
+318
+00:20:39,000 --> 00:20:42,000
+with L_1?
+Should I put all the nodes of
+
+319
+00:20:42,000 --> 00:20:46,000
+L_1 in the beginning?
+OK, it's a strict subset.
+
+320
+00:20:46,000 --> 00:20:49,000
+Suppose I told you what the
+size of L_1 was.
+
+321
+00:20:49,000 --> 00:20:53,000
+I can tell you,
+I could afford to build this
+
+322
+00:20:53,000 --> 00:20:56,000
+many express stops.
+How should you distribute them
+
+323
+00:20:56,000 --> 00:21:02,000
+among the elements of L_2?
+Uniformly, good.
+
+324
+00:21:02,000 --> 00:21:08,000
+So, what nodes,
+sorry, what keys,
+
+325
+00:21:08,000 --> 00:21:17,000
+let's say, go in L_1?
+Well, definitely the best thing
+
+326
+00:21:17,000 --> 00:21:24,000
+to do is to spread them out
+uniformly, OK,
+
+327
+00:21:24,000 --> 00:21:35,000
+which is definitely not what
+the 7th Ave line looks like.
+
+328
+00:21:35,000 --> 00:21:39,000
+But, let's imagine that we
+could reengineer everything.
+
+329
+00:21:39,000 --> 00:21:45,000
+So, we're going to try to space
+these things out a little bit
+
+330
+00:21:45,000 --> 00:21:47,000
+more.
+So, 34 and 42nd are way too
+
+331
+00:21:47,000 --> 00:21:50,000
+close.
+We'll take a few more stops.
+
+332
+00:21:50,000 --> 00:21:54,000
+And, now we can start to
+analyze things.
+
+333
+00:21:54,000 --> 00:21:57,000
+OK, as a function of the length
+of L_1.
+
+334
+00:21:57,000 --> 00:22:03,000
+So, the cost of a search is now
+roughly, so, I want a function
+
+335
+00:22:03,000 --> 00:22:07,000
+of the length of L_1,
+and the length of L_2,
+
+336
+00:22:07,000 --> 00:22:11,000
+which is all the elements,
+n.
+
+337
+00:22:11,000 --> 00:22:18,000
+What is the cost of the search
+if I spread out all the elements
+
+338
+00:22:18,000 --> 00:22:20,000
+in L_1 uniformly?
+Yeah?
+
+339
+00:22:20,000 --> 00:22:26,000
+Right, the total number of
+elements in the top lists,
+
+340
+00:22:26,000 --> 00:22:33,000
+plus the division between the
+bottom and the top.
+
+341
+00:22:33,000 --> 00:22:36,000
+So, I'll write the length of
+L_1 plus the length of L_2
+
+342
+00:22:36,000 --> 00:22:39,000
+divided by the length of L_1.
+OK, this is roughly,
+
+343
+00:22:39,000 --> 00:22:42,000
+I mean, there's maybe a plus
+one or so here because in the
+
+344
+00:22:42,000 --> 00:22:46,000
+worst case, I have to search
+through all of L_1 because the
+
+345
+00:22:46,000 --> 00:22:49,000
+station I could be looking for
+could be the max.
+
+346
+00:22:49,000 --> 00:22:52,000
+OK, and maybe I'm not lucky,
+and the max is not on the
+
+347
+00:22:52,000 --> 00:22:54,000
+express line.
+So then, I have to go down to
+
+348
+00:22:54,000 --> 00:22:57,000
+the local line.
+And how many stops will I have
+
+349
+00:22:57,000 --> 00:23:01,000
+to go on the local line?
+Well, L_1 just evenly
+
+350
+00:23:01,000 --> 00:23:04,000
+partitions L_2.
+So this is the number of
+
+351
+00:23:04,000 --> 00:23:08,000
+consecutive stations between two
+express stops.
+
+352
+00:23:08,000 --> 00:23:12,000
+So, I take the express,
+possibly this long,
+
+353
+00:23:12,000 --> 00:23:15,000
+but I take the local possibly
+this long.
+
+354
+00:23:15,000 --> 00:23:18,000
+And, this is an L_2.
+And there is,
+
+355
+00:23:18,000 --> 00:23:20,000
+plus, a constant,
+for example,
+
+356
+00:23:20,000 --> 00:23:24,000
+go walking down.
+But that's basically the number
+
+357
+00:23:24,000 --> 00:23:28,000
+of nodes that I visit.
+So, I'd like to minimize this
+
+358
+00:23:28,000 --> 00:23:36,000
+function.
+Now, L_2, I'm going to call
+
+359
+00:23:36,000 --> 00:23:47,000
+that n because that's the total
+number of elements.
+
+360
+00:23:47,000 --> 00:23:55,000
+L_1, I can choose to be
+whatever I want.
+
+361
+00:23:55,000 --> 00:24:03,000
+So, let's go over here.
+So, I want to minimize L_1 plus
+
+362
+00:24:03,000 --> 00:24:07,000
+n over L_1.
+And I get to choose L_1.
+
+363
+00:24:07,000 --> 00:24:11,000
+Now, I could differentiate
+this, set it to zero,
+
+364
+00:24:11,000 --> 00:24:15,000
+and go crazy.
+Or, I could realize that,
+
+365
+00:24:15,000 --> 00:24:19,000
+I mean, that's not hard.
+But, that's a little bit too
+
+366
+00:24:19,000 --> 00:24:22,000
+fancy for me.
+So, I could say,
+
+367
+00:24:22,000 --> 00:24:26,000
+well, this is clearly best when
+L_1 is small.
+
+368
+00:24:26,000 --> 00:24:32,000
+And this is clearly best when
+L_1 is large.
+
+369
+00:24:32,000 --> 00:24:37,000
+So, there's a trade-off there.
+And, the trade-off will be
+
+370
+00:24:37,000 --> 00:24:44,000
+roughly minimized up to constant
+factors when these two terms are
+
+371
+00:24:44,000 --> 00:24:48,000
+equal.
+That's when I have pretty good
+
+372
+00:24:48,000 --> 00:24:53,000
+balance between the two ends of
+the trade-off.
+
+373
+00:24:53,000 --> 00:24:56,000
+So, this is up to constant
+factors.
+
+374
+00:24:56,000 --> 00:25:03,000
+I can let L_1 equal n over L_1,
+OK, because at most I'm losing
+
+375
+00:25:03,000 --> 00:25:10,000
+a factor of two there when they
+happen to be equal.
+
+376
+00:25:10,000 --> 00:25:14,000
+So now, I just solve this.
+This is really easy.
+
+377
+00:25:14,000 --> 00:25:18,000
+This is (L_1)^2 equals n.
+So, L_1 is the square root of
+
+378
+00:25:18,000 --> 00:25:20,000
+n.
+OK, so the cost that I'm
+
+379
+00:25:20,000 --> 00:25:24,000
+getting over here,
+L_1 plus L_2 over L_1 is the
+
+380
+00:25:24,000 --> 00:25:28,000
+square root of n plus n over
+root n, which is,
+
+381
+00:25:28,000 --> 00:25:32,000
+again, root n.
+So, I get two root n.
+
+382
+00:25:32,000 --> 00:25:36,000
+So, search cost,
+and I'm caring about the
+
+383
+00:25:36,000 --> 00:25:39,000
+constant here,
+because it will matter in a
+
+384
+00:25:39,000 --> 00:25:41,000
+moment.
+Two square root of n:
+
+385
+00:25:41,000 --> 00:25:45,000
+I'm not caring about the
+additive constant,
+
+386
+00:25:45,000 --> 00:25:48,000
+but the multiplicative constant
+I care about.
+
+387
+00:25:48,000 --> 00:25:52,000
+OK, that seems good.
+We started with a linked list
+
+388
+00:25:52,000 --> 00:25:56,000
+that searched in n time,
+theta n time per operation.
+
+389
+00:25:56,000 --> 00:26:03,000
+Now we have two linked lists,
+search and theta root n time.
+
+390
+00:26:03,000 --> 00:26:07,000
+It seems pretty good.
+This is what the structure
+
+391
+00:26:07,000 --> 00:26:10,000
+looks like.
+We have root n guys here.
+
+392
+00:26:10,000 --> 00:26:15,000
+This is in the local line.
+And, we have one express stop
+
+393
+00:26:15,000 --> 00:26:19,000
+which represents that.
+But we have another root n
+
+394
+00:26:19,000 --> 00:26:24,000
+values in the local line.
+And we have one express stop
+
+395
+00:26:24,000 --> 00:26:28,000
+that represents that.
+And these two are linked,
+
+396
+00:26:28,000 --> 00:26:31,000
+and so on.
+
+397
+00:26:31,000 --> 00:26:42,000
+
+
+398
+00:26:42,000 --> 00:26:44,000
+Well, I should put some dot,
+dot, dots in there.
+
+399
+00:26:44,000 --> 00:26:47,000
+OK, so each of these chunks has
+length root n,
+
+400
+00:26:47,000 --> 00:26:49,000
+and the number of
+representatives up here is
+
+401
+00:26:49,000 --> 00:26:52,000
+square root of n.
+The number of express stops is
+
+402
+00:26:52,000 --> 00:26:54,000
+square root of n.
+So clearly, things are balanced
+
+403
+00:26:54,000 --> 00:26:55,000
+now.
+I search for,
+
+404
+00:26:55,000 --> 00:26:57,000
+at most, square root of n up
+here.
+
+405
+00:26:57,000 --> 00:27:00,000
+Then I search in one of these
+lists for, at most,
+
+406
+00:27:00,000 --> 00:27:04,000
+square root of n.
+So, every search takes,
+
+407
+00:27:04,000 --> 00:27:10,000
+at most, two root n.
+Cool, what should we do next?
+
+408
+00:27:10,000 --> 00:27:15,000
+So, again, ignore insertions
+and deletions.
+
+409
+00:27:15,000 --> 00:27:22,000
+I want to make searches faster
+because square root of n is not
+
+410
+00:27:22,000 --> 00:27:25,000
+so hot as we know.
+Sorry?
+
+411
+00:27:25,000 --> 00:27:30,000
+More lines.
+Let's add a super express line,
+
+412
+00:27:30,000 --> 00:27:35,000
+or another linked list.
+OK, this was two.
+
+413
+00:27:35,000 --> 00:27:41,000
+Why not do three?
+So, we started with a sorted
+
+414
+00:27:41,000 --> 00:27:45,000
+linked list.
+Then we went to two.
+
+415
+00:27:45,000 --> 00:27:48,000
+This gave us two square root of
+n.
+
+416
+00:27:48,000 --> 00:27:52,000
+Now, I want three sorted linked
+lists.
+
+417
+00:27:52,000 --> 00:27:57,000
+I didn't pluralize here.
+Any guesses what the running
+
+418
+00:27:57,000 --> 00:28:02,000
+time might be?
+This is just guesswork.
+
+419
+00:28:02,000 --> 00:28:05,000
+Don't think.
+From two square root of n,
+
+420
+00:28:05,000 --> 00:28:08,000
+you would go to,
+sorry?
+
+421
+00:28:08,000 --> 00:28:12,000
+Two square root of two,
+fourth root of n?
+
+422
+00:28:12,000 --> 00:28:17,000
+That's on the right track.
+Both the constant and the root
+
+423
+00:28:17,000 --> 00:28:20,000
+change, but not quite so
+fancily.
+
+424
+00:28:20,000 --> 00:28:24,000
+Three times the cubed root:
+good.
+
+425
+00:28:24,000 --> 00:28:29,000
+Intuition is very helpful here.
+It doesn't matter what the
+
+426
+00:28:29,000 --> 00:28:35,000
+right answer is.
+Use your intuition.
+
+427
+00:28:35,000 --> 00:28:37,000
+You can prove that.
+It's not so hard.
+
+428
+00:28:37,000 --> 00:28:40,000
+You now have three lists,
+and what you want to balance
+
+429
+00:28:40,000 --> 00:28:44,000
+are at the length of the top
+list, the ratio between the top
+
+430
+00:28:44,000 --> 00:28:47,000
+two lists, and the ratio between
+the bottom two lists.
+
+431
+00:28:47,000 --> 00:28:50,000
+So, you want these three to
+multiply out to n,
+
+432
+00:28:50,000 --> 00:28:53,000
+because the top times the ratio
+times the ratio:
+
+433
+00:28:53,000 --> 00:28:56,000
+that has to equal n.
+And, so that's where you get
+
+434
+00:28:56,000 --> 00:28:59,000
+the cubed root of n.
+Each of these should be equal.
+
+435
+00:28:59,000 --> 00:29:03,000
+So, you set them because the
+cost is the sum of those three
+
+436
+00:29:03,000 --> 00:29:07,000
+things.
+So, you set each of them to
+
+437
+00:29:07,000 --> 00:29:11,000
+cubed root of n,
+and there are three of them.
+
+438
+00:29:11,000 --> 00:29:15,000
+OK, check it at home if you
+want to be more sure.
+
+439
+00:29:15,000 --> 00:29:21,000
+Obviously, we want a few more.
+So, let's think about k sorted
+
+440
+00:29:21,000 --> 00:29:24,000
+lists.
+k sorted lists will be k times
+
+441
+00:29:24,000 --> 00:29:28,000
+the k'th root of n.
+You probably guessed that by
+
+442
+00:29:28,000 --> 00:29:33,000
+now.
+So, what should we set k to?
+
+443
+00:29:33,000 --> 00:29:38,000
+I don't want the exact minimum.
+What's a good value for k?
+
+444
+00:29:38,000 --> 00:29:41,000
+Should I set it to n?
+n's kind of nice,
+
+445
+00:29:41,000 --> 00:29:44,000
+because the n'th root of n is
+just one.
+
+446
+00:29:44,000 --> 00:29:48,000
+Now that's n.
+So, this is why I cared about
+
+447
+00:29:48,000 --> 00:29:53,000
+the lead constant because it's
+going to grow as I add more
+
+448
+00:29:53,000 --> 00:29:56,000
+lists.
+What's the biggest reasonable
+
+449
+00:29:56,000 --> 00:30:03,000
+value of k that I could use?
+Log n, because I have a k out
+
+450
+00:30:03,000 --> 00:30:07,000
+there.
+I certainly don't want to use
+
+451
+00:30:07,000 --> 00:30:13,000
+more than log n.
+So, log n times the log n'th
+
+452
+00:30:13,000 --> 00:30:18,000
+root, and this is a little hard
+to draw of n.
+
+453
+00:30:18,000 --> 00:30:23,000
+Now, what is the log n'th root
+of n?
+
+454
+00:30:23,000 --> 00:30:27,000
+That's what you're all thinking
+about.
+
+455
+00:30:27,000 --> 00:30:34,000
+What is the log n'th root of n
+minus two?
+
+456
+00:30:34,000 --> 00:30:39,000
+It's one of these good
+questions whose answer is?
+
+457
+00:30:39,000 --> 00:30:43,000
+Oh man.
+Remember the definition of
+
+458
+00:30:43,000 --> 00:30:47,000
+root?
+OK, the root is n to the one
+
+459
+00:30:47,000 --> 00:30:51,000
+over log n.
+OK, good, remember the
+
+460
+00:30:51,000 --> 00:30:55,000
+definition of having a power,
+A to the B?
+
+461
+00:30:55,000 --> 00:30:59,000
+It was like two to the power,
+B log A?
+
+462
+00:30:59,000 --> 00:31:06,000
+Does that sound familiar?
+So, this is two to the log n
+
+463
+00:31:06,000 --> 00:31:11,000
+over log n, which is,
+I hope you can get it at this
+
+464
+00:31:11,000 --> 00:31:17,000
+point, two.
+Wow, so the log n'th root of n
+
+465
+00:31:17,000 --> 00:31:20,000
+minus two is zero:
+my favorite answer.
+
+466
+00:31:20,000 --> 00:31:23,000
+OK, this is to.
+So this whole thing is two log
+
+467
+00:31:23,000 --> 00:31:26,000
+n: pretty nifty.
+So, you could be a little
+
+468
+00:31:26,000 --> 00:31:31,000
+fancier and tweak this a little
+bit, but two log n is plenty
+
+469
+00:31:31,000 --> 00:31:36,000
+good for me.
+We clearly don't want to use
+
+470
+00:31:36,000 --> 00:31:41,000
+any more lists,
+but log n lists sounds pretty
+
+471
+00:31:41,000 --> 00:31:45,000
+good.
+I get, now, logarithmic search
+
+472
+00:31:45,000 --> 00:31:47,000
+time.
+Let's check.
+
+473
+00:31:47,000 --> 00:31:52,000
+I mean, we sort of did this all
+intuitively.
+
+474
+00:31:52,000 --> 00:31:56,000
+Let's draw what the list looks
+like.
+
+475
+00:31:56,000 --> 00:32:01,000
+But, it will work.
+So, I'm going to redraw this
+
+476
+00:32:01,000 --> 00:32:07,000
+example because you have to,
+also.
+
+477
+00:32:07,000 --> 00:32:14,000
+So, let's redesign that New
+York City subway system.
+
+478
+00:32:14,000 --> 00:32:22,000
+And, I want you to leave three
+blank lines up here.
+
+479
+00:32:22,000 --> 00:32:29,000
+So, you should have this
+memorized by now.
+
+480
+00:32:29,000 --> 00:32:34,000
+But I don't.
+So, we are not allowed to
+
+481
+00:32:34,000 --> 00:32:38,000
+change the local line,
+though it would be nice,
+
+482
+00:32:38,000 --> 00:32:43,000
+add a few more stops there.
+OK, we can stop at 79th Street.
+
+483
+00:32:43,000 --> 00:32:47,000
+That's enough.
+So now, we have log n lists.
+
+484
+00:32:47,000 --> 00:32:53,000
+And here, log n is about four.
+So, I want to make a bunch of
+
+485
+00:32:53,000 --> 00:32:55,000
+lists here.
+In particular,
+
+486
+00:32:55,000 --> 00:33:02,000
+14 will appear on all of them.
+So, why don't I draw those in?
+
+487
+00:33:02,000 --> 00:33:05,000
+And, the question is,
+which elements go in here?
+
+488
+00:33:05,000 --> 00:33:08,000
+So, I have log n lists.
+And, my goal is to balance the
+
+489
+00:33:08,000 --> 00:33:12,000
+number of items up here,
+and the ratio between these two
+
+490
+00:33:12,000 --> 00:33:15,000
+lists, and the ratio between
+these two lists,
+
+491
+00:33:15,000 --> 00:33:18,000
+and the ratio between these two
+lists.
+
+492
+00:33:18,000 --> 00:33:20,000
+I want all these things to be
+balanced.
+
+493
+00:33:20,000 --> 00:33:24,000
+There are log n of them.
+So, the product of all those
+
+494
+00:33:24,000 --> 00:33:27,000
+ratios better be n,
+the number of elements down
+
+495
+00:33:27,000 --> 00:33:29,000
+here.
+So, the product of all these
+
+496
+00:33:29,000 --> 00:33:36,000
+ratios is n.
+And there's log n of them;
+
+497
+00:33:36,000 --> 00:33:44,000
+how big is each ratio?
+So, I'll call the ratio r.
+
+498
+00:33:44,000 --> 00:33:52,000
+The ratio's r.
+I should have r to the power of
+
+499
+00:33:52,000 --> 00:33:56,000
+log n equals n.
+What's r?
+
+500
+00:33:56,000 --> 00:34:02,000
+What's r minus two?
+Zero.
+
+501
+00:34:02,000 --> 00:34:05,000
+OK, this should be two to the
+power of log n.
+
+502
+00:34:05,000 --> 00:34:09,000
+So, if the ratio between the
+number of elements here and here
+
+503
+00:34:09,000 --> 00:34:12,000
+is to all the way down,
+then I will have an elements at
+
+504
+00:34:12,000 --> 00:34:15,000
+the bottom, which is what I
+want.
+
+505
+00:34:15,000 --> 00:34:18,000
+So, in other words,
+I want half the elements here,
+
+506
+00:34:18,000 --> 00:34:22,000
+a quarter of the elements here,
+an eighth of the elements here,
+
+507
+00:34:22,000 --> 00:34:25,000
+and so on.
+So, I'm going to take half of
+
+508
+00:34:25,000 --> 00:34:28,000
+the elements evenly spaced out:
+34th, 50th, 66th,
+
+509
+00:34:28,000 --> 00:34:32,000
+79th, and so on.
+So, this is our new
+
+510
+00:34:32,000 --> 00:34:35,000
+semi-express line:
+not terribly fast,
+
+511
+00:34:35,000 --> 00:34:39,000
+but you save a factor of two
+for going up there.
+
+512
+00:34:39,000 --> 00:34:42,000
+And, when you're done,
+you go down,
+
+513
+00:34:42,000 --> 00:34:44,000
+and you walk,
+at most, one step.
+
+514
+00:34:44,000 --> 00:34:47,000
+And you find what you're
+looking for.
+
+515
+00:34:47,000 --> 00:34:52,000
+OK, and then we do the same
+thing over and over and over
+
+516
+00:34:52,000 --> 00:34:56,000
+until we run out of elements.
+I can't read my own writing.
+
+517
+00:34:56,000 --> 00:34:59,000
+It's 79th.
+
+518
+00:34:59,000 --> 00:35:11,000
+
+
+519
+00:35:11,000 --> 00:35:14,000
+OK, if I had a bigger example,
+I would be more levels,
+
+520
+00:35:14,000 --> 00:35:19,000
+but this is just barely enough.
+Let's say two elements is where
+
+521
+00:35:19,000 --> 00:35:21,000
+I stop.
+So, this looks good.
+
+522
+00:35:21,000 --> 00:35:24,000
+Does this look like a structure
+you've seen before,
+
+523
+00:35:24,000 --> 00:35:25,000
+at all, vaguely?
+Yes?
+
+524
+00:35:25,000 --> 00:35:28,000
+A tree: yes.
+It looks a lot like a binary
+
+525
+00:35:28,000 --> 00:35:31,000
+tree.
+I'll just leave it at that.
+
+526
+00:35:31,000 --> 00:35:34,000
+In your problem set,
+you'll understand why skip
+
+527
+00:35:34,000 --> 00:35:38,000
+lists are really like trees.
+But it's more or less a tree.
+
+528
+00:35:38,000 --> 00:35:41,000
+Let's say at this level,
+it looks sort of like binary
+
+529
+00:35:41,000 --> 00:35:42,000
+search.
+You look at 14;
+
+530
+00:35:42,000 --> 00:35:44,000
+you look at 15,
+and therefore,
+
+531
+00:35:44,000 --> 00:35:48,000
+you decide whether you are in
+the left half for the right
+
+532
+00:35:48,000 --> 00:35:50,000
+half.
+And that's sort of like a tree.
+
+533
+00:35:50,000 --> 00:35:54,000
+It's not quite a tree because
+we have this element repeated
+
+534
+00:35:54,000 --> 00:35:55,000
+all over.
+But more or less,
+
+535
+00:35:55,000 --> 00:35:59,000
+this is a binary tree.
+At depth I, we have two to the
+
+536
+00:35:59,000 --> 00:36:04,000
+I nodes, just like a tree,
+just like a balanced tree.
+
+537
+00:36:04,000 --> 00:36:08,000
+I'm going to call this
+structure an ideal skip list.
+
+538
+00:36:08,000 --> 00:36:13,000
+And, if all we are doing our
+searches, ideal skip lists are
+
+539
+00:36:13,000 --> 00:36:15,000
+pretty good.
+Maybe at practice:
+
+540
+00:36:15,000 --> 00:36:20,000
+not quite as good as a binary
+search tree, but up to constant
+
+541
+00:36:20,000 --> 00:36:24,000
+factors: just as good.
+So, for example,
+
+542
+00:36:24,000 --> 00:36:28,000
+I mean, we can generalize
+search, just check that it's log
+
+543
+00:36:28,000 --> 00:36:32,000
+n.
+So, the search procedure is you
+
+544
+00:36:32,000 --> 00:36:36,000
+start at the top left.
+So, let's say we are looking
+
+545
+00:36:36,000 --> 00:36:38,000
+for 72.
+You start at the top left.
+
+546
+00:36:38,000 --> 00:36:41,000
+14 is smaller than 72,
+so I try to go right.
+
+547
+00:36:41,000 --> 00:36:44,000
+79 is too big.
+So, I follow this arrow,
+
+548
+00:36:44,000 --> 00:36:47,000
+but I say, oops,
+that's too much.
+
+549
+00:36:47,000 --> 00:36:49,000
+So, instead,
+I go down 14 still.
+
+550
+00:36:49,000 --> 00:36:53,000
+I go to the right:
+oh, 50, that's still smaller
+
+551
+00:36:53,000 --> 00:36:55,000
+than 72: OK.
+I tried to go right again.
+
+552
+00:36:55,000 --> 00:36:58,000
+Oh: 79, that's too big.
+That's no good.
+
+553
+00:36:58,000 --> 00:37:00,000
+So, I go down.
+So, I get 50.
+
+554
+00:37:00,000 --> 00:37:05,000
+I do the same thing over and
+over.
+
+555
+00:37:05,000 --> 00:37:07,000
+I try to go to the right:
+oh, 66, that's OK.
+
+556
+00:37:07,000 --> 00:37:09,000
+Try to go to the right:
+oh, 79, that's too big.
+
+557
+00:37:09,000 --> 00:37:11,000
+So I go down.
+Now I go to the right and,
+
+558
+00:37:11,000 --> 00:37:14,000
+oh, 72: done.
+Otherwise, I'd go too far and
+
+559
+00:37:14,000 --> 00:37:16,000
+try to go down and say,
+oops, element must not be
+
+560
+00:37:16,000 --> 00:37:18,000
+there.
+It's a very simple search
+
+561
+00:37:18,000 --> 00:37:21,000
+algorithm: same as here except
+just remove the L_1 and L_2.
+
+562
+00:37:21,000 --> 00:37:23,000
+Go right until that would go
+too far.
+
+563
+00:37:23,000 --> 00:37:25,000
+Then go down.
+Then go right until we'd go too
+
+564
+00:37:25,000 --> 00:37:28,000
+far, and then go down.
+You might have to do this log n
+
+565
+00:37:28,000 --> 00:37:30,000
+times.
+In each level,
+
+566
+00:37:30,000 --> 00:37:34,000
+you're clearly only walking a
+couple of steps because the
+
+567
+00:37:34,000 --> 00:37:37,000
+ratio between these two sizes is
+only two.
+
+568
+00:37:37,000 --> 00:37:40,000
+So, this will cost two log n
+for search.
+
+569
+00:37:40,000 --> 00:37:42,000
+Good, I mean,
+so that was to check because we
+
+570
+00:37:42,000 --> 00:37:46,000
+were using intuition over here;
+a little bit shaky.
+
+571
+00:37:46,000 --> 00:37:50,000
+So, this is an ideal skip list,
+we have to support insertions
+
+572
+00:37:50,000 --> 00:37:53,000
+and deletions.
+As soon as we do an insert and
+
+573
+00:37:53,000 --> 00:37:57,000
+delete, there's no way we're
+going to maintain the structure.
+
+574
+00:37:57,000 --> 00:38:03,000
+It's a bit too special.
+There is only one of these
+
+575
+00:38:03,000 --> 00:38:09,000
+where everything is perfectly
+spaced out, and everything is
+
+576
+00:38:09,000 --> 00:38:13,000
+beautiful.
+So, we can't do that.
+
+577
+00:38:13,000 --> 00:38:20,000
+We're going to maintain roughly
+this structure as best we can.
+
+578
+00:38:20,000 --> 00:38:27,000
+And, if anyone of you knows
+someone in New York City subway
+
+579
+00:38:27,000 --> 00:38:31,000
+planning, you can tell them
+this.
+
+580
+00:38:31,000 --> 00:38:37,000
+OK, so: skip lists.
+So, I mean, this is basically
+
+581
+00:38:37,000 --> 00:38:42,000
+our data structure.
+You could use this as a
+
+582
+00:38:42,000 --> 00:38:46,000
+starting point,
+but then you start using skip
+
+583
+00:38:46,000 --> 00:38:49,000
+lists.
+And, we need to somehow
+
+584
+00:38:49,000 --> 00:38:54,000
+implement insertions and
+deletions, and maintain roughly
+
+585
+00:38:54,000 --> 00:39:01,000
+this structure well enough that
+the search still costs order log
+
+586
+00:39:01,000 --> 00:39:05,000
+n time.
+So, let's focus on insertions.
+
+587
+00:39:05,000 --> 00:39:09,000
+If we do insertions right,
+it turns out deletions are
+
+588
+00:39:09,000 --> 00:39:11,000
+really trivial.
+
+589
+00:39:11,000 --> 00:39:28,000
+
+
+590
+00:39:28,000 --> 00:39:31,000
+And again, this is all from
+first principles.
+
+591
+00:39:31,000 --> 00:39:34,000
+We're not allowed to use
+anything fancy.
+
+592
+00:39:34,000 --> 00:39:38,000
+But, it would be nice if we
+used some good chalk.
+
+593
+00:39:38,000 --> 00:39:42,000
+This one looks better.
+So, suppose you want to insert
+
+594
+00:39:42,000 --> 00:39:46,000
+an element, x.
+We said how to search for an
+
+595
+00:39:46,000 --> 00:39:48,000
+element.
+So, how do we insert it?
+
+596
+00:39:48,000 --> 00:39:53,000
+Well, the first thing we should
+do is figure out where it goes.
+
+597
+00:39:53,000 --> 00:39:57,000
+So, we search for x.
+We call search of x to find
+
+598
+00:39:57,000 --> 00:40:03,000
+where x fits in the bottom list,
+not just any list.
+
+599
+00:40:03,000 --> 00:40:06,000
+Pretty easy to find out where
+it fits in the top list.
+
+600
+00:40:06,000 --> 00:40:08,000
+That takes, like,
+constant time.
+
+601
+00:40:08,000 --> 00:40:11,000
+What we want to know:
+because the top list has
+
+602
+00:40:11,000 --> 00:40:14,000
+constant length,
+we want to know where x goes in
+
+603
+00:40:14,000 --> 00:40:17,000
+the bottom list.
+So, let's say we want to insert
+
+604
+00:40:17,000 --> 00:40:19,000
+a search for 80.
+Well, it is a bit too big.
+
+605
+00:40:19,000 --> 00:40:22,000
+Let search for 75.
+So, we'll find the 75 fits
+
+606
+00:40:22,000 --> 00:40:25,000
+right here between 72 and 79
+using the same path.
+
+607
+00:40:25,000 --> 00:40:29,000
+OK, if it's there already,
+we complain because I'm going
+
+608
+00:40:29,000 --> 00:40:32,000
+to assume all keys are distinct
+for now just so the picture
+
+609
+00:40:32,000 --> 00:40:38,000
+stays simple.
+But this works fine even if you
+
+610
+00:40:38,000 --> 00:40:42,000
+are inserting the same key over
+and over.
+
+611
+00:40:42,000 --> 00:40:47,000
+So, that seems good.
+One thing we should clearly do
+
+612
+00:40:47,000 --> 00:40:50,000
+is insert x into the bottom
+list.
+
+613
+00:40:50,000 --> 00:40:55,000
+We now know where it fits.
+It should go there.
+
+614
+00:40:55,000 --> 00:40:59,000
+Because we want to maintain
+this invariant,
+
+615
+00:40:59,000 --> 00:41:06,000
+that the bottom list contains
+all the elements.
+
+616
+00:41:06,000 --> 00:41:10,000
+So, there we go.
+We've maintained the invariant.
+
+617
+00:41:10,000 --> 00:41:14,000
+The bottom list contains all
+the elements.
+
+618
+00:41:14,000 --> 00:41:18,000
+So, we search for 75.
+We say, oh, 75 goes here,
+
+619
+00:41:18,000 --> 00:41:24,000
+and we just sort of link in 75.
+You know how to do a linked
+
+620
+00:41:24,000 --> 00:41:29,000
+list, I hope.
+Let me just erase that pointer.
+
+621
+00:41:29,000 --> 00:41:32,000
+All the work in implementing
+skip lists is the linked list
+
+622
+00:41:32,000 --> 00:41:34,000
+manipulation.
+Is that enough?
+
+623
+00:41:34,000 --> 00:41:38,000
+No, it would be fine for now
+because now there's only a chain
+
+624
+00:41:38,000 --> 00:41:41,000
+of length three here that you'd
+have to walk over if you're
+
+625
+00:41:41,000 --> 00:41:44,000
+looking for something in this
+range.
+
+626
+00:41:44,000 --> 00:41:47,000
+But if I just keep inserting
+75, and 76, than 76 plus
+
+627
+00:41:47,000 --> 00:41:51,000
+epsilon, 76 plus two epsilon,
+and so on, just pack a whole
+
+628
+00:41:51,000 --> 00:41:54,000
+bunch of elements in here,
+this chain will get really
+
+629
+00:41:54,000 --> 00:41:55,000
+long.
+Now, suddenly,
+
+630
+00:41:55,000 --> 00:41:58,000
+things are not so balanced.
+If I do a search,
+
+631
+00:41:58,000 --> 00:42:02,000
+I'll pay an arbitrarily long
+amount time here to search for
+
+632
+00:42:02,000 --> 00:42:05,000
+someone.
+If I insert k things,
+
+633
+00:42:05,000 --> 00:42:08,000
+it'll take k time.
+I want it to stay log n.
+
+634
+00:42:08,000 --> 00:42:11,000
+If I only insert log n items,
+it's OK for now.
+
+635
+00:42:11,000 --> 00:42:15,000
+What I want to do is decide
+which of these lists contain 75.
+
+636
+00:42:15,000 --> 00:42:17,000
+So, clearly it goes on the
+bottom.
+
+637
+00:42:17,000 --> 00:42:19,000
+Every element goes in the
+bottom.
+
+638
+00:42:19,000 --> 00:42:21,000
+Should it go up a level?
+Maybe.
+
+639
+00:42:21,000 --> 00:42:23,000
+It depends.
+It's not clear yet.
+
+640
+00:42:23,000 --> 00:42:27,000
+If I insert a few items here,
+definitely some of them should
+
+641
+00:42:27,000 --> 00:42:39,000
+go on the next level.
+Should I go to levels up?
+
+642
+00:42:39,000 --> 00:42:57,000
+Maybe, but even less likely.
+So, what should I do?
+
+643
+00:42:57,000 --> 00:43:01,000
+Yeah?
+Right, so you maintain the
+
+644
+00:43:01,000 --> 00:43:05,000
+ideal partition size,
+which may be like the length of
+
+645
+00:43:05,000 --> 00:43:07,000
+this chain.
+And you see,
+
+646
+00:43:07,000 --> 00:43:10,000
+well, if that gets too long,
+then I should split it in the
+
+647
+00:43:10,000 --> 00:43:14,000
+middle, promote that guy up to
+the next level,
+
+648
+00:43:14,000 --> 00:43:18,000
+and do the same thing up here.
+If this chain gets too long
+
+649
+00:43:18,000 --> 00:43:21,000
+between two consecutive next
+level express stops,
+
+650
+00:43:21,000 --> 00:43:23,000
+then I'll promote the middle
+guy.
+
+651
+00:43:23,000 --> 00:43:26,000
+And that's what you'll do in
+your problem set.
+
+652
+00:43:26,000 --> 00:43:30,000
+That's too fancy for me.
+I don't need no stinking
+
+653
+00:43:30,000 --> 00:43:34,000
+counters.
+What else could I do?
+
+654
+00:43:34,000 --> 00:43:46,000
+
+
+655
+00:43:46,000 --> 00:43:48,000
+I could try to maintain the
+ideal skip list structure.
+
+656
+00:43:48,000 --> 00:43:51,000
+That will be too expensive.
+Like I say, 75 is the guy that
+
+657
+00:43:51,000 --> 00:43:54,000
+gets promoted,
+and this guy gets demoted all
+
+658
+00:43:54,000 --> 00:43:55,000
+the way down.
+But that will propagate
+
+659
+00:43:55,000 --> 00:43:58,000
+everything to the right.
+And that could cost linear time
+
+660
+00:43:58,000 --> 00:44:01,000
+for update.
+Other idea?
+
+661
+00:44:01,000 --> 00:44:07,000
+If I only want half of them to
+go up, I could flip a coin.
+
+662
+00:44:07,000 --> 00:44:11,000
+Good idea.
+All right, for that,
+
+663
+00:44:11,000 --> 00:44:16,000
+I will give you a quarter.
+It's a good one.
+
+664
+00:44:16,000 --> 00:44:19,000
+It's the old line state,
+Maryland.
+
+665
+00:44:19,000 --> 00:44:24,000
+There you go.
+However, you have to perform
+
+666
+00:44:24,000 --> 00:44:32,000
+some services for that quarter,
+namely, flip the coin.
+
+667
+00:44:32,000 --> 00:44:34,000
+Can you flip a coin?
+Good.
+
+668
+00:44:34,000 --> 00:44:38,000
+What did you get?
+Tails, OK, that's the first
+
+669
+00:44:38,000 --> 00:44:42,000
+random bit.
+But we are going to do is build
+
+670
+00:44:42,000 --> 00:44:45,000
+a skip list.
+Maybe I should tell you how
+
+671
+00:44:45,000 --> 00:44:48,000
+first.
+OK, but the idea is flip a
+
+672
+00:44:48,000 --> 00:44:50,000
+coin.
+If it's heads,
+
+673
+00:44:50,000 --> 00:44:55,000
+so, sorry, if it's heads,
+we will promote it to the next
+
+674
+00:44:55,000 --> 00:45:03,000
+level, and flip again.
+So, this is an answer to the
+
+675
+00:45:03,000 --> 00:45:10,000
+question, which other lists
+should store x?
+
+676
+00:45:10,000 --> 00:45:16,000
+How many other lists should we
+add x to?
+
+677
+00:45:16,000 --> 00:45:22,000
+Well, the algorithm is,
+flip a coin,
+
+678
+00:45:22,000 --> 00:45:28,000
+and if it comes out heads,
+then promote x.
+
+679
+00:45:28,000 --> 00:45:36,000
+to the next level up,
+and flip again.
+
+680
+00:45:36,000 --> 00:45:39,000
+OK, that's key because we might
+want this element to go
+
+681
+00:45:39,000 --> 00:45:41,000
+arbitrarily high.
+But for starters,
+
+682
+00:45:41,000 --> 00:45:43,000
+we flip a coin.
+It doesn't go to the next
+
+683
+00:45:43,000 --> 00:45:45,000
+level.
+Well, we'd like it to go to the
+
+684
+00:45:45,000 --> 00:45:49,000
+next level with probability one
+half because we want the ratio
+
+685
+00:45:49,000 --> 00:45:51,000
+between these two sizes to be a
+half, or sorry,
+
+686
+00:45:51,000 --> 00:45:54,000
+two, depending which way you
+take the ratio.
+
+687
+00:45:54,000 --> 00:45:56,000
+So, I want roughly half the
+elements up here.
+
+688
+00:45:56,000 --> 00:45:58,000
+So, I flip a coin.
+If it comes up heads,
+
+689
+00:45:58,000 --> 00:46:02,000
+I go up here.
+This is a fair coin.
+
+690
+00:46:02,000 --> 00:46:05,000
+So I want it 50-50.
+OK, then how many should that
+
+691
+00:46:05,000 --> 00:46:07,000
+element go up to the next level
+up?
+
+692
+00:46:07,000 --> 00:46:09,000
+Well, with 50% probability
+again.
+
+693
+00:46:09,000 --> 00:46:12,000
+So, I flip another point.
+If it comes up heads,
+
+694
+00:46:12,000 --> 00:46:15,000
+I'll go up another level.
+And that will maintain the
+
+695
+00:46:15,000 --> 00:46:19,000
+approximate ratio between these
+two guys as being two.
+
+696
+00:46:19,000 --> 00:46:21,000
+The expected ratio will
+definitely be two,
+
+697
+00:46:21,000 --> 00:46:25,000
+and so on, all the way up.
+If I go up to the top and flip
+
+698
+00:46:25,000 --> 00:46:28,000
+a coin, it comes up heads,
+I'll make another level.
+
+699
+00:46:28,000 --> 00:46:33,000
+This is the insertion
+algorithm: dead simple.
+
+700
+00:46:33,000 --> 00:46:38,000
+The fancier one you will see on
+your problem set.
+
+701
+00:46:38,000 --> 00:46:40,000
+So, let's do it.
+
+702
+00:46:40,000 --> 00:46:49,000
+
+
+703
+00:46:49,000 --> 00:46:53,000
+OK, I also need someone to
+generate random numbers.
+
+704
+00:46:53,000 --> 00:46:56,000
+Who can generate random
+numbers?
+
+705
+00:46:56,000 --> 00:47:00,000
+Pseudo-random?
+I'll give you a quarter.
+
+706
+00:47:00,000 --> 00:47:02,000
+I have one here.
+Here you go.
+
+707
+00:47:02,000 --> 00:47:05,000
+That's a boring quarter.
+Who would like to generate
+
+708
+00:47:05,000 --> 00:47:08,000
+random numbers?
+Someone volunteering someone
+
+709
+00:47:08,000 --> 00:47:10,000
+else: that's a good way to do
+it.
+
+710
+00:47:10,000 --> 00:47:13,000
+Here you go.
+You get a quarter,
+
+711
+00:47:13,000 --> 00:47:15,000
+but you're not allowed to flip
+it.
+
+712
+00:47:15,000 --> 00:47:18,000
+No randomness for you;
+well, OK, you can generate
+
+713
+00:47:18,000 --> 00:47:22,000
+bits, and then compute a number.
+So, give me a number.
+
+714
+00:47:22,000 --> 00:47:25,000
+44, can answer.
+OK, we already flipped a coin
+
+715
+00:47:25,000 --> 00:47:27,000
+and I got tails.
+Done.
+
+716
+00:47:27,000 --> 00:47:33,000
+That's the insertion algorithm.
+I'm going to make some more
+
+717
+00:47:33,000 --> 00:47:36,000
+space actually,
+put it way down here.
+
+718
+00:47:36,000 --> 00:47:41,000
+OK, so 44 does not get promoted
+because we got a tails.
+
+719
+00:47:41,000 --> 00:47:46,000
+So, give me another number.
+Nine, OK, I search for nine in
+
+720
+00:47:46,000 --> 00:47:49,000
+this list.
+I should mention one other
+
+721
+00:47:49,000 --> 00:47:53,000
+thing, sorry.
+I need a small change.
+
+722
+00:47:53,000 --> 00:47:57,000
+This is just to make sure
+searches still work.
+
+723
+00:47:57,000 --> 00:48:02,000
+So, the worry is suppose I
+insert something bigger and then
+
+724
+00:48:02,000 --> 00:48:07,000
+I promote it.
+This would look very bad for a
+
+725
+00:48:07,000 --> 00:48:11,000
+skip list data structure because
+I always want to start at the
+
+726
+00:48:11,000 --> 00:48:13,000
+top left, and now there's no top
+left.
+
+727
+00:48:13,000 --> 00:48:17,000
+So, just minor change:
+just let me remember that.
+
+728
+00:48:17,000 --> 00:48:21,000
+The minor change is that I'm
+going to store a special value
+
+729
+00:48:21,000 --> 00:48:25,000
+minus infinity in every list.
+So, minus infinity always gets
+
+730
+00:48:25,000 --> 00:48:29,000
+promoted all the way to the top,
+whatever the top happens to be
+
+731
+00:48:29,000 --> 00:48:32,000
+now.
+So, initially,
+
+732
+00:48:32,000 --> 00:48:35,000
+that way I'll always have a top
+left.
+
+733
+00:48:35,000 --> 00:48:38,000
+Sorry, I forgot to mention
+that.
+
+734
+00:48:38,000 --> 00:48:41,000
+So, initially I'll just have
+minus infinity.
+
+735
+00:48:41,000 --> 00:48:45,000
+Then I insert 44.
+I say, OK, 44 goes there,
+
+736
+00:48:45,000 --> 00:48:47,000
+no promotion,
+done.
+
+737
+00:48:47,000 --> 00:48:49,000
+Now, we're going to insert
+nine.
+
+738
+00:48:49,000 --> 00:48:53,000
+Nine goes here.
+So, minus infinity to nine,
+
+739
+00:48:53,000 --> 00:48:55,000
+flip your coin,
+heads.
+
+740
+00:48:55,000 --> 00:49:00,000
+Did he actually flip it?
+OK, good.
+
+741
+00:49:00,000 --> 00:49:02,000
+He flipped it before,
+yeah, sure.
+
+742
+00:49:02,000 --> 00:49:04,000
+I'm just giving you a hard
+time.
+
+743
+00:49:04,000 --> 00:49:09,000
+So, we have nine up here.
+We need to maintain this minus
+
+744
+00:49:09,000 --> 00:49:13,000
+infinity just to make sure it
+gets promoted along with
+
+745
+00:49:13,000 --> 00:49:16,000
+everything else.
+So, that looks like a nice skip
+
+746
+00:49:16,000 --> 00:49:18,000
+list.
+Flip it again.
+
+747
+00:49:18,000 --> 00:49:21,000
+Tails, good.
+OK, so this looks like an ideal
+
+748
+00:49:21,000 --> 00:49:23,000
+skip list.
+Isn't that great?
+
+749
+00:49:23,000 --> 00:49:27,000
+It works every time.
+OK, give me another number.
+
+750
+00:49:27,000 --> 00:49:32,000
+26, OK, so I search for 26.
+26 goes here.
+
+751
+00:49:32,000 --> 00:49:36,000
+It clearly goes on the bottom
+list.
+
+752
+00:49:36,000 --> 00:49:41,000
+Here we go, 26,
+and then I you raised 44.
+
+753
+00:49:41,000 --> 00:49:46,000
+Flip.
+Tails, OK, another number.
+
+754
+00:49:46,000 --> 00:49:52,000
+50, oh, a big one.
+It costs me a little while to
+
+755
+00:49:52,000 --> 00:00:50,000
+search, and I get over here.
+
+756
+00:49:56,000 --> 00:49:58,000
+Flip.
+Heads, good.
+
+757
+00:49:58,000 --> 00:50:05,000
+So 50 gets promoted.
+Flip it again.
+
+758
+00:50:05,000 --> 00:50:08,000
+Tails, OK, still a reasonable
+number.
+
+759
+00:50:08,000 --> 00:50:11,000
+Another number?
+12, it takes a little while to
+
+760
+00:50:11,000 --> 00:50:15,000
+get exciting here.
+OK, 12 goes here between nine
+
+761
+00:50:15,000 --> 00:50:18,000
+and 26.
+You're giving me a hard time
+
+762
+00:50:18,000 --> 00:50:20,000
+here.
+OK, flip.
+
+763
+00:50:20,000 --> 00:50:24,000
+Heads, OK, 12 gets promoted.
+I know you have to work a
+
+764
+00:50:24,000 --> 00:50:30,000
+little bit, but we just came
+here to search for 12.
+
+765
+00:50:30,000 --> 00:50:35,000
+So, we know that nine was the
+last point we went down.
+
+766
+00:50:35,000 --> 00:50:39,000
+So, we promote 12.
+It gets inserted up here.
+
+767
+00:50:39,000 --> 00:50:45,000
+We are just inserting into this
+particular linked list:
+
+768
+00:50:45,000 --> 00:50:48,000
+nothing fancy.
+We link the two twelves
+
+769
+00:50:48,000 --> 00:50:52,000
+together.
+It still looks kind of like a
+
+770
+00:50:52,000 --> 00:50:55,000
+linked list.
+Flip again.
+
+771
+00:50:55,000 --> 00:00:37,000
+OK, tails, another number.
+
+772
+00:00:37,000 --> 00:50:58,000
+
+
+773
+00:50:58,000 --> 00:51:02,000
+Jeez.
+It's a good test of memory.
+
+774
+00:51:02,000 --> 00:51:05,000
+37, what was it,
+44 and 50?
+
+775
+00:51:05,000 --> 00:51:08,000
+And 50 was at the next level
+up.
+
+776
+00:51:08,000 --> 00:51:14,000
+I think I should just keep
+appending elements and have you
+
+777
+00:51:14,000 --> 00:51:18,000
+flip coins.
+OK, we just inserted 37.
+
+778
+00:51:18,000 --> 00:51:22,000
+Tails.
+OK, that's getting to be a long
+
+779
+00:51:22,000 --> 00:51:25,000
+chain.
+That looks a bit worse.
+
+780
+00:51:25,000 --> 00:51:29,000
+OK, give me another number
+larger than 50.
+
+781
+00:51:29,000 --> 00:51:34,000
+51, good answer.
+Thank you.
+
+782
+00:51:34,000 --> 00:51:37,000
+OK, flip again.
+And again.
+
+783
+00:51:37,000 --> 00:51:40,000
+Tails.
+Another number.
+
+784
+00:51:40,000 --> 00:51:45,000
+Wait, someone else should pick
+a number.
+
+785
+00:51:45,000 --> 00:51:49,000
+It's not working.
+What did you say?
+
+786
+00:51:49,000 --> 00:51:52,000
+52, good answer.
+Flip.
+
+787
+00:51:52,000 --> 00:51:58,000
+Tails, not surprising.
+We've gotten a lot of heads
+
+788
+00:51:58,000 --> 00:52:03,000
+there.
+OK, another number.
+
+789
+00:52:03,000 --> 00:52:06,000
+53, thank you.
+Flip.
+
+790
+00:52:06,000 --> 00:52:08,000
+Heads, heads,
+OK.
+
+791
+00:52:08,000 --> 00:52:13,000
+Heads, heads,
+you didn't flip.
+
+792
+00:52:13,000 --> 00:52:17,000
+All right, 53,
+you get the idea.
+
+793
+00:52:17,000 --> 00:52:26,000
+If you get two consecutive
+heads, then the guy goes up two
+
+794
+00:52:26,000 --> 00:52:32,000
+levels.
+OK, now flip for real.
+
+795
+00:52:32,000 --> 00:52:33,000
+Heads.
+Finally.
+
+796
+00:52:33,000 --> 00:52:39,000
+Heads we've been waiting for.
+If you flipped three heads in a
+
+797
+00:52:39,000 --> 00:52:44,000
+row, you go three levels.
+And each time,
+
+798
+00:52:44,000 --> 00:52:47,000
+we keep promoting minus
+infinity.
+
+799
+00:52:47,000 --> 00:52:50,000
+Look again.
+Heads, oh my God.
+
+800
+00:52:50,000 --> 00:52:54,000
+Where were they before?
+Flip again.
+
+801
+00:52:54,000 --> 00:53:00,000
+It better be tails this time.
+Tails, good.
+
+802
+00:53:00,000 --> 00:53:04,000
+OK, you get the idea.
+Eventually you run out of board
+
+803
+00:53:04,000 --> 00:53:06,000
+space.
+Now, it's pretty rare that you
+
+804
+00:53:06,000 --> 00:53:10,000
+go too high.
+What's the probability that you
+
+805
+00:53:10,000 --> 00:53:13,000
+go higher than log n?
+Another easy log computation.
+
+806
+00:53:13,000 --> 00:53:17,000
+Each time, I have a 50%
+probability of going up.
+
+807
+00:53:17,000 --> 00:53:22,000
+One in n probability of going
+up log n levels because half to
+
+808
+00:53:22,000 --> 00:53:24,000
+the power of log n is one out of
+n.
+
+809
+00:53:24,000 --> 00:53:28,000
+So, it depends on n,
+but I'm not going to go too
+
+810
+00:53:28,000 --> 00:53:32,000
+high.
+And, intuitively,
+
+811
+00:53:32,000 --> 00:53:37,000
+this is not so bad.
+So, these are skip lists.
+
+812
+00:53:37,000 --> 00:53:44,000
+You have the ratios right in
+expectation, which is a pretty
+
+813
+00:53:44,000 --> 00:53:49,000
+weak statement.
+This doesn't say anything about
+
+814
+00:53:49,000 --> 00:53:54,000
+the lengths of these change.
+But intuitively,
+
+815
+00:53:54,000 --> 00:53:59,000
+it's pretty good.
+Let's say pretty good on
+
+816
+00:53:59,000 --> 00:54:03,000
+average.
+So, I had two semi-random
+
+817
+00:54:03,000 --> 00:54:05,000
+processes going on here.
+One is picking the numbers,
+
+818
+00:54:05,000 --> 00:54:08,000
+and that, I don't want to
+assume anything about.
+
+819
+00:54:08,000 --> 00:54:09,000
+The numbers could be
+adversarial.
+
+820
+00:54:09,000 --> 00:54:12,000
+It could be sequential.
+It could be reverse sorted.
+
+821
+00:54:12,000 --> 00:54:14,000
+It could be random.
+I don't know.
+
+822
+00:54:14,000 --> 00:54:15,000
+So, it didn't matter what he
+said.
+
+823
+00:54:15,000 --> 00:54:18,000
+At least, it shouldn't matter.
+I mean, it matters here.
+
+824
+00:54:18,000 --> 00:54:20,000
+Don't worry.
+You're still loved.
+
+825
+00:54:20,000 --> 00:54:22,000
+You still get your $0.25.
+But what the algorithm cares
+
+826
+00:54:22,000 --> 00:54:24,000
+about is the outcomes of these
+coins.
+
+827
+00:54:24,000 --> 00:54:27,000
+And the probability,
+the statement that this data
+
+828
+00:54:27,000 --> 00:54:30,000
+structure is fast with high
+probability is only about the
+
+829
+00:54:30,000 --> 00:54:34,000
+random coins.
+Right, it doesn't matter what
+
+830
+00:54:34,000 --> 00:54:38,000
+the adversary chooses for
+numbers as long as those coins
+
+831
+00:54:38,000 --> 00:54:43,000
+are random, and the adversary
+doesn't know the coins.
+
+832
+00:54:43,000 --> 00:54:46,000
+It doesn't know the outcomes of
+the coins.
+
+833
+00:54:46,000 --> 00:54:50,000
+So, in that case,
+on average, overall of the coin
+
+834
+00:54:50,000 --> 00:54:55,000
+flips, you should be OK.
+But the claim is not just that
+
+835
+00:54:55,000 --> 00:54:58,000
+it's pretty good on average.
+But, it's really,
+
+836
+00:54:58,000 --> 00:55:03,000
+really good almost always.
+OK, with really high
+
+837
+00:55:03,000 --> 00:55:07,000
+probability it's log n.
+So, for example,
+
+838
+00:55:07,000 --> 00:55:10,000
+with probability,
+one minus one over n,
+
+839
+00:55:10,000 --> 00:55:15,000
+it's order of log n,
+with probability one minus one
+
+840
+00:55:15,000 --> 00:55:19,000
+over n^2 it's log n,
+probability one minus one over
+
+841
+00:55:19,000 --> 00:55:24,000
+n^100, it's order log n.
+All those statements are true
+
+842
+00:55:24,000 --> 00:55:30,000
+for any value of 100.
+So, that's where we're going.
+
+843
+00:55:30,000 --> 00:55:33,000
+OK, I should mention,
+how do you delete in a skip
+
+844
+00:55:33,000 --> 00:55:34,000
+list?
+Find the element.
+
+845
+00:55:34,000 --> 00:55:37,000
+You delete it all the way.
+There's nothing fancy with
+
+846
+00:55:37,000 --> 00:55:40,000
+delete.
+Because we have all these
+
+847
+00:55:40,000 --> 00:55:43,000
+independent, random choices,
+all of these elements are sort
+
+848
+00:55:43,000 --> 00:55:47,000
+of independent from each other.
+We don't really care.
+
+849
+00:55:47,000 --> 00:55:49,000
+So, delete an element,
+just throw it away.
+
+850
+00:55:49,000 --> 00:55:53,000
+The tricky part is insertion.
+When I insert an element,
+
+851
+00:55:53,000 --> 00:55:56,000
+I'm just going to randomly see
+how high it should go.
+
+852
+00:55:56,000 --> 00:56:00,000
+With probability one over two
+to the i, it will go to height
+
+853
+00:56:00,000 --> 00:56:04,000
+i.
+Good, that's my time.
+
+854
+00:56:04,000 --> 00:56:08,000
+I've been having too much fun
+here.
+
+855
+00:56:08,000 --> 00:56:14,000
+I've got to go a little bit
+faster, OK.
+
+856
+00:56:14,000 --> 00:56:25,000
+
+
+857
+00:56:25,000 --> 00:56:32,000
+So here's the theorem.
+Let's see exactly what we are
+
+858
+00:56:32,000 --> 00:56:38,000
+proving first.
+With high probability,
+
+859
+00:56:38,000 --> 00:56:46,000
+this is a formal notion which I
+will define a second.
+
+860
+00:56:46,000 --> 00:56:55,000
+Every search in n elements skip
+lists costs order of log n.
+
+861
+00:56:55,000 --> 00:57:03,000
+So, that's the theorem.
+Now I need to define with high
+
+862
+00:57:03,000 --> 00:57:06,000
+probability.
+So, with high probability.
+
+863
+00:57:06,000 --> 00:57:10,000
+And, it's a bit of a long
+phrase.
+
+864
+00:57:10,000 --> 00:57:15,000
+So, often we will,
+and you can abbreviate it WHP.
+
+865
+00:57:15,000 --> 00:57:20,000
+So, if I have a random event,
+and the random event here is
+
+866
+00:57:20,000 --> 00:57:26,000
+that every search in an n
+element skip list costs order
+
+867
+00:57:26,000 --> 00:57:32,000
+log n, I want to know what it
+means for that event E to occur
+
+868
+00:57:32,000 --> 00:57:36,000
+with high probability.
+
+869
+00:57:36,000 --> 00:57:47,000
+
+
+870
+00:57:47,000 --> 00:57:53,000
+So this is the definition.
+So, the statement is that for
+
+871
+00:57:53,000 --> 00:58:00,000
+any alpha greater than or equal
+to one, there is a suitable
+
+872
+00:58:00,000 --> 00:58:04,000
+choice of constants --
+
+873
+00:58:04,000 --> 00:58:16,000
+
+
+874
+00:58:16,000 --> 00:58:27,000
+-- for which the event,
+E, occurs with this probability
+
+875
+00:58:27,000 --> 00:58:37,000
+I keep mentioning.
+So, the probability at least
+
+876
+00:58:37,000 --> 00:58:46,000
+one minus one over n to the
+alpha.
+
+877
+00:58:46,000 --> 00:58:49,000
+So, this is a bit imprecise,
+but it will suffice for our
+
+878
+00:58:49,000 --> 00:58:52,000
+purposes.
+If you want to really formal
+
+879
+00:58:52,000 --> 00:58:55,000
+definition, you can read the
+lecture notes.
+
+880
+00:58:55,000 --> 00:58:59,000
+There are special lecture notes
+for this lecture on the stellar
+
+881
+00:58:59,000 --> 00:59:01,000
+site.
+And, there's the PowerPoint
+
+882
+00:59:01,000 --> 00:59:06,000
+notes on the SMA site.
+But, right, there's a bit of a
+
+883
+00:59:06,000 --> 00:59:08,000
+subtlety in the choice of
+constants here.
+
+884
+00:59:08,000 --> 00:59:11,000
+There is a choice of this
+constant.
+
+885
+00:59:11,000 --> 00:59:14,000
+And there's a choice of this
+constant.
+
+886
+00:59:14,000 --> 00:59:16,000
+And, these are related.
+And, there's alpha,
+
+887
+00:59:16,000 --> 00:59:19,000
+which we get to whatever we
+want.
+
+888
+00:59:19,000 --> 00:59:22,000
+But the bottom line is,
+we get to choose what
+
+889
+00:59:22,000 --> 00:59:24,000
+probability we want this to be
+true.
+
+890
+00:59:24,000 --> 00:59:28,000
+If I want it to be true,
+with probability one minus one
+
+891
+00:59:28,000 --> 00:59:32,000
+over n^100, I can do that.
+I just sat alpha to a hundred,
+
+892
+00:59:32,000 --> 00:59:37,000
+and up to this little constant
+that's going to grow much slower
+
+893
+00:59:37,000 --> 00:59:41,000
+than n to the alpha.
+I get the error probability.
+
+894
+00:59:41,000 --> 00:59:45,000
+So this thing is called the
+error probability.
+
+895
+00:59:45,000 --> 00:59:48,000
+The probability that I fail is
+polynomially small,
+
+896
+00:59:48,000 --> 00:59:51,000
+for any polynomial I want.
+Now, with the same data
+
+897
+00:59:51,000 --> 00:59:54,000
+structure, right,
+I fixed the data structure.
+
+898
+00:59:54,000 --> 00:59:57,000
+It doesn't depend on alpha.
+Anything you want,
+
+899
+00:59:57,000 --> 01:00:01,717
+any alpha value you want,
+this data structure will take
+
+900
+01:00:01,717 --> 01:00:06,692
+order of log n time.
+Now, this constant will depend
+
+901
+01:00:06,692 --> 01:00:08,666
+on alpha.
+So, you know,
+
+902
+01:00:08,666 --> 01:00:14,141
+you want error probability one
+over n^100 is probably going to
+
+903
+01:00:14,141 --> 01:00:17,461
+be, like, 100 log n.
+It's still log n.
+
+904
+01:00:17,461 --> 01:00:22,128
+OK, this is a very strong claim
+about the tale of the
+
+905
+01:00:22,128 --> 01:00:27,064
+distribution of the running time
+of search, very strong.
+
+906
+01:00:27,064 --> 01:00:32,000
+Let me give you an idea of how
+strong it is.
+
+907
+01:00:32,000 --> 01:00:36,731
+How many people know what
+Boole's inequality is?
+
+908
+01:00:36,731 --> 01:00:42,671
+How many people know what the
+union bound is in probability?
+
+909
+01:00:42,671 --> 01:00:45,691
+You should.
+It's in appendix c.
+
+910
+01:00:45,691 --> 01:00:49,214
+Maybe you'll know it by the
+theorem.
+
+911
+01:00:49,214 --> 01:00:55,154
+It's good to know it by name.
+It's sort of like linearity of
+
+912
+01:00:55,154 --> 01:00:58,476
+expectations.
+It's a lot easier to
+
+913
+01:00:58,476 --> 01:01:03,978
+communicate to someone.
+Linearity of expectations:
+
+914
+01:01:03,978 --> 01:01:07,554
+instead of saying,
+you know that thing where you
+
+915
+01:01:07,554 --> 01:01:11,510
+sum up all the expectations of
+things, and that's the
+
+916
+01:01:11,510 --> 01:01:15,086
+expectation of the sum?
+It's a lot easier to say
+
+917
+01:01:15,086 --> 01:01:18,815
+linearity of expectation.
+So, let me quiz you in a
+
+918
+01:01:18,815 --> 01:01:21,706
+different way.
+So, if I take a bunch of
+
+919
+01:01:21,706 --> 01:01:26,119
+events, and I take their union,
+either this happens or this
+
+920
+01:01:26,119 --> 01:01:29,847
+happens, or so on.
+So, this is the inclusive OR of
+
+921
+01:01:29,847 --> 01:01:31,521
+k events.
+And, instead,
+
+922
+01:01:31,521 --> 01:01:37,000
+I look at the sum of the
+probabilities of those events.
+
+923
+01:01:37,000 --> 01:01:40,111
+OK, easy question:
+are these equal?
+
+924
+01:01:40,111 --> 01:01:42,947
+No, unless they are
+independent.
+
+925
+01:01:42,947 --> 01:01:47,248
+But can I say anything about
+them, any relation?
+
+926
+01:01:47,248 --> 01:01:51,183
+Smaller, yeah.
+This is less than or equal to
+
+927
+01:01:51,183 --> 01:01:54,477
+that.
+OK, this should be intuitive to
+
+928
+01:01:54,477 --> 01:01:57,771
+you from a probability point of
+view.
+
+929
+01:01:57,771 --> 01:02:01,705
+Look at the textbook.
+OK: very basic result,
+
+930
+01:02:01,705 --> 01:02:07,041
+trivial result almost.
+What does this tell us?
+
+931
+01:02:07,041 --> 01:02:11,479
+Well, suppose that E_i is some
+kind of error event.
+
+932
+01:02:11,479 --> 01:02:15,295
+We don't want it to happen.
+OK, and suppose,
+
+933
+01:02:15,295 --> 01:02:19,467
+mix some letters here.
+Suppose I have a bunch of
+
+934
+01:02:19,467 --> 01:02:23,017
+events which occur with high
+probability.
+
+935
+01:02:23,017 --> 01:02:26,745
+OK, call those E_i complement.
+So, suppose,
+
+936
+01:02:26,745 --> 01:02:31,893
+so this is the end of that
+statement, E_i complement occurs
+
+937
+01:02:31,893 --> 01:02:37,063
+with high probability.
+OK, so then the probability of
+
+938
+01:02:37,063 --> 01:02:39,609
+E_i is very small,
+polynomially small.
+
+939
+01:02:39,609 --> 01:02:42,636
+One over n to the alpha for any
+alpha I want.
+
+940
+01:02:42,636 --> 01:02:46,007
+Now, suppose I take a whole
+bunch of these events,
+
+941
+01:02:46,007 --> 01:02:48,690
+and let's say that k is
+polynomial in n.
+
+942
+01:02:48,690 --> 01:02:52,405
+So, I take a bunch of events,
+which I'd like to happen.
+
+943
+01:02:52,405 --> 01:02:54,882
+They all occur with high
+probability.
+
+944
+01:02:54,882 --> 01:02:57,565
+There is only polynomially many
+of them.
+
+945
+01:02:57,565 --> 01:03:00,316
+So let's say,
+let me give this constant a
+
+946
+01:03:00,316 --> 01:03:03,000
+name.
+Let's call it c.
+
+947
+01:03:03,000 --> 01:03:05,873
+Let's say I take n to the c
+such events.
+
+948
+01:03:05,873 --> 01:03:09,926
+Well, what's the probability
+that all those events occur
+
+949
+01:03:09,926 --> 01:03:12,873
+together?
+Because they should rest of the
+
+950
+01:03:12,873 --> 01:03:17,073
+time occurred together because
+each one occurs most of the
+
+951
+01:03:17,073 --> 01:03:19,578
+time, occurs with high
+probability.
+
+952
+01:03:19,578 --> 01:03:23,115
+So, I want to look at E_1 bar
+intersect, E_2 bar,
+
+953
+01:03:23,115 --> 01:03:25,842
+and so on.
+So, each of these occurs as
+
+954
+01:03:25,842 --> 01:03:29,378
+high probability.
+What's the chance that they all
+
+955
+01:03:29,378 --> 01:03:32,166
+occur?
+It's also with high
+
+956
+01:03:32,166 --> 01:03:34,316
+probability.
+I'm changing the alpha.
+
+957
+01:03:34,316 --> 01:03:37,817
+So, the union bound tells me
+the probability of any one of
+
+958
+01:03:37,817 --> 01:03:40,090
+these failing,
+the probability of this
+
+959
+01:03:40,090 --> 01:03:42,608
+failing, or this failing,
+or this failing,
+
+960
+01:03:42,608 --> 01:03:44,573
+which is this thing,
+is, at most,
+
+961
+01:03:44,573 --> 01:03:47,276
+the sum of the probabilities of
+each failure.
+
+962
+01:03:47,276 --> 01:03:49,303
+These are the error
+probabilities.
+
+963
+01:03:49,303 --> 01:03:52,619
+I know that each of them is,
+at most, one over n to the
+
+964
+01:03:52,619 --> 01:03:55,875
+alpha, with a constant in front.
+If I add them all up,
+
+965
+01:03:55,875 --> 01:03:57,779
+there's only n to the c of
+them.
+
+966
+01:03:57,779 --> 01:04:01,034
+So, I take this error
+probability, and I multiply by n
+
+967
+01:04:01,034 --> 01:04:05,400
+to the c.
+So, I get like n to the c over
+
+968
+01:04:05,400 --> 01:04:08,679
+n to the alpha,
+which is one over n to the
+
+969
+01:04:08,679 --> 01:04:11,960
+alpha minus c.
+I can set alpha as big as I
+
+970
+01:04:11,960 --> 01:04:13,880
+want.
+So, I said it much,
+
+971
+01:04:13,880 --> 01:04:17,880
+much bigger than c,
+and this event occurs with high
+
+972
+01:04:17,880 --> 01:04:21,000
+probability.
+I sort of made a mess here,
+
+973
+01:04:21,000 --> 01:04:25,719
+but this event occurs with high
+probability because of this.
+
+974
+01:04:25,719 --> 01:04:30,599
+Whatever the constant is here,
+however many events I'm taking,
+
+975
+01:04:30,599 --> 01:04:35,000
+I just set alpha to be bigger
+than that.
+
+976
+01:04:35,000 --> 01:04:37,951
+And, this event will occur with
+high probability,
+
+977
+01:04:37,951 --> 01:04:40,041
+too.
+So, when I say here that every
+
+978
+01:04:40,041 --> 01:04:42,992
+search of cost order log n with
+high probability,
+
+979
+01:04:42,992 --> 01:04:46,005
+not only do I mean that if you
+look at one search,
+
+980
+01:04:46,005 --> 01:04:48,587
+it costs order log n with high
+probability.
+
+981
+01:04:48,587 --> 01:04:51,969
+You look at another search,
+and it costs log n with high
+
+982
+01:04:51,969 --> 01:04:54,244
+probability.
+I mean, if you take every
+
+983
+01:04:54,244 --> 01:04:57,318
+search, all of them take order
+log n time with high
+
+984
+01:04:57,318 --> 01:04:59,593
+probability.
+So, this event that every
+
+985
+01:04:59,593 --> 01:05:03,036
+single search you do takes order
+log n, is true with high
+
+986
+01:05:03,036 --> 01:05:06,663
+probability estimate the number
+of searches you are doing is
+
+987
+01:05:06,663 --> 01:05:10,887
+polynomial in n.
+So, I'm assuming that I'm not
+
+988
+01:05:10,887 --> 01:05:14,467
+using this data structure
+forever, just for a polynomial
+
+989
+01:05:14,467 --> 01:05:17,136
+amount of time.
+But, who's got more than a
+
+990
+01:05:17,136 --> 01:05:19,218
+polynomial amount of time
+anyway?
+
+991
+01:05:19,218 --> 01:05:21,757
+This is MIT.
+So, hopefully that's clear.
+
+992
+01:05:21,757 --> 01:05:24,035
+We'll see it a few more times.
+Yeah?
+
+993
+01:05:24,035 --> 01:05:26,443
+The algorithm doesn't depend on
+Alpha.
+
+994
+01:05:26,443 --> 01:05:31,000
+The question is how do you
+choose alpha in the algorithm.
+
+995
+01:05:31,000 --> 01:05:33,925
+So, we don't need to.
+This is just sort of for an
+
+996
+01:05:33,925 --> 01:05:36,668
+analysis tool.
+This is saying that the farther
+
+997
+01:05:36,668 --> 01:05:39,838
+out you get, so you say,
+well, what's the probability
+
+998
+01:05:39,838 --> 01:05:43,190
+that more than ten log n.
+Well, it's like one over n^10.
+
+999
+01:05:43,190 --> 01:05:46,238
+Let's say it's linear.
+Well, what's the chance that
+
+1000
+01:05:46,238 --> 01:05:49,407
+you're more than 20 log n?
+Well that's one over n^20.
+
+1001
+01:05:49,407 --> 01:05:52,942
+So, the point is the tail of
+this distribution is getting a
+
+1002
+01:05:52,942 --> 01:05:54,466
+really small,
+really fast.
+
+1003
+01:05:54,466 --> 01:05:57,758
+And, such using alpha is more
+like sort of for your own
+
+1004
+01:05:57,758 --> 01:06:00,135
+feeling good.
+OK, you can set it to 100,
+
+1005
+01:06:00,135 --> 01:06:05,209
+and then n is at least two.
+So, that's like one over 2^100
+
+1006
+01:06:05,209 --> 01:06:08,082
+chance that you fail.
+That's damn small.
+
+1007
+01:06:08,082 --> 01:06:11,322
+If you've got a real random
+number generator,
+
+1008
+01:06:11,322 --> 01:06:15,668
+the chance that you're going to
+hit one over 2^200 is pretty
+
+1009
+01:06:15,668 --> 01:06:18,762
+tiny, right?
+So, let's say you set alpha to
+
+1010
+01:06:18,762 --> 01:06:21,266
+256, which is always a good
+number.
+
+1011
+01:06:21,266 --> 01:06:25,759
+2^256 is much bigger than the
+number of particles in the known
+
+1012
+01:06:25,759 --> 01:06:29,000
+universe, so,
+the light matter.
+
+1013
+01:06:29,000 --> 01:06:32,898
+So, actually I think this even
+accounts for some notion of dark
+
+1014
+01:06:32,898 --> 01:06:34,533
+matter.
+So, this is really,
+
+1015
+01:06:34,533 --> 01:06:37,615
+really, really big.
+So, the chance that you pick a
+
+1016
+01:06:37,615 --> 01:06:41,576
+random particle in the universe
+that happens to be your favorite
+
+1017
+01:06:41,576 --> 01:06:45,161
+particle, this one right here,
+that's over one over 2^256,
+
+1018
+01:06:45,161 --> 01:06:47,487
+or even smaller.
+So, set alpha to 256,
+
+1019
+01:06:47,487 --> 01:06:51,260
+the chance to your algorithm
+takes more than order log n time
+
+1020
+01:06:51,260 --> 01:06:54,907
+is a lot smaller than the chance
+that a meteor strikes your
+
+1021
+01:06:54,907 --> 01:06:58,680
+computer at the same time that
+it has a flooding point error,
+
+1022
+01:06:58,680 --> 01:07:02,642
+at the same time that the earth
+explodes because they're putting
+
+1023
+01:07:02,642 --> 01:07:06,415
+a transport through this part of
+the solar system at the same
+
+1024
+01:07:06,415 --> 01:07:08,113
+time, I mean,
+I could go on,
+
+1025
+01:07:08,113 --> 01:07:10,752
+right?
+It's really,
+
+1026
+01:07:10,752 --> 01:07:13,510
+really unlikely that you are
+more than log n.
+
+1027
+01:07:13,510 --> 01:07:15,705
+And how unlikely:
+you get to choose.
+
+1028
+01:07:15,705 --> 01:07:19,467
+But it's just in the analysis
+the algorithm doesn't depend on
+
+1029
+01:07:19,467 --> 01:07:21,159
+it.
+It's the same algorithm,
+
+1030
+01:07:21,159 --> 01:07:23,040
+very cool.
+Sometimes, with high
+
+1031
+01:07:23,040 --> 01:07:25,297
+probability, bounds depends on
+alpha.
+
+1032
+01:07:25,297 --> 01:07:27,680
+I mean, the algorithm depends
+on alpha.
+
+1033
+01:07:27,680 --> 01:07:32,307
+But here, it will not.
+OK, away we go.
+
+1034
+01:07:32,307 --> 01:07:37,692
+So now you all understand the
+claim.
+
+1035
+01:07:37,692 --> 01:07:45,384
+So let's do a warm up.
+We will also need this fact.
+
+1036
+01:07:45,384 --> 01:07:52,769
+But it's pretty easy.
+The lemma is that with high
+
+1037
+01:07:52,769 --> 01:08:01,692
+probability, the number of
+levels in the skip list is order
+
+1038
+01:08:01,692 --> 01:08:06,266
+log n.
+I think it's order log n,
+
+1039
+01:08:06,266 --> 01:08:09,349
+certainly.
+So, how do we prove that
+
+1040
+01:08:09,349 --> 01:08:12,613
+something happens with high
+probably?
+
+1041
+01:08:12,613 --> 01:08:18,144
+Compute the probability that it
+happened; show that it's high.
+
+1042
+01:08:18,144 --> 01:08:22,676
+Even if you don't know what
+high probability means,
+
+1043
+01:08:22,676 --> 01:08:26,122
+in fact, I used to ask that
+earlier on.
+
+1044
+01:08:26,122 --> 01:08:30,746
+So, let's compute the chance
+that it doesn't happen,
+
+1045
+01:08:30,746 --> 01:08:35,551
+the error probability,
+because that's just a one minus
+
+1046
+01:08:35,551 --> 01:08:39,448
+the cleaner.
+So, I'd like to say,
+
+1047
+01:08:39,448 --> 01:08:42,710
+let's say, that it's,
+at most, c log n levels.
+
+1048
+01:08:42,710 --> 01:08:46,115
+So, what's the error
+probability for that event?
+
+1049
+01:08:46,115 --> 01:08:50,028
+This is sort of an event.
+I'll put it in squiggles just
+
+1050
+01:08:50,028 --> 01:08:53,000
+for, all set.
+This is the probability that
+
+1051
+01:08:53,000 --> 01:08:56,260
+they are strictly greater than c
+log n levels.
+
+1052
+01:08:56,260 --> 01:09:00,173
+So, I want to say that that
+probability is particularly
+
+1053
+01:09:00,173 --> 01:09:04,683
+small, polynomially small.
+Well, how do I make levels?
+
+1054
+01:09:04,683 --> 01:09:07,551
+When I insert an element,
+the probability half,
+
+1055
+01:09:07,551 --> 01:09:09,984
+it goes up.
+And, the number of levels in
+
+1056
+01:09:09,984 --> 01:09:13,725
+the skip list is the max over
+all the elements of how high it
+
+1057
+01:09:13,725 --> 01:09:15,035
+goes up.
+But, max, oh,
+
+1058
+01:09:15,035 --> 01:09:17,779
+that's a mess.
+All right, you can compute the
+
+1059
+01:09:17,779 --> 01:09:21,022
+expectation of the max if you
+have a bunch of unknown
+
+1060
+01:09:21,022 --> 01:09:24,202
+variables; there is expectation
+there is a constant,
+
+1061
+01:09:24,202 --> 01:09:26,759
+and you take the max.
+It's like log in and
+
+1062
+01:09:26,759 --> 01:09:31,000
+expectation, but we want a much
+stronger statement.
+
+1063
+01:09:31,000 --> 01:09:35,815
+And, we have this Boole's
+inequality that says I have a
+
+1064
+01:09:35,815 --> 01:09:39,471
+bunch of things,
+polynomially many things.
+
+1065
+01:09:39,471 --> 01:09:43,841
+Let's say we have n items.
+Each one independently,
+
+1066
+01:09:43,841 --> 01:09:47,142
+I don't even care if it's a
+dependent.
+
+1067
+01:09:47,142 --> 01:09:52,582
+If it goes up more than c log
+n, yeah, the number of levels is
+
+1068
+01:09:52,582 --> 01:09:55,258
+more than c log n.
+So, this is,
+
+1069
+01:09:55,258 --> 01:10:00,163
+at most, and then I want to
+know, do any of those events
+
+1070
+01:10:00,163 --> 01:10:03,017
+happen for any of the n
+elements?
+
+1071
+01:10:03,017 --> 01:10:06,762
+So, I just multiplied by n.
+It's certainly,
+
+1072
+01:10:06,762 --> 01:10:10,597
+at most, n times the
+probability that x gets
+
+1073
+01:10:10,597 --> 01:10:15,502
+promoted, this much here,
+greater than or equal to log n
+
+1074
+01:10:15,502 --> 01:10:18,734
+times.
+OK, if I pick,
+
+1075
+01:10:18,734 --> 01:10:21,041
+for any element,
+x, because it's the same for
+
+1076
+01:10:21,041 --> 01:10:23,191
+each element.
+They are done independently.
+
+1077
+01:10:23,191 --> 01:10:26,179
+So, I'm just summing over x
+here, and that's just a factor
+
+1078
+01:10:26,179 --> 01:10:26,756
+of n.
+Clear?
+
+1079
+01:10:26,756 --> 01:10:29,588
+This is Boole's inequality.
+Now, what's the probability
+
+1080
+01:10:29,588 --> 01:10:32,000
+that x gets promoted c log n
+times?
+
+1081
+01:10:32,000 --> 01:10:36,646
+We did this before for log n.
+It was one over n.
+
+1082
+01:10:36,646 --> 01:10:40,305
+For c log n,
+it's one over n to the c.
+
+1083
+01:10:40,305 --> 01:10:44,161
+OK, this is n times two.
+Let's be nicer:
+
+1084
+01:10:44,161 --> 01:10:47,324
+one half to the power of c log
+n.
+
+1085
+01:10:47,324 --> 01:10:53,257
+One half to the power of c log
+n is one over two to the c log
+
+1086
+01:10:53,257 --> 01:10:55,926
+n.
+The log n comes out here,
+
+1087
+01:10:55,926 --> 01:10:58,991
+becomes an n.
+We get n to the c.
+
+1088
+01:10:58,991 --> 01:11:05,022
+So, this is n divided by n to
+the c, which is n to the c minus
+
+1089
+01:11:05,022 --> 01:11:09,904
+one.
+And, I get to choose c to be
+
+1090
+01:11:09,904 --> 01:11:14,676
+whatever I want.
+So, I choose c minus one to be
+
+1091
+01:11:14,676 --> 01:11:17,477
+alpha.
+I think exactly that.
+
+1092
+01:11:17,477 --> 01:11:21,626
+Oh, sorry, one over n to the c
+minus one.
+
+1093
+01:11:21,626 --> 01:11:24,634
+Thank you.
+It better be small.
+
+1094
+01:11:24,634 --> 01:11:30,236
+This is an upper bound.
+So, probability is polynomially
+
+1095
+01:11:30,236 --> 01:11:32,956
+small.
+I get to choose,
+
+1096
+01:11:32,956 --> 01:11:36,484
+and this is a bit of the trik.
+I'm choosing this constant to
+
+1097
+01:11:36,484 --> 01:11:38,397
+be large, large enough for
+alpha.
+
+1098
+01:11:38,397 --> 01:11:40,610
+The point is,
+as c grows, alpha grows.
+
+1099
+01:11:40,610 --> 01:11:43,480
+Therefore, I can set alpha to
+be whatever I want,
+
+1100
+01:11:43,480 --> 01:11:46,290
+set c accordingly.
+So, there's a little bit more
+
+1101
+01:11:46,290 --> 01:11:49,459
+words that have to go here.
+But, they're in the notes.
+
+1102
+01:11:49,459 --> 01:11:51,851
+I can set alpha to be as large
+as I want.
+
+1103
+01:11:51,851 --> 01:11:55,199
+So, I can make this probability
+as small as I want in the
+
+1104
+01:11:55,199 --> 01:11:56,993
+polynomial sets.
+So, that's it.
+
+1105
+01:11:56,993 --> 01:11:58,727
+Number of levels,
+order log n:
+
+1106
+01:11:58,727 --> 01:12:02,224
+wasn't that easy?
+Rules and equality,
+
+1107
+01:12:02,224 --> 01:12:06,026
+the point is that when you're
+dealing with high probability,
+
+1108
+01:12:06,026 --> 01:12:09,377
+use Boole's inequality.
+And, anything that's true for
+
+1109
+01:12:09,377 --> 01:12:12,664
+one element is true for all of
+them, just like that.
+
+1110
+01:12:12,664 --> 01:12:15,886
+Just lose a factor of n,
+but that's just one in the
+
+1111
+01:12:15,886 --> 01:12:18,271
+alpha, and alpha is big:
+big constant,
+
+1112
+01:12:18,271 --> 01:12:21,106
+but it's big.
+OK, so let's prove the theorem.
+
+1113
+01:12:21,106 --> 01:12:23,813
+High probability searches cost
+order log n.
+
+1114
+01:12:23,813 --> 01:12:27,422
+We now know the height is order
+log n, but it depends how
+
+1115
+01:12:27,422 --> 01:12:32,756
+balanced this thing is.
+It depends how long the chains
+
+1116
+01:12:32,756 --> 01:12:36,800
+are to really know that a search
+costs log n.
+
+1117
+01:12:36,800 --> 01:12:41,210
+Just knowing a bound on the
+height is not enough,
+
+1118
+01:12:41,210 --> 01:12:45,805
+unlike a binary tree.
+So, we have one cool idea for
+
+1119
+01:12:45,805 --> 01:12:49,389
+this analysis.
+And it's called backwards
+
+1120
+01:12:49,389 --> 01:12:52,697
+analysis.
+So, normally you think of a
+
+1121
+01:12:52,697 --> 01:12:58,210
+search as starting in the top
+left corner going left and down
+
+1122
+01:12:58,210 --> 01:13:04,000
+until you get to the item that
+you're looking for.
+
+1123
+01:13:04,000 --> 01:13:07,423
+I'm going to look at the
+reverse process.
+
+1124
+01:13:07,423 --> 01:13:12,558
+You start at the item you're
+looking for, and you go left and
+
+1125
+01:13:12,558 --> 01:13:15,896
+up until you get to the top left
+corner.
+
+1126
+01:13:15,896 --> 01:13:20,175
+The number of steps in those
+two walks is the same.
+
+1127
+01:13:20,175 --> 01:13:23,855
+And, I'm not implementing an
+algorithm here,
+
+1128
+01:13:23,855 --> 01:13:27,792
+I'm just doing analysis.
+So, those are the same
+
+1129
+01:13:27,792 --> 01:13:32,671
+processes, just in reverse.
+So, here's what it looks like.
+
+1130
+01:13:32,671 --> 01:13:35,409
+You have a search,
+and it starts,
+
+1131
+01:13:35,409 --> 01:13:42,000
+which really means that it ends
+at a node in the bottom list.
+
+1132
+01:13:42,000 --> 01:13:46,845
+Then, each time you visit a
+node in this search,
+
+1133
+01:13:46,845 --> 01:13:52,618
+you either go left or up.
+And, when do you go left or up?
+
+1134
+01:13:52,618 --> 01:13:56,639
+Well, it depends with the coin
+flip was.
+
+1135
+01:13:56,639 --> 01:14:02,000
+So, if the node wasn't promoted
+at this level.
+
+1136
+01:14:02,000 --> 01:14:08,317
+So, if it wasn't promoted
+higher, and that happened
+
+1137
+01:14:08,317 --> 01:14:14,003
+exactly when we got a tails.
+Then, we go left,
+
+1138
+01:14:14,003 --> 01:14:19,057
+which really means we came from
+the left.
+
+1139
+01:14:19,057 --> 01:14:25,754
+Or, if we got a heads,
+so if this node was promoted to
+
+1140
+01:14:25,754 --> 01:14:31,440
+the next level,
+which happened whenever we got
+
+1141
+01:14:31,440 --> 01:14:37,000
+a heads at that particular
+moment.
+
+1142
+01:14:37,000 --> 01:14:42,860
+This is in the past some time
+when we did the insertion.
+
+1143
+01:14:42,860 --> 01:14:45,844
+Then we go, or came from,
+up.
+
+1144
+01:14:45,844 --> 01:14:51,704
+And, we stop at the root.
+This is really where we start;
+
+1145
+01:14:51,704 --> 01:14:55,967
+same thing.
+So, either at the root or I'm
+
+1146
+01:14:55,967 --> 01:15:03,000
+also going to think of this as
+stopping at minus infinity.
+
+1147
+01:15:03,000 --> 01:15:05,562
+OK, that was a bit messy,
+but let me review.
+
+1148
+01:15:05,562 --> 01:15:08,602
+So, normally we start up here.
+Well, just looking at
+
+1149
+01:15:08,602 --> 01:15:11,344
+everything backwards,
+and in brackets is what's
+
+1150
+01:15:11,344 --> 01:15:13,966
+really happening.
+So, this search ends at the
+
+1151
+01:15:13,966 --> 01:15:17,364
+node you were looking for.
+It's always in the bottom list.
+
+1152
+01:15:17,364 --> 01:15:19,807
+Then it says,
+well, was this node promoted
+
+1153
+01:15:19,807 --> 01:15:21,952
+higher?
+If it was, I came from above.
+
+1154
+01:15:21,952 --> 01:15:25,410
+If not, I came to the left.
+It must have been in the bottom
+
+1155
+01:15:25,410 --> 01:15:28,033
+chain somewhere.
+OK, and that's true at every
+
+1156
+01:15:28,033 --> 01:15:31,870
+node you visit.
+It depends whether that quite
+
+1157
+01:15:31,870 --> 01:15:35,806
+slipped heads or tails at the
+time that you inserted that node
+
+1158
+01:15:35,806 --> 01:15:38,774
+into that level.
+But, these are just a bunch of
+
+1159
+01:15:38,774 --> 01:15:40,774
+events.
+I'm just going to check,
+
+1160
+01:15:40,774 --> 01:15:44,258
+what is the probability that
+its heads, and what is the
+
+1161
+01:15:44,258 --> 01:15:47,096
+probability that a tails?
+It's always a half.
+
+1162
+01:15:47,096 --> 01:15:50,516
+Every time I look at a coin
+flip, when it was flipped,
+
+1163
+01:15:50,516 --> 01:15:54,000
+there was a probability of half
+going out of their way.
+
+1164
+01:15:54,000 --> 01:15:56,967
+That's the magic.
+And, I'm not using that these
+
+1165
+01:15:56,967 --> 01:16:02,248
+events are independent anyway.
+For every element that I search
+
+1166
+01:16:02,248 --> 01:16:05,584
+for, for every value,
+x, that's another search.
+
+1167
+01:16:05,584 --> 01:16:08,123
+Those events may not be
+independent.
+
+1168
+01:16:08,123 --> 01:16:12,112
+I can still use Boole's
+inequality and conclude that all
+
+1169
+01:16:12,112 --> 01:16:15,375
+of them are order log n with
+high probability.
+
+1170
+01:16:15,375 --> 01:16:19,582
+As long as I can prove that any
+one event happens with high
+
+1171
+01:16:19,582 --> 01:16:22,556
+probability.
+So, I don't need independence
+
+1172
+01:16:22,556 --> 01:16:26,835
+between, I knew that these coin
+flips in a single search are
+
+1173
+01:16:26,835 --> 01:16:30,969
+independent, but everything
+else, for different searches I
+
+1174
+01:16:30,969 --> 01:16:35,803
+don't care.
+So, how long can this process
+
+1175
+01:16:35,803 --> 01:16:39,283
+go on?
+We want to know how many times
+
+1176
+01:16:39,283 --> 01:16:44,309
+can I make this walk?
+Well, when I hit the root node,
+
+1177
+01:16:44,309 --> 01:16:47,983
+I'm done.
+Well, how quickly would I hit
+
+1178
+01:16:47,983 --> 01:16:51,559
+the root node?
+Well, with probability,
+
+1179
+01:16:51,559 --> 01:16:57,068
+a half, I go up each step.
+The number of times I go up is,
+
+1180
+01:16:57,068 --> 01:17:02,000
+at most, the number of levels
+minus one.
+
+1181
+01:17:02,000 --> 01:17:05,410
+And that's order log n with
+high probability.
+
+1182
+01:17:05,410 --> 01:17:07,813
+So, this is the only other
+idea.
+
+1183
+01:17:07,813 --> 01:17:10,682
+So, we are now improving this
+theorem.
+
+1184
+01:17:10,682 --> 01:17:15,333
+So, the number of up moves in a
+search, which are really down
+
+1185
+01:17:15,333 --> 01:17:19,054
+moves, but same thing,
+is less than the number of
+
+1186
+01:17:19,054 --> 01:17:22,000
+levels.
+Certainly, you can't go up more
+
+1187
+01:17:22,000 --> 01:17:24,713
+than there are levels in the
+search.
+
+1188
+01:17:24,713 --> 01:17:27,968
+And in insert,
+you can go arbitrarily high.
+
+1189
+01:17:27,968 --> 01:17:32,000
+But a search:
+as high as you can go.
+
+1190
+01:17:32,000 --> 01:17:34,821
+And this is,
+at most, c log n with high
+
+1191
+01:17:34,821 --> 01:17:37,866
+probability.
+This is what we proved in the
+
+1192
+01:17:37,866 --> 01:17:40,242
+lemma.
+So, we have a bound on the
+
+1193
+01:17:40,242 --> 01:17:42,990
+number of up moves.
+Half of the moves,
+
+1194
+01:17:42,990 --> 01:17:45,440
+roughly, are going to be up
+moves.
+
+1195
+01:17:45,440 --> 01:17:49,004
+So, this pretty much down to
+the number of moves.
+
+1196
+01:17:49,004 --> 01:17:51,752
+Not quite.
+So, what this means is that
+
+1197
+01:17:51,752 --> 01:17:54,797
+with high probability,
+so this is the same
+
+1198
+01:17:54,797 --> 01:17:58,955
+probability, but I could choose
+that as high as I want by
+
+1199
+01:17:58,955 --> 01:18:03,553
+setting c large enough.
+The number of moves,
+
+1200
+01:18:03,553 --> 01:18:06,893
+in other words,
+the cost of the search is at
+
+1201
+01:18:06,893 --> 01:18:11,320
+most the number of coin flips
+until we get c long n heads,
+
+1202
+01:18:11,320 --> 01:18:15,747
+right, because in every step of
+the search, I make a move,
+
+1203
+01:18:15,747 --> 01:18:19,009
+and then I flip another coin,
+conceptually.
+
+1204
+01:18:19,009 --> 01:18:22,504
+There is another independent
+coin lying there.
+
+1205
+01:18:22,504 --> 01:18:27,165
+And it's either heads or tails.
+Each of those is independent.
+
+1206
+01:18:27,165 --> 01:18:31,902
+So, how many independent coin
+flips does it take until I get c
+
+1207
+01:18:31,902 --> 01:18:37,206
+log n heads?
+The claim is that that's order
+
+1208
+01:18:37,206 --> 01:18:42,979
+log n with high probability.
+But we need to prove that.
+
+1209
+01:18:42,979 --> 01:18:48,324
+So, this is a claim.
+So, if you just sit there with
+
+1210
+01:18:48,324 --> 01:18:55,058
+a coin, and you want to know how
+many times does it take until I
+
+1211
+01:18:55,058 --> 01:19:00,082
+get c log n heads,
+the claim is that that number
+
+1212
+01:19:00,082 --> 01:19:05,000
+is order log n with high
+probability.
+
+1213
+01:19:05,000 --> 01:19:08,595
+As long as I prove that,
+I know that the total number of
+
+1214
+01:19:08,595 --> 01:19:11,276
+steps I make,
+which is the number of heads
+
+1215
+01:19:11,276 --> 01:19:15,394
+and tails is order log n because
+I definitely know the number of
+
+1216
+01:19:15,394 --> 01:19:17,094
+heads is, at most,
+c log n.
+
+1217
+01:19:17,094 --> 01:19:21,147
+The claim is that the number of
+tails can't be too much bigger.
+
+1218
+01:19:21,147 --> 01:19:23,174
+Notice, I can't just say c
+here.
+
+1219
+01:19:23,174 --> 01:19:25,985
+OK, it's really important that
+I have log n.
+
+1220
+01:19:25,985 --> 01:19:28,208
+Why?
+Because with high probability,
+
+1221
+01:19:28,208 --> 01:19:32,000
+it depends on n.
+This notion depends on n.
+
+1222
+01:19:32,000 --> 01:19:35,434
+Log n: it's true.
+Anything bigger that log n:
+
+1223
+01:19:35,434 --> 01:19:38,087
+it's true, like n.
+If I put n here,
+
+1224
+01:19:38,087 --> 01:19:41,756
+this is also true.
+But, if I put a constant or a
+
+1225
+01:19:41,756 --> 01:19:46,126
+log log n, this is not true.
+It's really important that I
+
+1226
+01:19:46,126 --> 01:19:50,184
+have log n here because my
+notion of high probability
+
+1227
+01:19:50,184 --> 01:19:54,321
+depends on what's written here.
+OK, it's clear so far.
+
+1228
+01:19:54,321 --> 01:19:57,912
+We're almost done,
+which is good because I just
+
+1229
+01:19:57,912 --> 01:20:01,190
+ran out of time.
+Sorry, we're going to go a
+
+1230
+01:20:01,190 --> 01:20:07,528
+couple minutes over.
+So, I want to compute the error
+
+1231
+01:20:07,528 --> 01:20:12,308
+probability here.
+So, I want to compute the
+
+1232
+01:20:12,308 --> 01:20:17,886
+probability that there is less
+than c log n heads.
+
+1233
+01:20:17,886 --> 01:20:23,691
+Let me skip this step.
+So, I will be approximate and
+
+1234
+01:20:23,691 --> 01:20:29,382
+say, what's the probability that
+there is, at most,
+
+1235
+01:20:29,382 --> 01:20:33,923
+c log n heads?
+So, I need to say how many
+
+1236
+01:20:33,923 --> 01:20:37,549
+coins we are flipping here for
+what this event is.
+
+1237
+01:20:37,549 --> 01:20:40,139
+So, I need to specify this
+constant.
+
+1238
+01:20:40,139 --> 01:20:42,729
+Let's say we flip ten c log n
+coins.
+
+1239
+01:20:42,729 --> 01:20:47,169
+Now I want to look at the error
+probability under that event.
+
+1240
+01:20:47,169 --> 01:20:51,312
+The probability that there is
+at most c log n heads among
+
+1241
+01:20:51,312 --> 01:20:55,382
+those ten c log n flips.
+So, the claim is this should be
+
+1242
+01:20:55,382 --> 01:20:58,416
+pretty small.
+It's going to depend on ten.
+
+1243
+01:20:58,416 --> 01:21:01,672
+Then I'll choose ten to be
+arbitrarily large,
+
+1244
+01:21:01,672 --> 01:21:05,076
+and I'll be done,
+OK, make my life a little bit
+
+1245
+01:21:05,076 --> 01:21:10,054
+easier.
+Well, I would ask you normally,
+
+1246
+01:21:10,054 --> 01:21:15,770
+but this is 6.042 material.
+So, what's the probability that
+
+1247
+01:21:15,770 --> 01:21:19,021
+we have, at most,
+this many heads?
+
+1248
+01:21:19,021 --> 01:21:23,653
+Well, that means that nine c
+log n of the coins,
+
+1249
+01:21:23,653 --> 01:21:29,368
+because there are ten c log n
+flips, c log n heads at most,
+
+1250
+01:21:29,368 --> 01:21:34,000
+nine c log n at least better be
+tails.
+
+1251
+01:21:34,000 --> 01:21:37,148
+So this is the probability that
+all those other guys become
+
+1252
+01:21:37,148 --> 01:21:39,104
+tails, which is already pretty
+small.
+
+1253
+01:21:39,104 --> 01:21:41,330
+And then, there is this
+permutation thing.
+
+1254
+01:21:41,330 --> 01:21:44,532
+So, if I had exactly c log n
+heads, this would be the number
+
+1255
+01:21:44,532 --> 01:21:47,574
+of ways to rearrange c log n
+heads among ten c log n coin
+
+1256
+01:21:47,574 --> 01:21:49,475
+flips.
+OK, that's just the number of
+
+1257
+01:21:49,475 --> 01:21:51,375
+permutations.
+So, this is a bit big,
+
+1258
+01:21:51,375 --> 01:21:53,601
+which is kind of annoying.
+This is really,
+
+1259
+01:21:53,601 --> 01:21:55,665
+really small.
+The claim is this is much
+
+1260
+01:21:55,665 --> 01:21:58,000
+smaller than that is big.
+
+1261
+01:21:58,000 --> 01:22:14,000
+
+
+1262
+01:22:14,000 --> 01:22:18,548
+So, this is just some math.
+I'm going to whiz through it.
+
+1263
+01:22:18,548 --> 01:22:21,390
+So, you don't have to stay too
+long.
+
+1264
+01:22:21,390 --> 01:22:26,020
+But you should go over it.
+You should know that y choose x
+
+1265
+01:22:26,020 --> 01:22:30,000
+is, at most, ey over x to the x,
+good fact.
+
+1266
+01:22:30,000 --> 01:22:35,032
+Therefore, this is,
+at most, ten c log n over c log
+
+1267
+01:22:35,032 --> 01:22:38,456
+n, also known as ten.
+These cancel.
+
+1268
+01:22:38,456 --> 01:22:43,691
+There's an e out here.
+And then I raise that to the c
+
+1269
+01:22:43,691 --> 01:22:48,020
+log n power.
+OK, then I divide by two to the
+
+1270
+01:22:48,020 --> 01:22:51,946
+power, nine c log n.
+OK, so what's this?
+
+1271
+01:22:51,946 --> 01:22:57,986
+This is e times ten to the c
+log n divided by two to the nine
+
+1272
+01:22:57,986 --> 01:23:02,355
+c log n.
+OK, claim this is very big.
+
+1273
+01:23:02,355 --> 01:23:06,367
+This is not so big,
+because I have a nine here.
+
+1274
+01:23:06,367 --> 01:23:09,769
+So, let's work it out.
+This e times ten,
+
+1275
+01:23:09,769 --> 01:23:13,345
+that's a good number,
+we can put upstairs.
+
+1276
+01:23:13,345 --> 01:23:17,096
+So, we get log of e times ten,
+ten times, e,
+
+1277
+01:23:17,096 --> 01:23:21,109
+and then c log n.
+And then, we have over two to
+
+1278
+01:23:21,109 --> 01:23:25,121
+the nine c log n.
+So, we have this two to the c
+
+1279
+01:23:25,121 --> 01:23:31,946
+log n in both cases.
+So, this is two to the log,
+
+1280
+01:23:31,946 --> 01:23:38,669
+ten e minus nine,
+c, log n: some basic algebra.
+
+1281
+01:23:38,669 --> 01:23:43,199
+So, I'm going to set,
+not quite.
+
+1282
+01:23:43,199 --> 01:23:49,338
+This is one over two to the
+nine minus log:
+
+1283
+01:23:49,338 --> 01:23:58,253
+so, just inverting everything
+here, negating the sign in here.
+
+1284
+01:23:58,253 --> 01:24:06,000
+And, this is my alpha because
+the rest is n.
+
+1285
+01:24:06,000 --> 01:24:09,903
+So, this is one over n to the
+alpha when alpha is this
+
+1286
+01:24:09,903 --> 01:24:13,291
+particular value:
+nine minus log of ten times e
+
+1287
+01:24:13,291 --> 01:24:16,090
+times c.
+It's a bit of a strange thing.
+
+1288
+01:24:16,090 --> 01:24:19,184
+But, the point is,
+as ten goes to infinity,
+
+1289
+01:24:19,184 --> 01:24:22,424
+nine here is the number one
+smaller than ten,
+
+1290
+01:24:22,424 --> 01:24:24,855
+right?
+We subtracted one somewhere
+
+1291
+01:24:24,855 --> 01:24:27,949
+along the way.
+So, as ten goes to infinity,
+
+1292
+01:24:27,949 --> 01:24:32,000
+this is basically,
+this is ten minus one.
+
+1293
+01:24:32,000 --> 01:24:35,100
+This is log of ten times e.
+e doesn't really matter.
+
+1294
+01:24:35,100 --> 01:24:37,531
+The point is,
+this is logarithmic in ten.
+
+1295
+01:24:37,531 --> 01:24:40,692
+This is linear in ten.
+The thing that's linear in ten
+
+1296
+01:24:40,692 --> 01:24:44,035
+is much bigger than the thing
+that's logarithmic in ten.
+
+1297
+01:24:44,035 --> 01:24:45,919
+This is called abusive
+notation.
+
+1298
+01:24:45,919 --> 01:24:48,958
+OK, as ten goes to infinity,
+this goes to infinity,
+
+1299
+01:24:48,958 --> 01:24:51,329
+gets bigger.
+And, there is a c out here.
+
+1300
+01:24:51,329 --> 01:24:54,794
+But, for any value of c that
+you want, whatever value of c
+
+1301
+01:24:54,794 --> 01:24:58,015
+you wanted in that claim,
+I can make alpha arbitrarily
+
+1302
+01:24:58,015 --> 01:25:00,629
+large by changing the constant
+in the big O,
+
+1303
+01:25:00,629 --> 01:25:04,812
+which here was ten.
+OK, so that claim is true with
+
+1304
+01:25:04,812 --> 01:25:07,652
+high probability.
+Whatever probability you want,
+
+1305
+01:25:07,652 --> 01:25:10,673
+which tells you alpha,
+you set a constant effort of
+
+1306
+01:25:10,673 --> 01:25:13,089
+the log N to be this number,
+which grows,
+
+1307
+01:25:13,089 --> 01:25:15,929
+and you're done.
+You get the claim that is order
+
+1308
+01:25:15,929 --> 01:25:19,312
+log N heads, order log N flips
+with the high probability,
+
+1309
+01:25:19,312 --> 01:25:21,548
+therefore.
+[None of the steps?] in the
+
+1310
+01:25:21,548 --> 01:25:24,146
+search is order log N with high
+probability.
+
+1311
+01:25:24,146 --> 01:25:26,140
+Really cool stuff;
+read the notes.
+
+1312
+01:25:26,140 --> 01:25:29,000
+Sorry I went so fast at the
+end.
