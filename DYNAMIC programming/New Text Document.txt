@@ -1,0 +1,52 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+import java.util.Arrays;
+
+/**
+ *
+ * @author samsung
+ */
+class Main {
+
+
+    	public static void main (String[] args) throws java.lang.Exception
+	{
+		Scanner sc=new Scanner(System.in);
+                int i,j,p,count=1,k=0;
+                int a[]=new int[9];
+                for(i=0;i<9;i++){a[i]=0;}
+                int array[]={ 10, 22, 9, 33, 21, 50, 41, 60, 80 };
+                 for(i=0;i<array.length;i++){
+                     a[k]=count;
+                     count=1;
+                     p=array[i];
+                     for(j=i;j<array.length;j++){
+
+                         if(array[j]>p){
+                         count++;
+                            p=array[j];          }
+
+
+                     }
+                     System.out.println("when start with :"+array[i]+" the length of subsequence = "+count);    //the no. of length sub sequence start with the value at index 'i'
+
+                  }
+            
+
+		
+	}
+}
+
+/*:
+ * OUTPUT
+when start with :10 the length of subsequence = 6
+when start with :22 the length of subsequence = 5
+when start with :9 the length of subsequence = 5
+when start with :33 the length of subsequence = 4
+when start with :21 the length of subsequence = 4
+when start with :50 the length of subsequence = 3
+when start with :41 the length of subsequence = 3
+when start with :60 the length of subsequence = 2
+when start with :80 the length of subsequence = 1
+*/

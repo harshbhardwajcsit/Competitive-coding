@@ -1,0 +1,40 @@
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+class Ideone
+{
+
+		void find(int a,int b){
+//if any number is zero
+		if(a==0)
+		System.out.println("gcd" + b);
+		else if(b==0){System.out.println("gcd " + a);}
+
+
+//if any number is 1
+		else if(a==1||b==1){System.out.println("gcd 1");}
+
+
+//recurrsive or dynamic approch
+
+		else{
+			if(a>b)
+			find(b,a%b);
+			else{
+				find(a,b%a);
+				}
+		}
+		}	
+	
+	public static void main (String[] args) throws java.lang.Exception
+	{
+		
+		int res=0;
+		Ideone id=new Ideone();
+		id.find(16,8);
+		
+	}
+}

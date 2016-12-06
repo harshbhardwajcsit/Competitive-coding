@@ -1,0 +1,31 @@
+import java.util.HashMap;
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+public class Main {
+  public static void main(String[] args) {
+    HashMap<String, String> hMap = new HashMap<String, String>();
+    Scanner sc=new Scanner(System.in);
+String st=sc.nextLine();
+String s="CLOSEALL";
+if(st.compareTo(s)==0){System.out.println("fuck yeahh");}
+    hMap.put("CLICK 1", "CLICK 1");
+    hMap.put("CLICK 2", "CLICK 2");
+    hMap.put("CLICK 3", "CLICK 3");
+     hMap.put("CLICK 4", "CLICK 4");
+
+    boolean blnExists = hMap.containsValue("CLICK 4");
+    System.out.println("3 exists in HashMap ? : " + blnExists);
+    
+    			for (Map.Entry<String, String> entry : hMap.entrySet()) {
+    String key = entry.getKey();
+    String value = entry.getValue();
+    System.out.println(key +":"+value);
+    // ...
+}
+    
+    
+    
+  }
+}
