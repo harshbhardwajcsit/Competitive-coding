@@ -1,0 +1,6 @@
+distance of source  1 to 1 is 0
+distance of source  1 to 2 is 4
+distance of source  1 to 3 is 3
+distance of source  1 to 4 is -6
+distance of source  1 to 5 is -1
+distance of source  1 to 6 is 2
