@@ -1,9 +1,19 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
-package binarytree;
+package lowestcommomancestor;
 
-public class BinaryTree {
+/**
+ *
+ * @author samsung
+ */
+public class LowestCommomAncestor {
+
+
  public static void main(String[] args) {
-    new BinaryTree().run();
+    new LowestCommomAncestor().run();
   }
 //node class
   static class Node {
@@ -18,30 +28,35 @@ public class BinaryTree {
     }
   }
 
-  
-  
+
+
   //run
-  
+
   public void run() {
     // build the simple tree from chapter 11.
-    Node root = new Node(5);
+    Node root = new Node(8);
     //System.out.println("Binary Tree Example");
     //System.out.println("Building tree with root value " + root.value);
-    insert(root, 1);
-    insert(root, 8);
-    insert(root, 6);
-    insert(root, 3);
+    insert(root, 5);
+    insert(root, 10);
     insert(root, 9);
-    System.out.println("Traversing tree in order");
-   // printInOrder(root);
-    
+    insert(root, 13);
+    insert(root, 15);
+    insert(root, 7);
+    insert(root, 3);
+    insert(root, 2);
+    insert(root, 4);
+    insert(root, 6);
+
+   findAncestor(root, 12, 15);
+
 /*
 
 
      System.out.println("After mirror image");
      mirror_image(root);
      printInOrder(root);
-     
+
 */
 
   }
@@ -86,19 +101,21 @@ public class BinaryTree {
     }
   }
 
-// function for generating the mirror image
- void mirror_image(Node node){
 
-     if(node==null){
 
-     }
-     else{
-      Node temp=node.left;
-      node.left=node.right;
-      node.right=temp;
-      mirror_image(node.left);
-      mirror_image(node.right);
-     }
+ void findAncestor(Node node, int a, int b){
+
+ if(node.value<a&&node.value<b){findAncestor(node.right, a, b);}
+ if(node.value>a&&node.value>b){findAncestor(node.left, a, b);}
+ if(node.value>=a&&node.value<=b||node.value<=a&&node.value>=b){
+
+ System.out.println("Lowest common ancestor : "+node.value);
+
+ }
+
+
+
+
 
  }
 
