@@ -1,0 +1,10 @@
+boolean  IsPowerOfTwo(long x)
+{
+    return (x != 0) && ((x & (x - 1)) == 0);
+}
+
+
+inputs
+
+1024 -true
+45-false
