@@ -1,0 +1,19 @@
+
+import java.util.*;
+class Test
+{
+ public static void main(String[] args)
+ {
+  ArrayList< String> al = new ArrayList< String>();
+  al.add("ab");
+  al.add("bc");
+  al.add("cd");
+  al.remove("cd");
+         
+ Iterator it = al.iterator();  
+  while(it.hasNext()){
+      System.out.println(it.next());   
+  }
+  //System.out.println(al);
+ }
+}
