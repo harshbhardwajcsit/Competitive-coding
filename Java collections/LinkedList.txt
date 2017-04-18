@@ -1,0 +1,23 @@
+import java.util.*;
+class ForEachDemo
+{
+ public static void main(String[] args)
+ {
+  LinkedList< String> ls = new LinkedList< String>();
+  ls.add("a");
+  ls.add("b");
+  ls.add("c");
+  ls.add("d");
+     ls.addLast("last ");
+     ls.addFirst(" first");
+  
+  Iterator it=ls.iterator();
+     while(it.hasNext()){
+         System.out.print(it.next());
+     }
+     
+    
+     
+  
+ }
+}
