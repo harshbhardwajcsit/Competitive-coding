@@ -118,3 +118,36 @@ public class TopViewOfTree {
     }
   }
 }
+
+
+*
+
+Binary Tree Example
+Building tree with root value 25
+  Inserted 13 to left of 25
+  Inserted 30 to right of 25
+  Inserted 12 to left of 13
+  Inserted 15 to right of 13
+  Inserted 11 to left of 12
+  Inserted 14 to left of 15
+  Inserted 36 to right of 30
+  Inserted 32 to left of 36
+  Inserted 34 to right of 32
+  Inserted 33 to left of 34
+  Inserted 35 to right of 34
+Traversing tree in order
+11
+12
+13
+14
+15
+25
+30
+32
+33
+34
+35
+36
+The elements seen from the top[25, 30, 36, 35, 11, 12, 13]
+
+*/
