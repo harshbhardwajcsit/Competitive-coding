@@ -1,0 +1,84 @@
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+class Ideone
+{ 
+
+static int k,r;
+  ArrayList<Integer> set=new ArrayList<Integer>();  
+  //LinkedHashSet<Integer> set=new LinkedHashSet<Integer>();
+  public void getSpiral1(int x,int y,int Matrix[][]){
+   if(x<=(y+1/2)-1){
+    h1(x,y,Matrix);      
+	v1(x,y,Matrix);
+	h2(x,y,Matrix);
+	v2(x,y,Matrix);
+       
+    System.out.println(set);   
+    getSpiral1(x+1,y-1,Matrix);
+  
+   }
+  
+  }
+  public void getSpiral2(int x,int y,int Matrix[][]){
+  if(x==((y-1)/2)-1){
+     set.add(Matrix[x][x]);
+	 }
+  else{
+    h1(x,y,Matrix);      
+	v1(x,y,Matrix);
+	h2(x,y,Matrix);
+	v2(x,y,Matrix);
+       
+    System.out.println(set);   
+    getSpiral1(x+1,y-1,Matrix);}
+	}
+  
+  public void h1(int i,int n,int Matrix[][]){
+  for(k=i;k<=n;k++){
+    set.add(Matrix[i][k]);
+ 
+  }
+  }
+  public void v1(int i,int n,int Matrix[][]){
+   for(k=i+1;k<=n;k++){
+     set.add(Matrix[k][n]);  
+  
+  }}
+  public void h2(int i,int n,int Matrix[][]){
+   for(k=n-1;k>=i;k--){
+     set.add(Matrix[n][k]);
+   
+  }}
+  public void v2(int i,int n,int Matrix[][]){
+   for(k=n-1;k>i;k--){
+     set.add(Matrix[k][i]);  
+ 
+  }}
+  
+
+
+
+	public static void main (String[] args) throws java.lang.Exception
+	{
+		Scanner sc=new Scanner(System.in);
+        Ideone i=new Ideone();
+		int N=5;
+		int Matrix[][]={{1,3,3,4,17},{5,6,7,7,18},{9,10,11,12,19},{13,14,15,16,20}};
+        //int Matrix[][]={{1,3,3,4},{5,6,7,7},{9,10,11,12},{13,14,15,16}};
+     // int Matrix[][]={{1,2,3,4,5,6},{7,8,9,10,11,12},{19,20,101,22,23,24},{13,14,16,46,31,32},{83,84,86,86,81,82},{93,94,96,76,91,92}};
+		if(N%2==0){
+		i.getSpiral1(0,N-1,Matrix);
+		 }
+		else{
+		 i.getSpiral2(0,N-1,Matrix);
+		}
+	
+        
+	
+	}
+    
+}
